@@ -1,16 +1,24 @@
 var express = require('express');
 var http = require('http');
 var path = require('path');
-var log = require('lib/log')(module);
 var config = require('config');
+var log = require('lib/log')(module);
 var HttpError = require('error').HttpError;
 
 var app = express();
 
-// all environments
-app.set('views', path.join(__dirname, 'templates'));
+app.engine('ejs', require('ejs-locals'));
+app.set('views', __dirname + '/template'); //путь к папке с шаблонами
 app.set('view engine', 'ejs');
+
 app.use(express.favicon());
+
+if (app.get('env') == 'development') {
+  app.use(express.logger('dev'));
+} else {
+  app.use(express.logger('default'));
+}
+
 app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
@@ -20,6 +28,8 @@ app.use(express.session());
 app.use(require('middleware/sendHttpError'));
 
 app.use(app.router);
+
+require('routes')(app);
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function(err, req, res, next) {

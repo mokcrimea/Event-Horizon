@@ -9,6 +9,7 @@
     "express": "3.4.8",
     "ejs": "*",
     "nconf": "*",
-    "winston": "0.7.*"
+    "winston": "0.7.*",
+    "ejs-locals": "*"
   }
 }
