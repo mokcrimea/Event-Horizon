@@ -19,7 +19,6 @@ if (app.get('env') == 'development') {
   app.use(express.logger('default'));
 }
 
-app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.cookieParser('your secret here'));
@@ -30,7 +29,7 @@ app.use(require('middleware/sendHttpError'));
 app.use(app.router);
 
 require('routes')(app);
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname + '/public')));
 
 app.use(function(err, req, res, next) {
   if (typeof err == 'number') { // next(404);
