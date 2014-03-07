@@ -1,6 +1,7 @@
 var express = require('express');
 var http = require('http');
 var path = require('path');
+var log = require('lib/log')(module);
 var config = require('config');
 
 var app = express();
@@ -24,5 +25,5 @@ if ('development' == app.get('env')) {
 }
 
 http.createServer(app).listen(config.get('port'), function() {
-  console.log('Express server listening on port ' + config.get('port'));
+  log.info('Express server listening on port ' + config.get('port'));
 });
