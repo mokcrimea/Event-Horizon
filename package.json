@@ -10,6 +10,7 @@
     "ejs": "*",
     "nconf": "*",
     "winston": "0.7.*",
-    "ejs-locals": "*"
+    "ejs-locals": "*",
+    "formidable": "1.*"
   }
 }
