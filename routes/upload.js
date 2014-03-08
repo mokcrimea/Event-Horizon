@@ -1,5 +1,4 @@
 var formidable = require('formidable'),
-  http = require('http'),
   util = require('util');
 
 exports.get = function(req, res) {
