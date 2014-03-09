@@ -1,6 +1,8 @@
 <% layout('/layout/page') -%>
 <% block('title', 'Upload file'); -%>
 
+<p>Добро пожаловать, <%=user.get('username')%></p>
+
 <form action="/upload" enctype="multipart/form-data" method="post">
   <input type="text" name="title"><br>
   <input type="file" name="upload"><br>

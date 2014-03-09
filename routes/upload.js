@@ -15,12 +15,12 @@ exports.post = function(req, res, next) {
     console.log("parsing");
 
     fs.rename(files.upload.path, "/tmp/test.png", function(err) {
-      if (err) {
-        fs.unlink("/tmp/test.png");
-        fs.rename(files.upload.path, "/tmp/test.png");
-      }
+      // if (err) throw err;
+      console.log("ERROR IS HERE");
     });
-    res.writeHead(200, {"Content-Type": "text/html"});
+    res.writeHead(200, {
+      "Content-Type": "text/html"
+    });
     res.write("received image:<br/>");
     res.write("<img src='/show' />");
     res.end();

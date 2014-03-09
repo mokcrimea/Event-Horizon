@@ -1,0 +1,12 @@
+  <div class="header"></div>
+    <div class="topMenu">
+     <ul class="ulMenuLine">
+        <li><a href="/">Главная</a></li>
+        <li><a href="/upload">Загрузить</a></li>
+    <% if (user) { %>
+    <li><a href="" onclick="$('<form method=POST action=/logout>').submit();return false">Выйти</a></form></li>
+    <% } else { %>
+    <li><a href="/login">Войти</a></li>
+    <% } %>
+     </ul>
+  </div>

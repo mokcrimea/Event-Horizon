@@ -6,8 +6,9 @@ exports.get = function(req, res, next) {
   fs.readFile("/tmp/test.png", "binary", function(error, file) {
 
   if (error) {
-    res.writeHead(500, {"Content-Type": "text/plain"});
-    res.write(error + "\n");
+    next(new HttpError(500, error)); //надо убедиться в работоспособности этого
+    // res.writeHead(500, {"Content-Type": "text/plain"});
+    // res.write(error + "\n");
     res.end();
   } else {
     res.writeHead(200, {"Content-Type": "image/png"});
