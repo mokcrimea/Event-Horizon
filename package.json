@@ -1,15 +1,21 @@
 {
-  "name": "GPSfix",
+  "name": "application-name",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "node app.js"
   },
   "dependencies": {
-    "express": "3.4.8",
+    "express": "3.5",
     "ejs": "*",
     "nconf": "*",
     "winston": "0.7.*",
-    "ejs-locals": "*"
+    "ejs-locals": "*",
+    "formidable": "1.*",
+    "mongodb": "1.*",
+    "mongoose": "*",
+    "connect-mongo": "0.4.*",
+    "async": "0.2.*",
+    "libxmljs": "0.8.*"
   }
 }
