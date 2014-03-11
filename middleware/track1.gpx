@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<gpx xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd" version="1.1" creator="Sports Tracker" xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1" xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+  <metadata>
+    <mytext>ololo</mytext>
+    <name>Mountain biking 16/06/2013/13:22:16.74</name>
+    <desc>К сожалению отключился по пути на перевал,  так что есть только обратный путь</desc>
+    <author>
+      <name>Valentine Khatsayuk</name>
+    </author>
+    <link href="www.sports-tracker.com">
+      <text>Sports Tracker</text>
+    </link>
+  </metadata>
+  <trk>
+    <trkseg>
+      <trkpt lat="44.75685333333333" lon="34.343756666666664">
+        <ele>774</ele>
+        <time>2013-06-16T13:22:16.74</time>
+      </trkpt>
+      <trkpt lat="44.75685333333333" lon="34.343756666666664">
+        <ele>774</ele>
+        <time>2013-06-16T13:22:21.66</time>
+      </trkpt>
+      <trkpt lat="44.756843333333336" lon="34.343736666666665">
+        <ele>773.7</ele>
+        <time>2013-06-16T13:22:22.74</time>
+      </trkpt>
+      <trkpt lat="44.75683166666666" lon="34.34372">
+        <ele>774</ele>
+        <time>2013-06-16T13:22:23.63</time>
+      </trkpt>
+      <trkpt lat="44.75682" lon="34.343705">
+        <ele>773.7</ele>
+        <time>2013-06-16T13:22:24.63</time>
+      </trkpt>
+      <trkpt lat="44.756805" lon="34.34368833333333">
+        <ele>773.4000000000001</ele>
+        <time>2013-06-16T13:22:25.65</time>
+      </trkpt>
+      <trkpt lat="44.756793333333334" lon="34.343673333333335">
+        <ele>773.5000000000001</ele>
+        <time>2013-06-16T13:22:26.63</time>
+      </trkpt>
+      <trkpt lat="44.75678166666667" lon="34.34366">
+        <ele>773.5000000000001</ele>
+        <time>2013-06-16T13:22:27.65</time>
+      </trkpt>
+      <trkpt lat="44.97788666666667" lon="34.07918333333333">
+        <ele>252.3</ele>
+        <time>2013-06-16T14:58:10.70</time>
+      </trkpt>
+      <trkpt lat="44.97788666666667" lon="34.07918333333333">
+        <ele>252.3</ele>
+        <time>2013-06-16T14:58:17.74</time>
+      </trkpt>
+    </trkseg>
+  </trk>
+</gpx>

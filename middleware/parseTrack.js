@@ -1,20 +1,25 @@
 var libxmljs = require("libxmljs");
-var xml =  '<?xml version="1.0" encoding="UTF-8"?>' +
-           '<root>' +
-               '<child foo="bar">' +
-                   '<grandchild baz="fizbuzz">grandchild content</grandchild>' +
-               '</child>' +
-               '<sibling>with content!</sibling>' +
-           '</root>';
+var fs = require('fs');
+  
+fs.readFile('track1.gpx', function (err, logData) {
 
-var xmlDoc = libxmljs.parseXml(xml);
+  if (err) throw err;
 
-// xpath queries
-var gchild = xmlDoc.get('//grandchild');
+  var xmlTrack = logData.toString(),
+      positionGpx = xmlTrack.indexOf('<metadata>');
 
-console.log(gchild.text());  // prints "grandchild content"
+  // Убираем из gps трека некорретные для модуля аттрибуты тега
+  xmlTrack = '<?xml version="1.0" encoding="utf-8"?>\n<gpx>\n' + xmlTrack.substr(positionGpx);;
 
-var children = xmlDoc.root().childNodes();
-var child = children[0];
+  // Парсим трек модулем
+  var xmlDoc = libxmljs.parseXml(xmlTrack),
+      coordinateData = xmlDoc.child(3).child(1).childNodes(),
+      coordinateX, coordinateY, timeCreate;
 
-console.log(child.attr('foo').value()); // prints "bar"
+  for (var i = 1; i < coordinateData.length; i += 2){
+    coordinateX = coordinateData[i].attr('lat').value();
+    coordinateY = coordinateData[i].attr('lon').value();
+    timeCreate = coordinateData[i].child(3).text();
+  }
+
+});
