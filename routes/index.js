@@ -1,17 +1,25 @@
-var checkAuth = require('middleware/checkAuth');
+/**
+ * Controllers
+ */
 
+var users = require('../controllers/users'),
+  tracks = require('../controllers/tracks'),
+  checkAuth = require('middleware/checkAuth');
 module.exports = function(app) {
 
-  app.get('/', require('./frontpage').get);
+  // root route
+  app.get('/', tracks.index);
 
-  app.get('/upload', checkAuth, require('./upload').get);
-  app.post('/upload', checkAuth, require('./upload').post);
+  //user routes
+  app.get('/login', users.login);
+  app.post('/login', users.create);
+  app.post('/logout', users.logout);
 
-  app.get('/show', require('./show').get);
 
-  app.get('/login', require('./login').get);
-  app.post('/login', require('./login').post);
+  //track routes
+  app.get('/upload', checkAuth, tracks.upload);
+  app.post('/upload', checkAuth, tracks.create);
+  app.get('/show', tracks.show); //after uploading redirect to the /show page
 
-  app.post('/logout', require('./logout').post);
 
 };

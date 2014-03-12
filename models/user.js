@@ -1,3 +1,7 @@
+/**
+ * Module dependencies.
+ */
+
 var crypto = require('crypto');
 var async = require('async');
 var util = require('util');
@@ -5,31 +9,25 @@ var util = require('util');
 var mongoose = require('lib/mongoose'),
   Schema = mongoose.Schema;
 
-var schema = new Schema({
-  username: {
-    type: String,
-    unique: true,
-    required: true
-  },
-  hashedPassword: {
-    type: String,
-    required: true
-  },
-  salt: {
-    type: String,
-    required: true
-  },
-  created: {
-    type: Date,
-    default: Date.now
-  }
+/**
+ * User Schema
+ */
+
+var userSchema = new Schema({
+  email: { type: String, default: '' },
+  username: { type: String, unique: true, required: true},
+  hashedPassword: { type: String, required: true},
+  salt: { type: String, required: true},
+  created: { type: Date, default: Date.now},
+  tracks: [{ type: Schema.Types.ObjectId, ref: 'Track'}]
 });
 
-schema.methods.encryptPassword = function(password) {
-  return crypto.createHmac('sha1', this.salt).update(password).digest('hex');
-};
 
-schema.virtual('password')
+userSchema.virtual('showId').get(function() {
+  return this._id;
+});
+
+userSchema.virtual('password')
   .set(function(password) {
     this._plainPassword = password;
     this.salt = Math.random() + '';
@@ -37,12 +35,15 @@ schema.virtual('password')
   })
   .get(function() { return this._plainPassword; });
 
+userSchema.methods.encryptPassword = function(password) {
+  return crypto.createHmac('sha1', this.salt).update(password).digest('hex');
+};
 
-schema.methods.checkPassword = function(password) {
+userSchema.methods.checkPassword = function(password) {
   return this.encryptPassword(password) === this.hashedPassword;
 };
 
-schema.statics.authorize = function(username, password, callback) {
+userSchema.statics.authorize = function(username, password, callback) {
   var User = this;
 
   async.waterfall([
@@ -67,7 +68,7 @@ schema.statics.authorize = function(username, password, callback) {
   ], callback);
 };
 
-exports.User = mongoose.model('User', schema);
+exports.User = mongoose.model('User', userSchema);
 
 
 function AuthError(message) {
@@ -82,5 +83,3 @@ util.inherits(AuthError, Error);
 AuthError.prototype.name = 'AuthError';
 
 exports.AuthError = AuthError;
-
-
