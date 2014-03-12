@@ -1,0 +1,169 @@
+*{
+	margin: 0px;
+}
+
+html, body{
+	width: 100%;
+	height: 100%;
+}
+
+body{
+	/*background: #FAFAFA;*/
+	background-color: #F0F0F0;
+}
+
+@font-face {
+    	font-family: GardensC;
+    	src: local(GardensC), url(font/GardensC.otf);
+}
+
+.tempBack{
+	position: absolute;
+	display: block;
+	width: 100%;
+	height: 70px;
+	background-color: #46D899;
+	/*background-color: #26C983;*/
+	z-index: -100;
+}
+
+.main{
+	min-height: 100%;
+	width: 1200px;
+	margin: auto;
+	display: flex;
+	flex-wrap: wrap;
+	align-content: stretch;
+	/*align-items: flex-start;*/
+	font-family: GardensC, Tahoma, Helvetica;
+}
+
+.header{
+	width: 100%;
+	height: 70px;
+	box-sizing: border-box;
+	align-self: flex-start;
+}
+
+.headLogo{
+	height: 70px;
+	width: 250px;
+	box-sizing: border-box;
+	margin-left: 50px;
+	padding-top: 15px;
+	text-align: center;
+	letter-spacing: 1pt;
+	font-size: 26pt;
+	color: #FFFFFF;
+	float: left;
+}
+
+.ulMenuLine{
+	height: 23px;
+	margin-right: 50px;
+	float: right;
+	display: block;
+	box-sizing: border-box;
+	margin: 30px 50px 0 0;
+}
+
+.ulMenuLine li{
+	display: inline-block;
+	box-sizing: border-box;
+	margin-left: 40px;
+	height: 23px;
+	text-align: center;
+	color: #575757;
+	/*color: #000;*/
+	font-size: 14pt;
+	text-decoration: none;
+}
+
+.ulMenuLine li:hover{
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.container{
+	/*margin: 0 auto;*/
+	width: 100%;
+	height: 900px;
+	background: #fff;
+}
+
+.leftMenu{
+	width: 200px;
+	height: inherit;
+	left: 0px;
+	overflow: hidden;
+	background: #E6E6E6;
+}
+
+.leftMenuHead{
+	width: 70px;
+	margin: 15px auto 10px;
+	font-size: 17pt;
+	letter-spacing: 2pt;
+	color: #3D3D3D;
+
+}
+
+.ulMenuColumn{
+	-webkit-padding-start: 0px;
+	float: left;
+	display: block;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.ulMenuColumn a{
+	display: block;
+	box-sizing: border-box;
+	margin: 10px 0 0 15px;
+	height: 23px;
+	text-align: left;
+	color: #575757;
+	font-size: 14pt;
+	text-decoration: none;
+}
+
+.ulMenuColumn li{
+	list-style-type: none;
+}
+
+.ulMenuColumn a:hover{
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+
+#map{
+	margin: 20px auto;
+	width:700px;
+	height:500px
+}
+
+p{
+	font-family: Tahoma;
+	text-align: justify;
+	font-size: 12pt;
+	margin-bottom: 20px;
+	color: #404040;
+	padding: 20px;
+}
+
+.footer{
+	width: 100%;
+	height: 40px;
+	display: block;
+	background: rgba(0, 0, 0, .5);
+	text-align: center;
+	color: #fff;
+	font-family: Verdana;
+	letter-spacing: 2pt;
+	padding-top: 10px;
+	font-size: 11pt;
+	box-sizing: border-box;
+	align-self: flex-end;
+}
+
