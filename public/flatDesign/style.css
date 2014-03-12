@@ -87,7 +87,7 @@ body{
 .container{
 	/*margin: 0 auto;*/
 	width: 100%;
-	height: 900px;
+	height: 950px;
 	background: #fff;
 }
 
@@ -97,6 +97,7 @@ body{
 	left: 0px;
 	overflow: hidden;
 	background: #E6E6E6;
+	float: left;
 }
 
 .leftMenuHead{
@@ -150,6 +151,11 @@ p{
 	margin-bottom: 20px;
 	color: #404040;
 	padding: 20px;
+}
+
+.content{
+	float: right;
+	width: 1000px;
 }
 
 .footer{
