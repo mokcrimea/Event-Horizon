@@ -19,7 +19,7 @@ var userSchema = new Schema({
   hashedPassword: { type: String, required: true},
   salt: { type: String, required: true},
   created: { type: Date, default: Date.now},
-  tracks: [{ type: Schema.Types.ObjectId, ref: 'Track'}]
+  tracks: [{ type: Schema.ObjectId, ref: 'Track'}]
 });
 
 

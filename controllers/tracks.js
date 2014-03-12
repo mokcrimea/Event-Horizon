@@ -64,8 +64,7 @@ exports.create = function(req, res) {
     console.log("parsing");
 
     fs.rename(files.upload.path, "/tmp/test.png", function(err) {
-      // if (err) throw err;
-      console.log("ERROR IS HERE");
+      if (err) throw err;
     });
     res.writeHead(200, {
       "Content-Type": "text/html"

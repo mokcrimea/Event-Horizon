@@ -7,18 +7,9 @@ var mongoose = require('lib/mongoose'),
   Schema = mongoose.Schema;
 
 var trackSchema = new Schema({
-  _creator: {
-    type: Schema.Types.ObjectId,
-    ref: 'User'
-  },
-  created: {
-    type: Date,
-    default: Date.now
-  },
-  track: {
-    type: Object,
-    required: true,
-  }
+  _creator: { type: Schema.ObjectId, ref: 'User'},
+  created: { type: Date, default: Date.now},
+  track: { type: Object, required: true}
 });
 
 trackSchema.virtual('showId').get(function() {
