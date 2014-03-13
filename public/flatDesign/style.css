@@ -2,13 +2,7 @@
 	margin: 0px;
 }
 
-html, body{
-	width: 100%;
-	height: 100%;
-}
-
 body{
-	/*background: #FAFAFA;*/
 	background-color: #F0F0F0;
 }
 
@@ -28,27 +22,19 @@ body{
 }
 
 .main{
-	min-height: 100%;
 	width: 1200px;
 	margin: auto;
-	display: flex;
-	flex-wrap: wrap;
-	align-content: stretch;
-	/*align-items: flex-start;*/
 	font-family: GardensC, Tahoma, Helvetica;
 }
 
 .header{
 	width: 100%;
 	height: 70px;
-	box-sizing: border-box;
-	align-self: flex-start;
 }
 
 .headLogo{
-	height: 70px;
+	height: 55px;
 	width: 250px;
-	box-sizing: border-box;
 	margin-left: 50px;
 	padding-top: 15px;
 	text-align: center;
@@ -63,18 +49,15 @@ body{
 	margin-right: 50px;
 	float: right;
 	display: block;
-	box-sizing: border-box;
 	margin: 30px 50px 0 0;
 }
 
 .ulMenuLine li{
 	display: inline-block;
-	box-sizing: border-box;
 	margin-left: 40px;
 	height: 23px;
 	text-align: center;
 	color: #575757;
-	/*color: #000;*/
 	font-size: 14pt;
 	text-decoration: none;
 }
@@ -85,18 +68,16 @@ body{
 }
 
 .container{
-	/*margin: 0 auto;*/
+	background: url(img/leftmenu.jpg) repeat-y, #fff;
 	width: 100%;
-	height: 950px;
-	background: #fff;
+	min-height: 700px;
+	overflow: hidden;
 }
 
 .leftMenu{
 	width: 200px;
-	height: inherit;
-	left: 0px;
 	overflow: hidden;
-	background: #E6E6E6;
+	/*background: #E6E6E6;*/
 	float: left;
 }
 
@@ -110,16 +91,16 @@ body{
 }
 
 .ulMenuColumn{
-	-webkit-padding-start: 0px;
+	/*-webkit-padding-start: 0px;*/
+	position: relative;
+	left: -30px;
 	float: left;
 	display: block;
 	width: 100%;
-	box-sizing: border-box;
 }
 
 .ulMenuColumn a{
 	display: block;
-	box-sizing: border-box;
 	margin: 10px 0 0 15px;
 	height: 23px;
 	text-align: left;
@@ -160,16 +141,13 @@ p{
 
 .footer{
 	width: 100%;
-	height: 40px;
-	display: block;
+	height: 30px;
 	background: rgba(0, 0, 0, .5);
-	text-align: center;
 	color: #fff;
 	font-family: Verdana;
 	letter-spacing: 2pt;
 	padding-top: 10px;
 	font-size: 11pt;
-	box-sizing: border-box;
-	align-self: flex-end;
+	text-align: center;
 }
 
