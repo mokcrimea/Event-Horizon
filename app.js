@@ -3,7 +3,9 @@ var http = require('http');
 var path = require('path');
 var config = require('config');
 var log = require('lib/log')(module);
+var passport = require('passport');
 var mongoose = require('lib/mongoose');
+
 var HttpError = require('error').HttpError;
 
 var app = express();
@@ -37,7 +39,10 @@ app.use(express.session({
 app.use(require('middleware/sendHttpError'));
 app.use(require('middleware/loadUser'));
 
-// app.use(app.router);
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(app.router);
 
 require('routes')(app);
 app.use(express.static(path.join(__dirname + '/public')));

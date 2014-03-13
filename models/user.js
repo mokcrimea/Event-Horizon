@@ -6,7 +6,7 @@ var crypto = require('crypto');
 var async = require('async');
 var util = require('util');
 
-var mongoose = require('lib/mongoose'),
+var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
 /**
@@ -22,6 +22,9 @@ var userSchema = new Schema({
   tracks: [{ type: Schema.ObjectId, ref: 'Track'}]
 });
 
+/**
+ * Virtuals
+ */
 
 userSchema.virtual('showId').get(function() {
   return this._id;
@@ -34,6 +37,10 @@ userSchema.virtual('password')
     this.hashedPassword = this.encryptPassword(password);
   })
   .get(function() { return this._plainPassword; });
+
+/**
+ * Methods
+ */
 
 userSchema.methods.encryptPassword = function(password) {
   return crypto.createHmac('sha1', this.salt).update(password).digest('hex');

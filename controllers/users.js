@@ -22,7 +22,7 @@ exports.login = function(req, res) {
 exports.create = function(req, res, next) {
   var username = req.body.username;
   var password = req.body.password;
-  console.log('Name: ' + username + '\nPassword: ' + password);
+
 
   User.authorize(username, password, function(err, user) {
     if (err) {
