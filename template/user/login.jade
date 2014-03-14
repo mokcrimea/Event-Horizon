@@ -1,0 +1,21 @@
+extends ../layout/page
+
+block main
+  h1= title
+
+block content
+  p Введите имя пользователя и пароль. Если такого пользователя нет - он будет создан.
+  form.form-horizontal(action="/users/session", method="post", role="form")
+    .form-group
+      label(for="input-username" class="col-lg-2 control-label") Email
+      .col-lg-10
+        input(name="email" type="email" class="form-control" placeholder="Email")
+    .form-group
+      label(for="input-password" class="col-lg-2 control-label") Пароль
+      .col-lg-10
+        input(name="password" type="password" class="form-control" placeholder="Password")
+    .form-group
+      .col-sm-offset-2.col-sm-10
+        button.btn.btn-primary(type='submit') Войти
+        | &nbsp; или &nbsp;
+        a.show-signup(href="/signup") Регистрация

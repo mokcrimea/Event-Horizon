@@ -1,0 +1,28 @@
+extends ../layout/page
+
+block main
+  h1= title
+
+block content
+  p Введите имя пользователя и пароль. Если такого пользователя нет - он будет создан.
+  form.form-horizontal(action="/users", method="post", role="form")
+    .form-group
+      label(for="input-name" class="col-lg-2 control-label") Имя
+      .col-lg-10
+        input(name="name" value=user.name type="text" class="form-control" id="input-name" placeholder="Имя")
+    .form-group
+      label(for="input-email" class="col-lg-2 control-label") E-mail
+      .col-lg-10
+        input(name="email" value=user.email type="text" class="form-control" id="input-username" placeholder="Email")
+    .form-group
+      label(for="input-email" class="col-lg-2 control-label") Username
+      .col-lg-10
+        input(name="username" value=user.username type="text" class="form-control" id="input-username" placeholder="Email")
+    .form-group
+      label(for="input-password" class="col-lg-2 control-label") Пароль
+      .col-lg-10
+        input(name="password" type="password" class="form-control" id="input-password" placeholder="Пароль")
+    .form-group
+      dib(class="col-lg-offset-2 col-lg-10")
+        button( type="submit" class="btn btn-primary" data-loading-text="Отправляю...") Войти
+        span(class="help-block error")
