@@ -1,7 +1,7 @@
 /**
  * Controllers
  */
-var async = require('async');
+
 var users = require('../controllers/users'),
   tracks = require('../controllers/tracks'),
   auth = require('../middleware/authorization');
@@ -19,8 +19,10 @@ module.exports = function(app, passport) {
 
   //user routes
   app.get('/login', users.login);
-  app.post('/login', users.create);
-  app.post('/logout', users.logout);
+  app.get('/signup', users.signup);
+  app.post('/users', users.create);
+  app.get('/logout', users.logout);
+  app.post('/users/session', passport.authenticate('local'), users.session);
 
 
   //track routes

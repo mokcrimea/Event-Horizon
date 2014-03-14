@@ -13,6 +13,14 @@ var express = require('express'),
 
 module.exports = function(app, config, passport, mongoose) {
 
+  app.use(express.compress({
+    filter: function(req, res) {
+      return /json|text|css|javascript/.test(res.getHeader('Content-Type'));
+    },
+    level: 9
+  }));
+
+
   app.use(express.favicon());
   app.use(express.static(path.join(path.resolve(__dirname, '../public'))));
 

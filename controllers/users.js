@@ -50,11 +50,13 @@ exports.create = function(req, res, next) {
 };
 
 /**
- * Edit a User
+ * Session
  */
 
-exports.edit = function(req, res) {
-
+exports.session = function(req, res) {
+  var redirectTo =  req.session.returnTo || '/';
+  delete req.session.returnTo;
+  res.redirect(redirectTo);
 };
 
 /**

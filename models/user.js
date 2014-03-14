@@ -14,7 +14,8 @@ var mongoose = require('mongoose'),
  */
 
 var userSchema = new Schema({
-  email: { type: String, default: '' },
+  name: { type: String},
+  email: { type: String},
   username: { type: String, unique: true, required: true},
   hashedPassword: { type: String, required: true},
   salt: { type: String, required: true},
@@ -48,31 +49,6 @@ userSchema.methods.encryptPassword = function(password) {
 
 userSchema.methods.checkPassword = function(password) {
   return this.encryptPassword(password) === this.hashedPassword;
-};
-
-userSchema.statics.authorize = function(username, password, callback) {
-  var User = this;
-
-  async.waterfall([
-    function(callback) {
-      User.findOne({username: username}, callback);
-    },
-    function(user, callback) {
-      if (user) {
-        if (user.checkPassword(password)) {
-          callback(null, user);
-        } else {
-          callback(new AuthError("Пароль неверен"));
-        }
-      } else {
-        var user = new User({username: username, password: password});
-        user.save(function(err) {
-          if (err) return callback(err);
-          callback(null, user);
-        });
-      }
-    }
-  ], callback);
 };
 
 mongoose.model('User', userSchema);
