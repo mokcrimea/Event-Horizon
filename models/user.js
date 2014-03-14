@@ -75,7 +75,7 @@ userSchema.statics.authorize = function(username, password, callback) {
   ], callback);
 };
 
-exports.User = mongoose.model('User', userSchema);
+mongoose.model('User', userSchema);
 
 
 function AuthError(message) {

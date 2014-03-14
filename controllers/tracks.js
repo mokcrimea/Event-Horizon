@@ -3,8 +3,7 @@
  */
 
 var mongoose = require('mongoose'),
-  Track = require('models/track').Track,
-  HttpError = require('error').HttpError,
+  Track = mongoose.model('Track'),
   fs = require("fs");
 
 /**
@@ -12,7 +11,9 @@ var mongoose = require('mongoose'),
  */
 
 exports.index = function(req, res) {
-  res.render('frontpage');
+  res.render('index', {
+    title: 'Главная'
+  });
 };
 
 /**
@@ -34,9 +35,8 @@ exports.show = function(req, res) {
   fs.readFile("/tmp/test.png", "binary", function(error, file) {
 
     if (error) {
-      next(new HttpError(500, error)); //надо убедиться в работоспособности этого
-      // res.writeHead(500, {"Content-Type": "text/plain"});
-      // res.write(error + "\n");
+      res.writeHead(500, {"Content-Type": "text/plain"});
+      res.write(error + "\n");
       res.end();
     } else {
       res.writeHead(200, {

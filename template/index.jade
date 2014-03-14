@@ -1,0 +1,9 @@
+extends ./layout/page
+
+block main
+  h1= title
+
+block content
+  #map.map
+  script(src="http://api-maps.yandex.ru/2.0/?load=package.full&lang=ru-RU")
+  script(src="/js/yandexmap.js")

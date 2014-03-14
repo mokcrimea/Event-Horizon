@@ -16,6 +16,9 @@
     "mongoose": "*",
     "connect-mongo": "0.4.*",
     "async": "0.2.*",
-    "passport": "latest"
+    "passport": "latest",
+    "passport-local": "latest",
+    "jade": "latest",
+    "view-helpers": "latest"
   }
 }

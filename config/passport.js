@@ -2,6 +2,9 @@ var mongoose = require('mongoose'),
   LocalStrategy = require('passport-local').Strategy,
   User = mongoose.model('User');
 
+
+module.exports = function (passport) {
+
 passport.use(new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password'
@@ -29,3 +32,5 @@ passport.deserializeUser(function(id, done) {
     done(err, user);
   });
 });
+
+};

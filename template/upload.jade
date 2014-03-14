@@ -1,0 +1,13 @@
+extends ../layout/page
+
+block main
+  h1= title
+
+block content
+  p Добро пожаловать
+  form(action="/upload" enctype="multipart/form-data" method="post")
+    input(type="text" name="title")
+    br
+    input(type="file" name="upload")
+    br
+    input(type="submit" value="Upload file")

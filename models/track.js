@@ -32,4 +32,4 @@ trackSchema.methods.addTrack = function(user, track, callback) {
   this.save(callback);
 };
 
-exports.Track = mongoose.model('Track', trackSchema);
+mongoose.model('Track', trackSchema);
