@@ -1,0 +1,13 @@
+.header
+  .headLogo Photo coordinates fixer
+  ul.ulMenuLine
+    li
+      a(href="/" title="Главная") Главная
+    li
+      a(href="/upload" title="Загрузить") Загрузить
+    - if (req.isAuthenticated())
+      li
+        a(href="/logout" title="Выйти") Выйти
+    - else
+      li
+        a(href="/login" title="Войти") Войти

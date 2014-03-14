@@ -16,7 +16,7 @@
     "mongoose": "*",
     "connect-mongo": "0.4.*",
     "async": "0.2.*",
-    "libxmljs": "0.8.*"
+    "libxmljs": "0.8.*",
     "passport": "latest",
     "passport-local": "latest",
     "jade": "latest",

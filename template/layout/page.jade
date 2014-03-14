@@ -2,9 +2,12 @@ doctype html
 html(lang='ru')
   include ../partials/head
   body
+    .tempBack
     .main
-      include ../partials/navigation
-      .content
-        block main
-        block content
-    include ../partials/footer
+      include ../partials/topMenu
+      .container
+        include ../partials/leftMenu
+        .content
+          block main
+          block content
+      include ../partials/footer
