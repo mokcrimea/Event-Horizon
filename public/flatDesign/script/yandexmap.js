@@ -12,6 +12,9 @@ function init () {
         center:[44.958306, 34.109535], // Москва
         zoom:12
     });
+
+    
+
 	myMap.controls.add('zoomControl', { left: 5, top: 5 });
 
 	var myPolyline = new ymaps.Polyline([
