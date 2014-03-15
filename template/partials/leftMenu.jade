@@ -1,8 +1,9 @@
 .leftMenu
   .leftMenuHead Меню
   ul.ulMenuColumn
-    li
-      a(href="#" title="Мой профиль") Мой профиль
+    - if (req.isAuthenticated())
+      li
+        a(href="/user/"+req.user._id title="Мой профиль") Мой профиль
     li
       a(href="/track/list" title="Мои треки") Мои треки
     li

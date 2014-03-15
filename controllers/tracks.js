@@ -46,10 +46,9 @@ exports.list = function(req, res) {
 
 exports.show = function(req, res) {
   Track.findById(req.params.id, function(err, track) {
-    console.log(track);
     res.render('track/show', {
       title: track.name,
-      track: track.track
+      track: track
     });
   });
 };

@@ -68,14 +68,15 @@ exports.update = function(req, res) {
 };
 
 /**
- * Show a User
+ * Show a user profile
  */
 
 exports.show = function(req, res) {
-  var User = req.profile;
-  res.render('user/show', {
-    title: user.name,
-    user: user
+  User.findById(req.params.id, function(err, user) {
+    res.render('user/show', {
+      title: user.name,
+      user: user
+    });
   });
 };
 

@@ -17,6 +17,7 @@ module.exports = function(app, passport) {
   app.get('/signup', users.signup);
   app.post('/users', users.create);
   app.get('/logout', users.logout);
+  app.get('/user/:id', users.show);
   app.post('/users/session', passport.authenticate('local'), users.session);
 
 
