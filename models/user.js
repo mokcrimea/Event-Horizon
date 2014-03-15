@@ -57,6 +57,15 @@ UserSchema.methods = {
 
 };
 
+UserSchema.statics = {
+  list: function(user, callback) {
+    var id = user.id;
+    this.findOne({
+      _id: id
+    }).populate('tracks', 'name id').exec(callback);
+  }
+};
+
 
 mongoose.model('User', UserSchema);
 

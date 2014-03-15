@@ -51,12 +51,6 @@ TrackSchema.methods = {
 
 TrackSchema.statics = {
 
-  list: function(user, callback) {
-    User = mongoose.model('User');
-    var id = user.id;
-    User.findOne({_id: id}).populate('tracks', 'name id').exec(callback);
-  }
-
 };
 
 

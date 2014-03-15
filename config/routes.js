@@ -24,7 +24,7 @@ module.exports = function(app, passport) {
   //track routes
   app.get('/upload', auth.requireLogin, tracks.new);
   app.post('/upload', auth.requireLogin, tracks.create);
-  app.get('/track/list', auth.requireLogin, tracks.list);
+  app.get('/track/list', auth.requireLogin, users.list);
   app.get('/track/:id', auth.requireLogin, tracks.show);
 
 

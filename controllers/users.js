@@ -68,6 +68,20 @@ exports.update = function(req, res) {
 };
 
 /**
+ * List of tracks
+ */
+
+exports.list = function(req, res) {
+  User.list(req.user, function(err, user) {
+    var tracks = user.tracks;
+    res.render('track/list', {
+      title: 'Tracks',
+      tracks: tracks
+    });
+  });
+};
+
+/**
  * Show a user profile
  */
 
