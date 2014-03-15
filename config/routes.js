@@ -6,16 +6,11 @@ var users = require('../controllers/users'),
   tracks = require('../controllers/tracks'),
   auth = require('../middleware/authorization');
 
-localReq = function(req, res, next) {
-  res.locals.req = req;
-  next();
-};
-
 
 module.exports = function(app, passport) {
 
   // root route
-  app.get('/', localReq, tracks.index);
+  app.get('/', tracks.index);
 
   //user routes
   app.get('/login', users.login);
@@ -26,9 +21,10 @@ module.exports = function(app, passport) {
 
 
   //track routes
-  app.get('/upload', auth.requireLogin, tracks.upload);
+  app.get('/upload', auth.requireLogin, tracks.new);
   app.post('/upload', auth.requireLogin, tracks.create);
-  app.get('/show', auth.requireLogin, tracks.show);
+  app.get('/track/list', auth.requireLogin, tracks.list);
+  app.get('/track/:id', auth.requireLogin, tracks.show);
 
 
 };

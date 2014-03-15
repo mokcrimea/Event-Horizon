@@ -1,0 +1,11 @@
+extends ../layout/page
+
+block main
+  h1= title
+
+block content
+  - if (tracks.length)
+
+      - each track in tracks
+        li
+          a(href="/track/"+track.id title=track.name)= track.name

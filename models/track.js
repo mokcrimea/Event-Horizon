@@ -1,35 +1,63 @@
-var crypto = require('crypto');
-var async = require('async');
-var util = require('util');
-
+/**
+ * Module dependencies.
+ */
 
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
-var trackSchema = new Schema({
-  _creator: {type : Schema.ObjectId, ref : 'User'},
-  created: {type: Date, default: Date.now},
-  track: {type: Object, required: true}
+var TrackSchema = new Schema({
+  name: { type: String},
+  _creator: { type : Schema.ObjectId, ref : 'User'},
+  created: { type: Date, default: Date.now},
+  track: { type: Object, unique: true}
 });
 
-trackSchema.virtual('showId').get(function() {
+TrackSchema.virtual('showId').get(function() {
   return this._id;
 });
 
-trackSchema.statics.showUserId = function(user) {
-  var theOne = mongoose.models.User(user);
-  return theOne.showId;
+/**
+ * Methods
+ */
+
+TrackSchema.methods = {
+
+  /**
+   * Add a new track
+   *
+   * @param {String}   name
+   * @param {Object}   user
+   * @param {Object}   track
+   * @param {Function} callback
+   */
+
+  addTrack: function(name, user, track, callback) {
+    var id = user._id;
+    this.name = name;
+    this._creator = id;
+    this.track = track;
+    this.save(callback);
+
+    user.tracks.push(this.id);
+    user.save(callback);
+
+  }
 
 };
 
-trackSchema.methods.addTrack = function(user, track, callback) {
-  console.log(this);
-  this.push({
-    _creator: user._id,
-    track: track
-  });
+/**
+ * Statics
+ */
 
-  this.save(callback);
+TrackSchema.statics = {
+
+  list: function(user, callback) {
+    User = mongoose.model('User');
+    var id = user.id;
+    User.findOne({_id: id}).populate('tracks', 'name id').exec(callback);
+  }
+
 };
 
-mongoose.model('Track', trackSchema);
+
+mongoose.model('Track', TrackSchema);

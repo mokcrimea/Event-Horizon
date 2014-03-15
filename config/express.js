@@ -8,7 +8,7 @@ var express = require('express'),
   log = require('../lib/log')(module),
   path = require('path'),
   helpers = require('view-helpers'),
-  HttpError = require('error').HttpError;
+  HttpError = require('../error').HttpError;
 
 
 module.exports = function(app, config, passport, mongoose) {
@@ -62,6 +62,8 @@ module.exports = function(app, config, passport, mongoose) {
     //provides helper methods to the views
     app.use(helpers(require('../package.json').name));
 
+    //Добавить защиту от CSRF!
+
     //sould be last
     app.use(app.router);
 
@@ -85,7 +87,7 @@ module.exports = function(app, config, passport, mongoose) {
 
   });
 
-  // development env config
+  //pretify html in development mode
   app.configure('development', function() {
     app.locals.pretty = true;
   });

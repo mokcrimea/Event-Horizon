@@ -11,7 +11,7 @@
     }
   },
   "session": {
-    "secret": "KillerIsJim",
+    "secret": "TheArtOfFlight",
     "key": "sid",
     "cookie": {
       "path": "/",
