@@ -5,6 +5,10 @@
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
+/**
+ * Track Schema
+ */
+
 var TrackSchema = new Schema({
   name: { type: String},
   _creator: { type : Schema.ObjectId, ref : 'User'},
@@ -12,6 +16,10 @@ var TrackSchema = new Schema({
   track: { type: Schema.Types.Mixed, required: true},
   time: { type: Array, required: true}
 });
+
+/**
+ * Virtuals
+ */
 
 TrackSchema.virtual('showId').get(function() {
   return this._id;
@@ -28,21 +36,26 @@ TrackSchema.methods = {
    *
    * @param {String}   name
    * @param {Object}   user
-   * @param {Object}   track
+   * @param {[Array]}   track
+   * @param {Array}   time
    * @param {Function} callback
    */
 
-  addTrack: function(name, user, track, time, callback) {
+  create: function(name, user, track, time, callback) {
     var id = user._id;
+    var that = this;
     this.name = name;
     this._creator = id;
     this.track = track;
     this.time = time;
-    this.save(callback);
-
-    user.tracks.push(this.id);
-    user.save(callback);
-
+    this.save(function(err) {
+      if (err) throw err;
+      user.tracks.push(that.id);
+      user.save(function(err) {
+        if (err) throw err;
+      });
+    });
+    return callback(undefined);
   }
 
 };

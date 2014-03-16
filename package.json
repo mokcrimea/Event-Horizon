@@ -15,6 +15,7 @@
     "mongodb": "latest",
     "mongoose": "latest",
     "connect-mongo": "0.4.*",
+    "connect-flash": "latest",
     "async": "0.2.*",
     "libxmljs": "0.8.*",
     "passport": "latest",

@@ -46,9 +46,22 @@ UserSchema.virtual('password')
  */
 
 UserSchema.methods = {
+
+  /**
+   * Encrypt password
+   * @param  {String} password
+   * @return {String}
+   */
+
   encryptPassword: function(password) {
     return crypto.createHmac('sha1', this.salt).update(password).digest('hex');
   },
+
+  /**
+   * Check the passwords
+   * @param  {String} password
+   * @return {Boolean}
+   */
 
   checkPassword: function(password) {
     return this.encryptPassword(password) === this.hashedPassword;
@@ -58,8 +71,14 @@ UserSchema.methods = {
 };
 
 UserSchema.statics = {
-  list: function(user, callback) {
-    var id = user.id;
+
+  /**
+   * Find tracks created by user
+   * @param  {ObjectId}   id
+   * @param  {Function} callback
+   */
+
+  list: function(id, callback) {
     this.findOne({
       _id: id
     }).populate('tracks', 'name id').exec(callback);
@@ -68,17 +87,3 @@ UserSchema.statics = {
 
 
 mongoose.model('User', UserSchema);
-
-
-function AuthError(message) {
-  Error.apply(this, arguments);
-  Error.captureStackTrace(this, AuthError);
-
-  this.message = message;
-}
-
-util.inherits(AuthError, Error);
-
-AuthError.prototype.name = 'AuthError';
-
-exports.AuthError = AuthError;

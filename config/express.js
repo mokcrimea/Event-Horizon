@@ -8,6 +8,7 @@ var express = require('express'),
   log = require('../lib/log')(module),
   path = require('path'),
   helpers = require('view-helpers'),
+  flash = require('connect-flash'),
   HttpError = require('../error').HttpError;
 
 
@@ -21,7 +22,7 @@ module.exports = function(app, config, passport, mongoose) {
   }));
 
 
-  app.use(express.favicon());
+  app.use(express.favicon(path.join(path.resolve(__dirname, '../public/img/favicon.ico'))));
   app.use(express.static(path.join(path.resolve(__dirname, '../public'))));
 
   //template engine and views path
@@ -39,6 +40,8 @@ module.exports = function(app, config, passport, mongoose) {
 
     app.use(express.cookieParser());
 
+    app.use(require('../middleware/sendHttpError'));
+
     app.use(express.urlencoded());
     app.use(express.json());
     // app.use(express.bodyParser());
@@ -54,9 +57,12 @@ module.exports = function(app, config, passport, mongoose) {
       })
     }));
 
-    // use passport session
+    // initialize passport
     app.use(passport.initialize());
     app.use(passport.session());
+
+    // enable flash middleware
+    app.use(flash());
 
     //should be after session
     //provides helper methods to the views

@@ -4,7 +4,8 @@
 
 var mongoose = require('mongoose'),
   Track = mongoose.model('Track'),
-  fs = require("fs");
+  fs = require("fs"),
+  log = require('../lib/log')(module);
 
 /**
  * Index
@@ -21,7 +22,7 @@ exports.index = function(req, res) {
  */
 
 exports.new = function(req, res) {
-  res.render('upload', {
+  res.render('track/upload', {
     title: 'Загрузка нового трека',
   });
 };
@@ -30,12 +31,16 @@ exports.new = function(req, res) {
  * Show a track
  */
 
-exports.show = function(req, res) {
+exports.show = function(req, res, next) {
   Track.findById(req.params.id, function(err, track) {
-    if (err) console.log('Track does not exists');
+    if (err) return next(err);
+    if (!track) {
+      log.debug('Track not found');
+      return next(new HttpError(404, 'Track not found'));
+    }
     res.render('track/show', {
       title: track.name,
-      coord: track.track,
+      coord: track.track
     });
   });
 };
@@ -44,24 +49,24 @@ exports.show = function(req, res) {
  * Create a new track
  */
 
-exports.create = function(req, res, next) {
+exports.create = function(req, res) {
   var formidable = require('formidable');
   var form = new formidable.IncomingForm();
   var parseTrack = require('../middleware/parseTrack');
-  var newTrack = new Track({});
+  var track = new Track({});
 
   form.parse(req, function(error, fields, files) {
     fs.readFile(files.upload.path, function(err, Data) {
       if (err) throw err;
       parseTrack.parse(Data, function(parsedCoord, parsedTime) {
-        newTrack.addTrack(fields.title, req.user, parsedCoord, parsedTime, function(err) {
-          if (err) next(err);
+        track.create(fields.title, req.user, parsedCoord, parsedTime, function(err) {
+          if (err) throw err;
+          log.info('The track succesdully created');
+          req.flash('success', 'Трек успешно загружен');
+          res.redirect('/track/' + track.id);
         });
       });
     });
-  });
-  res.render('upload', {
-    title: 'Upload succsesfull!'
   });
 };
 

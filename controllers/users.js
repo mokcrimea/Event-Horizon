@@ -3,7 +3,9 @@
  */
 
 var mongoose = require('mongoose'),
-  User = mongoose.model('User');
+  User = mongoose.model('User'),
+  log = require('../lib/log')(module),
+  HttpError = require('../error').HttpError;
 
 
 /**
@@ -44,6 +46,7 @@ exports.create = function(req, res, next) {
 
     req.logIn(user, function(err) {
       if (err) return next(err);
+      req.flash('success', 'Пользователь зарегистрирован');
       return res.redirect('/');
     });
   });
@@ -54,7 +57,7 @@ exports.create = function(req, res, next) {
  */
 
 exports.session = function(req, res) {
-  var redirectTo =  req.session.returnTo || '/';
+  var redirectTo = req.session.returnTo || '/';
   delete req.session.returnTo;
   res.redirect(redirectTo);
 };
@@ -72,7 +75,7 @@ exports.update = function(req, res) {
  */
 
 exports.list = function(req, res) {
-  User.list(req.user, function(err, user) {
+  User.list(req.user.id, function(err, user) {
     var tracks = user.tracks;
     res.render('track/list', {
       title: 'Tracks',
@@ -85,25 +88,17 @@ exports.list = function(req, res) {
  * Show a user profile
  */
 
-exports.show = function(req, res) {
+exports.show = function(req, res, next) {
   User.findById(req.params.id, function(err, user) {
+    if (err) return next(err);
+    if (!user) {
+      log.debug('User not found');
+      return next(new HttpError(404 ,'User not found'));
+    }
     res.render('user/show', {
       title: user.name,
       user: user
     });
-  });
-};
-
-/**
- * Find user by id
- */
-
-exports.user = function(req, res, next, id) {
-  User.findOne({_id: id}).exec(function(err, user){
-    if (err) return next(err);
-    if (!user) return next(new Error('failed to load user ' + id));
-    req.profile = user;
-    next();
   });
 };
 
