@@ -13,19 +13,26 @@ module.exports = function(app, passport) {
   app.get('/', tracks.index);
 
   //user routes
+  app.param('uId', users.load);
   app.get('/login', users.login);
   app.get('/signup', users.signup);
-  app.post('/users', users.create);
+  app.post('/user', users.create);
   app.get('/logout', users.logout);
-  app.get('/user/:id', users.show);
-  app.post('/users/session', passport.authenticate('local'), users.session);
-
+  app.get('/user/:uId', users.show);
+  app.post('/user/session', passport.authenticate('local'), users.session);
+  // app.put('/user/:uId', auth.requireLogin, auth.user, users.update);
 
   //track routes
+  app.param('tId', tracks.load);
   app.get('/upload', auth.requireLogin, tracks.new);
   app.post('/upload', auth.requireLogin, tracks.create);
   app.get('/track/list', auth.requireLogin, users.list);
-  app.get('/track/:id', auth.requireLogin, tracks.show);
+  app.get('/track/:tId', auth.requireLogin, tracks.show);
+  // app.put('/track/:tId', auth.requireLogin, auth.track , tracks.update);
+  // app.del('/track/:tId', auth.requireLogin, auth.track , tracks.delete);
 
-
+  //non-exists routes
+  app.get(/.*/, function(req, res, next) {
+    return next(404);
+  });
 };

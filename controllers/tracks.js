@@ -5,7 +5,24 @@
 var mongoose = require('mongoose'),
   Track = mongoose.model('Track'),
   fs = require("fs"),
+  HttpError = require('../error').HttpError,
   log = require('../lib/log')(module);
+
+/**
+ * Load the track creator
+ */
+
+exports.load = function(req, res, next, id) {
+  Track.findById(id, 'name _creator created track', function(err, track) {
+    if (err) return next(404, err);
+    if (track) {
+      req.track = track;
+      next();
+    } else {
+      next(new HttpError(404, 'Трек не существует'));
+    }
+  });
+};
 
 /**
  * Index
@@ -32,17 +49,10 @@ exports.new = function(req, res) {
  */
 
 exports.show = function(req, res, next) {
-  Track.findById(req.params.id, function(err, track) {
-    if (err) return next(err);
-    if (!track) {
-      log.debug('Track not found');
-      return next(new HttpError(404, 'Track not found'));
-    }
     res.render('track/show', {
-      title: track.name,
-      coord: track.track
+      title: req.track.name,
+      coord: req.track.track
     });
-  });
 };
 
 /**

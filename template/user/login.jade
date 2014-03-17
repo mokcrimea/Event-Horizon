@@ -5,7 +5,7 @@ block main
 
 block content
   p Введите имя пользователя и пароль. Если такого пользователя нет - он будет создан.
-  form.form-horizontal(action="/users/session", method="post", role="form")
+  form.form-horizontal(action="/user/session", method="post", role="form")
     .form-group
       label(for="input-username" class="col-lg-2 control-label") Email
       .col-lg-10

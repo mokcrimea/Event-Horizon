@@ -7,6 +7,21 @@ var mongoose = require('mongoose'),
   log = require('../lib/log')(module),
   HttpError = require('../error').HttpError;
 
+/**
+ * Load the user information
+ */
+
+exports.load = function(req, res, next, id) {
+  User.findById(id, function(err, user) {
+    if (err) return next(404, err);
+    if (user) {
+      req.reqUser = user;
+      next();
+    } else {
+      next(new HttpError(404, 'Пользователь не существует'));
+    }
+  });
+};
 
 /**
  * Login form
@@ -89,17 +104,11 @@ exports.list = function(req, res) {
  */
 
 exports.show = function(req, res, next) {
-  User.findById(req.params.id, function(err, user) {
-    if (err) return next(err);
-    if (!user) {
-      log.debug('User not found');
-      return next(new HttpError(404 ,'User not found'));
-    }
-    res.render('user/show', {
-      title: user.name,
-      user: user
-    });
+  res.render('user/show', {
+    title: req.reqUser.name,
+    user: req.reqUser
   });
+
 };
 
 /**
