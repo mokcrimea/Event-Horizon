@@ -5,7 +5,6 @@
 var mongoose = require('mongoose'),
   Track = mongoose.model('Track'),
   fs = require("fs"),
-  formidable = require('formidable'),
   HttpError = require('../error').HttpError,
   path = require('path'),
   log = require('../lib/log')(module);
@@ -15,7 +14,7 @@ var mongoose = require('mongoose'),
  */
 
 exports.load = function(req, res, next, id) {
-  Track.findById(id, 'name _creator created track', function(err, track) {
+  Track.findById(id, 'name _creator created images track', function(err, track) {
     if (err) return next(404, err);
     if (track) {
       req.track = track;
@@ -64,6 +63,7 @@ exports.show = function(req, res, next) {
  */
 
 exports.create = function(req, res) {
+  var formidable = require('formidable');
   var form = new formidable.IncomingForm();
   var parseTrack = require('../lib/parseTrack');
   var track = new Track({});

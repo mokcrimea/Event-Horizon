@@ -13,9 +13,9 @@ var TrackSchema = new Schema({
   name: { type: String},
   _creator: { type : Schema.ObjectId, ref : 'User'},
   created: { type: Date, default: Date.now},
+  images: [],
   track: { type: Schema.Types.Mixed, required: true},
-  time: { type: Array, required: true},
-  images: { type: Array }
+  time: { type: Array, required: true}
 });
 
 /**
@@ -65,8 +65,10 @@ TrackSchema.methods = {
    * @param  {Function} callback
    */
   saveImages: function(files, callback) {
-    this.images = [];
-    this.images.push(files);
+    var that = this;
+    files.forEach(function(el) {
+      that.images.push(el);
+    });
     this.save(callback);
   }
 

@@ -34,6 +34,7 @@ exports.create = function(req, res, next) {
   var track = req.track;
   var trackId = track.id;
   var uploadDir = '/tmp/' + userName + '/' + trackId;
+  var message;
   createFolders(userName, trackId, function(err) {
     if (err) throw err;
 
@@ -45,22 +46,24 @@ exports.create = function(req, res, next) {
     form.multiples = true;
     form.on('file', function(field, file) {
       log.info(field, file.name, file.size);
-      files.push(file.name, file.path);
+      files.push([file.name, file.path]);
+      if (files.length == 1) {
+        message = 'Фотография успешно загружена';
+      } else {
+        message = 'Фотографии успешно загружены';
+      }
     });
     form.parse(req);
     form.on('error', function(err) {
       return next(err);
     });
-
-
     form.on('end', function() {
       track.saveImages(files, function(err) {
         if (err) throw err;
-
       });
-      req.flash('success', 'Фотографии успешно загружены');
       res.render('img/upload', {
         title: 'Загрузка фотографий',
+        success: message
       });
     });
 
@@ -68,3 +71,7 @@ exports.create = function(req, res, next) {
   });
 
 };
+
+/**
+ * Show a gallery of images
+ */
