@@ -87,9 +87,25 @@ h1{
 	float: left;
 	margin-top: 9px;
 }
+
+.form-link{
+	font-family: sans-serif;
+	font-size: 12pt;
+	color: #476EFF;
+}
+
+.form-link:hover{
+	text-decoration: none;
+}
+
+.form-link:active{
+	color: #FF0A13;
+	text-decoration: underline;
+}
 /*---------------------------*/
 
 .tempBack{
+	text-decoration: underline;
 	position: absolute;
 	display: block;
 	width: 100%;
