@@ -4,18 +4,17 @@ block main
   h1= title
 
 block content
-  p Введите имя пользователя и пароль. Если такого пользователя нет - он будет создан.
-  form.form-horizontal(action="/user/session", method="post", role="form")
+  p.centerTextForm Введите имя пользователя и пароль. Если такого пользователя нет - он будет создан.
+  form.loginWindow(action="/user/session", method="post", role="form")
     .form-group
-      label(for="input-username" class="col-lg-2 control-label") Email
-      .col-lg-10
-        input(name="email" type="email" class="form-control" placeholder="Email")
+      label(for="input-username" class="form-label") Email
+        input(name="email" type="email" class="form-input" placeholder="Email")
     .form-group
-      label(for="input-password" class="col-lg-2 control-label") Пароль
-      .col-lg-10
-        input(name="password" type="password" class="form-control" placeholder="Password")
+      label(for="input-password" class="form-label") Пароль
+        input(name="password" type="password" class="form-input" placeholder="Password")
     .form-group
-      .col-sm-offset-2.col-sm-10
-        button.btn.btn-primary(type='submit') Войти
-        | &nbsp; или &nbsp;
-        a.show-signup(href="/signup") Регистрация
+      .btn-line 
+        button.btn-form(type='submit') Войти
+        span.infoBtn 
+          | &nbsp; или &nbsp;
+          a.form-link(href="/signup") Регистрация
