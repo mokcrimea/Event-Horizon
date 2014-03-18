@@ -29,7 +29,7 @@ exports.load = function(req, res, next, id) {
 
 exports.login = function(req, res) {
   res.render('user/login', {
-    title: 'Login Page'
+    title: 'Авторизация'
   });
 };
 

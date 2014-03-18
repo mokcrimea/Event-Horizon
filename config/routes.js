@@ -20,7 +20,7 @@ module.exports = function(app, passport) {
   app.post('/user', users.create);
   app.get('/logout', users.logout);
   app.get('/user/:uId', users.show);
-  app.post('/user/session', passport.authenticate('local'), users.session);
+  app.post('/login', passport.authenticate('local'), users.session);
   // app.put('/user/:uId', auth.requireLogin, auth.user, users.update);
 
   //track routes

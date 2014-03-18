@@ -5,7 +5,7 @@ block main
 
 block content
   p.centerTextForm Введите имя пользователя и пароль. Если такого пользователя нет - он будет создан.
-  form.loginWindow(action="/user/session", method="post", role="form")
+  form.loginWindow(action="/login", method="post", role="form")
     .form-group
       label(for="input-username" class="form-label") Email
         input(name="email" type="email" class="form-input" placeholder="Email")
@@ -13,8 +13,8 @@ block content
       label(for="input-password" class="form-label") Пароль
         input(name="password" type="password" class="form-input" placeholder="Password")
     .form-group
-      .btn-line 
+      .btn-line
         button.btn-form(type='submit') Войти
-        span.infoBtn 
+        span.infoBtn
           | &nbsp; или &nbsp;
           a.form-link(href="/signup") Регистрация
