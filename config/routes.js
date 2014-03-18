@@ -4,6 +4,7 @@
 
 var users = require('../controllers/users'),
   tracks = require('../controllers/tracks'),
+  images = require('../controllers/images'),
   auth = require('../middleware/authorization');
 
 
@@ -30,6 +31,10 @@ module.exports = function(app, passport) {
   app.get('/track/:tId', auth.requireLogin, tracks.show);
   // app.put('/track/:tId', auth.requireLogin, auth.track , tracks.update);
   // app.del('/track/:tId', auth.requireLogin, auth.track , tracks.delete);
+
+  //upload pictures to the track
+  app.get('/track/:tId/img', auth.requireLogin, auth.img, images.new);
+  app.post('/track/:tId/img', auth.requireLogin, auth.img, images.create);
 
   //non-exists routes
   app.get(/.*/, function(req, res, next) {

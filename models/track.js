@@ -14,7 +14,8 @@ var TrackSchema = new Schema({
   _creator: { type : Schema.ObjectId, ref : 'User'},
   created: { type: Date, default: Date.now},
   track: { type: Schema.Types.Mixed, required: true},
-  time: { type: Array, required: true}
+  time: { type: Array, required: true},
+  images: { type: Array }
 });
 
 /**
@@ -56,6 +57,17 @@ TrackSchema.methods = {
       });
     });
     return callback(undefined);
+  },
+
+  /**
+   * Save images paths into DB
+   * @param  {Array}   files
+   * @param  {Function} callback
+   */
+  saveImages: function(files, callback) {
+    this.images = [];
+    this.images.push(files);
+    this.save(callback);
   }
 
 };

@@ -1,0 +1,11 @@
+extends ../layout/page
+
+block main
+  h1= title
+
+block content
+  p Добро пожаловать
+  form(action="/track/#{req.track.id}/img" enctype="multipart/form-data" method="post")
+    input(type="file" name="images" multiple="")
+    br
+    input(type="submit" value="Upload file")

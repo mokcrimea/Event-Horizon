@@ -2,6 +2,9 @@ extends ../layout/page
 
 block main
   h1= title
+  ul
+    li
+      a(href='/track/#{track.id}/img') Загрузка
 
 block content
   #map.map

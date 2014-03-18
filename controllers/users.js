@@ -92,6 +92,11 @@ exports.update = function(req, res) {
 exports.list = function(req, res) {
   User.list(req.user.id, function(err, user) {
     var tracks = user.tracks;
+    if(tracks.length === 0) {
+      // ..Добавить INFO блок
+      req.flash('success', 'У вас нет загруженый треков. Можете загрузить новый с помощью формы ниже');
+      res.redirect('/upload');
+    }
     res.render('track/list', {
       title: 'Tracks',
       tracks: tracks
