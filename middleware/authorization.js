@@ -15,7 +15,7 @@ exports.requireLogin = function(req, res, next) {
 exports.user = function(req, res, next) {
   if (req.user.id != req.reqUser.id) {
     req.flash('error', 'Извините, вы не авторизованы для совершения этого действия');
-    res.redirect('/user/' + req.params.id);
+    return res.redirect('/user/' + req.params.id);
   }
   next();
 };
@@ -27,7 +27,15 @@ exports.user = function(req, res, next) {
 exports.track = function(req, res, next) {
   if (req.track._creator != req.user.id) {
     req.flash('error', 'Извините, вы не авторизованы для совершения этого действия');
-    res.redirect('/');
+    return res.redirect('/track/' + req.params.id);
   }
+  next();
+};
+
+exports.img = function(req, res, next) {
+/*  if (req.track._creator != req.user.id) {
+    req.flash('error', 'Извините, вы не авторизованы для совершения этого действия');
+    return res.redirect('/track/' + req.params.id);
+  }*/
   next();
 };

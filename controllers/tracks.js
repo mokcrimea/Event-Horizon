@@ -6,6 +6,7 @@ var mongoose = require('mongoose'),
   Track = mongoose.model('Track'),
   fs = require("fs"),
   HttpError = require('../error').HttpError,
+  path = require('path'),
   log = require('../lib/log')(module);
 
 /**
@@ -13,7 +14,7 @@ var mongoose = require('mongoose'),
  */
 
 exports.load = function(req, res, next, id) {
-  Track.findById(id, 'name _creator created track', function(err, track) {
+  Track.findById(id, 'name _creator created images track', function(err, track) {
     if (err) return next(404, err);
     if (track) {
       req.track = track;
@@ -49,10 +50,12 @@ exports.new = function(req, res) {
  */
 
 exports.show = function(req, res, next) {
-    res.render('track/show', {
-      title: req.track.name,
-      coord: req.track.track
-    });
+  var track = req.track;
+  res.render('track/show', {
+    title: track.name,
+    coord: track.track,
+    track: track
+  });
 };
 
 /**
@@ -62,7 +65,7 @@ exports.show = function(req, res, next) {
 exports.create = function(req, res) {
   var formidable = require('formidable');
   var form = new formidable.IncomingForm();
-  var parseTrack = require('../middleware/parseTrack');
+  var parseTrack = require('../lib/parseTrack');
   var track = new Track({});
 
   form.parse(req, function(error, fields, files) {
@@ -71,7 +74,7 @@ exports.create = function(req, res) {
       parseTrack.parse(Data, function(parsedCoord, parsedTime) {
         track.create(fields.title, req.user, parsedCoord, parsedTime, function(err) {
           if (err) throw err;
-          log.info('The track succesdully created');
+          log.info('The track succesfully created');
           req.flash('success', 'Трек успешно загружен');
           res.redirect('/track/' + track.id);
         });

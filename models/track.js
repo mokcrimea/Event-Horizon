@@ -13,6 +13,7 @@ var TrackSchema = new Schema({
   name: { type: String},
   _creator: { type : Schema.ObjectId, ref : 'User'},
   created: { type: Date, default: Date.now},
+  images: [],
   track: { type: Schema.Types.Mixed, required: true},
   time: { type: Array, required: true}
 });
@@ -56,6 +57,19 @@ TrackSchema.methods = {
       });
     });
     return callback(undefined);
+  },
+
+  /**
+   * Save images paths into DB
+   * @param  {Array}   files
+   * @param  {Function} callback
+   */
+  saveImages: function(files, callback) {
+    var that = this;
+    files.forEach(function(el) {
+      that.images.push(el);
+    });
+    this.save(callback);
   }
 
 };
