@@ -7,6 +7,7 @@ var mongoose = require('mongoose'),
   fs = require("fs"),
   HttpError = require('../error').HttpError,
   path = require('path'),
+  createFolders = require('../lib/createUserFolder'),
   log = require('../lib/log')(module);
 
 /**
@@ -14,11 +15,17 @@ var mongoose = require('mongoose'),
  */
 
 exports.load = function(req, res, next, id) {
-  Track.findById(id, 'name _creator created images track', function(err, track) {
+  var trackPath = '/tmp/' + req.user.username + '/' + id + '/track';
+
+  Track.findById(id, 'name _creator created images', function(err, track) {
     if (err) return next(404, err);
     if (track) {
       req.track = track;
-      next();
+      fs.readFile(trackPath, function(err, data) {
+        if (err) return next(404, err);
+        req.track.track = data;
+        next();
+      });
     } else {
       next(new HttpError(404, 'Трек не существует'));
     }
@@ -64,23 +71,42 @@ exports.show = function(req, res, next) {
 
 exports.create = function(req, res) {
   var formidable = require('formidable');
-  var form = new formidable.IncomingForm();
   var parseTrack = require('../lib/parseTrack');
   var track = new Track({});
+  var username = req.user.username;
+  var trackId = track.id;
+  var uploadDir = '/tmp/' + username + '/' + trackId;
+  var trackPath = uploadDir + '/track';
+  var timePath = uploadDir + '/time';
+  var form = new formidable.IncomingForm();
+  // form.uploadDir = uploadDir;
+  createFolders(username, trackId, function(err) {
+    if (err) throw err;
 
-  form.parse(req, function(error, fields, files) {
-    fs.readFile(files.upload.path, function(err, Data) {
-      if (err) throw err;
-      parseTrack.parse(Data, function(parsedCoord, parsedTime) {
-        track.create(fields.title, req.user, parsedCoord, parsedTime, function(err) {
+    form.parse(req, function(error, fields, files) {
+
+      fs.readFile(files.upload.path, function(err, Data) {
+        if (err) throw err;
+
+        parseTrack(Data, uploadDir, function(err) {
           if (err) throw err;
-          log.info('The track succesfully created');
-          req.flash('success', 'Трек успешно загружен');
-          res.redirect('/track/' + track.id);
+          fs.unlink(files.upload.path, function(err) {
+            if (err) throw err;
+          });
+
+          track.create(fields.title, req.user, function(err) {
+
+            if (err) throw err;
+            log.info('The track succesfully created');
+            req.flash('success', 'Трек успешно загружен');
+            res.redirect('/track/' + track.id);
+          });
         });
       });
     });
+
   });
+
 };
 
 /**

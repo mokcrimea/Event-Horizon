@@ -14,6 +14,11 @@ var mongoose = require('mongoose'),
  */
 
 exports.new = function(req, res) {
+  var userName = req.user.name;
+  var trackId = req.track.id;
+  createFolders(userName, trackId, function(err) {
+    if (err) throw err;
+  });
   res.render('img/upload', {
     title: 'Загрузка фотографий'
   });
@@ -29,40 +34,36 @@ exports.create = function(req, res, next) {
   var trackId = track.id;
   var uploadDir = '/tmp/' + userName + '/' + trackId;
   var message;
-  createFolders(userName, trackId, function(err) {
-    if (err) throw err;
 
-    var files = [];
-    var form = new formidable.IncomingForm();
+  var files = [];
+  var form = new formidable.IncomingForm();
 
 
-    form.uploadDir = uploadDir;
-    form.multiples = true;
-    form.on('file', function(field, file) {
-      log.info(field, file.name, file.size);
-      files.push([file.name, file.path]);
-      if (files.length == 1) {
-        message = 'Фотография успешно загружена';
-      } else {
-        message = 'Фотографии успешно загружены';
-      }
-    });
-    form.parse(req);
-    form.on('error', function(err) {
-      return next(err);
-    });
-    form.on('end', function() {
-      track.saveImages(files, function(err) {
-        if (err) throw err;
-      });
-      res.render('img/upload', {
-        title: 'Загрузка фотографий',
-        success: message
-      });
-    });
-
-
+  form.uploadDir = uploadDir;
+  form.multiples = true;
+  form.on('file', function(field, file) {
+    log.info(field, file.name, file.size);
+    files.push([file.name, file.path]);
+    if (files.length == 1) {
+      message = 'Фотография успешно загружена';
+    } else {
+      message = 'Фотографии успешно загружены';
+    }
   });
+  form.parse(req);
+  form.on('error', function(err) {
+    return next(err);
+  });
+  form.on('end', function() {
+    track.saveImages(files, function(err) {
+      if (err) throw err;
+    });
+    res.render('img/upload', {
+      title: 'Загрузка фотографий',
+      success: message
+    });
+  });
+
 
 };
 

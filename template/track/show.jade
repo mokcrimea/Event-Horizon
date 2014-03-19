@@ -5,7 +5,6 @@ block main
   ul
     li
       a(href='/track/#{track.id}/img') Загрузка
-
 block content
   #map.map
   script(src="http://api-maps.yandex.ru/2.0/?load=package.full&lang=ru-RU")
@@ -29,7 +28,7 @@ block content
         top: 5
       });
 
-      var myPolyline = new ymaps.Polyline(#{JSON.stringify(coord)}, {
+      var myPolyline = new ymaps.Polyline(#{coord}, {
         // Описываем свойства геообъекта.
         // Содержимое балуна.
         balloonContent: "Ваш трек"

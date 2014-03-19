@@ -13,9 +13,8 @@ var TrackSchema = new Schema({
   name: { type: String},
   _creator: { type : Schema.ObjectId, ref : 'User'},
   created: { type: Date, default: Date.now},
-  images: [],
-  track: { type: Schema.Types.Mixed, required: true},
-  time: { type: Array, required: true}
+  images: { type: Array},
+  track: { type: Array, required: true}
 });
 
 /**
@@ -37,18 +36,14 @@ TrackSchema.methods = {
    *
    * @param {String}   name
    * @param {Object}   user
-   * @param {[Array]}   track
-   * @param {Array}   time
    * @param {Function} callback
    */
 
-  create: function(name, user, track, time, callback) {
+  create: function(name, user, callback) {
     var id = user._id;
     var that = this;
     this.name = name;
     this._creator = id;
-    this.track = track;
-    this.time = time;
     this.save(function(err) {
       if (err) throw err;
       user.tracks.push(that.id);
