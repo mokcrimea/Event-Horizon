@@ -34,7 +34,7 @@ module.exports = function(app, passport) {
 
   //upload pictures to the track
   app.get('/track/:tId/img', auth.requireLogin, auth.img, images.new);
-  app.post('/track/:tId/img', auth.requireLogin, auth.img, images.create);
+  app.post('/img/:tId', auth.requireLogin, auth.img, images.create);
 
   //non-exists routes
   app.get(/.*/, function(req, res, next) {

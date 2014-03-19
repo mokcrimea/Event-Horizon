@@ -4,7 +4,7 @@ block main
   h1= title
 
 block content
-  form(action="/track/#{req.track.id}/img" enctype="multipart/form-data" method="post" name="upload_images")
+  form(action="/img/#{req.track.id}" enctype="multipart/form-data" method="post" name="upload_images")
     input(type="file" name="images" multiple="")
     br
     button(name="submit" type="submit") Загрузить
