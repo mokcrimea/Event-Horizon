@@ -4,17 +4,30 @@ block main
   h1= title
 
 block content
-  p.centerTextForm Введите имя пользователя и пароль. Если такого пользователя нет - он будет создан.
-  form.loginWindow(action="/login", method="post", role="form")
+  p.centerTextForm Введите имя пользователя и пароль.
+  form.loginWindow(action="/login", method="post", role="form", name="login_form")
     .form-group
-      label(for="input-username" class="form-label") Email
-        input(name="email" type="email" class="form-input" placeholder="Email")
+      label.form-label Пользователь
+        input.form-input(name="username" type="text" placeholder="Username")
     .form-group
-      label(for="input-password" class="form-label") Пароль
-        input(name="password" type="password" class="form-input" placeholder="Password")
+      label.form-label Пароль
+        input.form-input(name="password" type="password" placeholder="Password")
     .form-group
       .btn-line
-        button.btn-form(type='submit') Войти
-        span.infoBtn
-          | &nbsp; или &nbsp;
+        button.btn-form(name="submit" type="submit") Войти
+        span.infoBtn &nbsp; или &nbsp;
           a.form-link(href="/signup") Регистрация
+  script.
+    var form = document.login_form;
+    form.submit.addEventListener('click', function(evt){
+      var reUsername = /(^[A-zА-я0-9_]{3,20}$)/;
+      var rePassword = /(^[A-zА-я0-9!@#$%^&*()_]{6,20}$)/;
+
+      if (!reUsername.test(form.username.value)) {
+        return evt.preventDefault();
+      }
+
+      if (!rePassword.test(form.password.value)) {
+        return evt.preventDefault();
+      }
+    });

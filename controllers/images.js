@@ -14,12 +14,6 @@ var mongoose = require('mongoose'),
  */
 
 exports.new = function(req, res) {
-  // fs.mkdir('/tmp/' + req.user.name, function(err) {
-  //   if (err) throw err;
-  //   fs.mkdir('/tmp/' + req.user.name + '/' + req.track.id, function(err) {
-  //     if (err) throw err;
-  //   });
-  // });
   res.render('img/upload', {
     title: 'Загрузка фотографий'
   });

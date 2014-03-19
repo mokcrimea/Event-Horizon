@@ -20,7 +20,10 @@ module.exports = function(app, passport) {
   app.post('/user', users.create);
   app.get('/logout', users.logout);
   app.get('/user/:uId', users.show);
-  app.post('/login', passport.authenticate('local'), users.session);
+  app.post('/login', passport.authenticate('local', {
+    failureRedirect: '/login',
+    failureFlash: 'Неправильное имя пользователя или пароль'
+  }), users.session);
   // app.put('/user/:uId', auth.requireLogin, auth.user, users.update);
 
   //track routes
@@ -34,7 +37,7 @@ module.exports = function(app, passport) {
 
   //upload pictures to the track
   app.get('/track/:tId/img', auth.requireLogin, auth.img, images.new);
-  app.post('/track/:tId/img', auth.requireLogin, auth.img, images.create);
+  app.post('/img/:tId', auth.requireLogin, auth.img, images.create);
 
   //non-exists routes
   app.get(/.*/, function(req, res, next) {

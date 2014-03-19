@@ -4,8 +4,32 @@ block main
   h1= title
 
 block content
-  p Добро пожаловать
-  form(action="/track/#{req.track.id}/img" enctype="multipart/form-data" method="post")
+  form(action="/img/#{req.track.id}" enctype="multipart/form-data" method="post" name="upload_images")
     input(type="file" name="images" multiple="")
     br
-    input(type="submit" value="Upload file")
+    button(name="submit" type="submit") Загрузить
+  script.
+    var form = document.upload_images;
+
+    form.submit.addEventListener('click', function(evt) {
+      var validExtensions = [".jpg", ".png"];
+      var objOfFiles = form.images.files;
+      if (form.images.type == 'file') {
+
+        for (var i = 0; i < objOfFiles.length; i++) {
+          var valid = false;
+          for (var j = 0; j < validExtensions.length; j++) {
+
+            var re = new RegExp(validExtensions[j] + '$', 'i');
+            if (re.test(objOfFiles[i].name)) {
+              valid = true;
+            }
+          }
+          if (!valid) {
+            alert('Оповещение о неправильном формате файла');
+            evt.preventDefault();
+          }
+
+        }
+      }
+    });

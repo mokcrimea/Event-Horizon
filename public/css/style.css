@@ -27,13 +27,18 @@ h1{
 /*-------------Form-------------*/
 .loginWindow{
 	margin: 40px auto;
-	width: 400px;
+	width: 440px;
 	border: 1px solid #79ABE6;
 	border-radius: 8px;
 }
 
 .btn-line{
 	margin-left: 50px;
+	padding: 0;
+}
+
+.btn-right{
+	margin-left: 60%;
 	padding: 0;
 }
 
@@ -51,14 +56,14 @@ h1{
 
 .form-input{
 	float: right;
-	margin-right: 80px; 
+	margin-right: 80px;
 	width: 170px;
 	height: 20px;
 }
 
 .loginWindow .form-group:first-child{
 	margin-top: 30px;
-} 
+}
 
 .btn-form{
 	cursor: pointer;

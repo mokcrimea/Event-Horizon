@@ -39,7 +39,7 @@ exports.login = function(req, res) {
 
 exports.signup = function(req, res) {
   res.render('user/signup', {
-    title: 'Sign up',
+    title: 'Регистрация',
     user: new User()
   });
 };
@@ -53,7 +53,8 @@ exports.create = function(req, res, next) {
   user.provider = 'local';
   user.save(function(err) {
     if (err) {
-      return res.render('user/singup', {
+      log.debug(err);
+      return res.render('user/signup', {
         user: user,
         title: 'Sing Up'
       });
@@ -92,10 +93,12 @@ exports.update = function(req, res) {
 exports.list = function(req, res) {
   User.list(req.user.id, function(err, user) {
     var tracks = user.tracks;
-    if(tracks.length === 0) {
+    if (tracks.length === 0) {
       // ..Добавить INFO блок
-      req.flash('success', 'У вас нет загруженый треков. Можете загрузить новый с помощью формы ниже');
-      res.redirect('/upload');
+      return res.render('track/upload', {
+        title: 'Загрузка нового трека',
+        success: 'У вас нет загруженый треков. Можете загрузить новый с помощью формы ниже'
+      });
     }
     res.render('track/list', {
       title: 'Tracks',

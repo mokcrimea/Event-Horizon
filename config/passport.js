@@ -6,30 +6,30 @@ var mongoose = require('mongoose'),
 module.exports = function (passport) {
 
 passport.use(new LocalStrategy({
-    usernameField: 'email',
+    usernameField: 'username',
     passwordField: 'password'
   },
-  function(email, password, done) {
-      User.findOne({ email: email }, function (err, user) {
-      if (err) { return done(err); }
+  function(username, password, next) {
+      User.findOne({ username: username }, function (err, user) {
+      if (err) { return next(err); }
       if (!user) {
-        return done(null, false, { message: 'Unknown user' });
+        return next(null, false, { errors: 'Unknown user' });
       }
       if (!user.checkPassword(password)) {
-        return done(null, false, { message: 'Invalid password' });
+        return next(null, false, { errors: 'Invalid password' });
       }
-      return done(null, user);
+      return next(null, user);
     });
   }
 ));
 
-passport.serializeUser(function(user, done) {
-  done(null, user.id);
+passport.serializeUser(function(user, next) {
+  next(null, user.id);
 });
 
-passport.deserializeUser(function(id, done) {
-  User.findById(id, function (err, user) {
-    done(err, user);
+passport.deserializeUser(function(id, next) {
+  User.findById(id, function(err, user) {
+    next(err, user);
   });
 });
 
