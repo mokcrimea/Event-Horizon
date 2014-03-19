@@ -4,9 +4,16 @@
     - if (req.isAuthenticated())
       li
         a(href="/user/"+req.user._id title="Мой профиль") Мой профиль
-    li
-      a(href="/track/list" title="Мои треки") Мои треки
-    li
-      a(href="#" title="Фото") Фото
-    li
-      a(href="#" title="Карта") Карта
+      li
+        a(href="/track/list" title="Мои треки") Мои треки
+      li
+        a(href="#" title="Фото") Фото
+      li
+        a(href="#" title="Карта") Карта
+    - else
+      li
+        a(href="/login" title="Войти") Войти
+      li
+        a(href="/signup" title="Регистрация") Регистрация
+
+    
