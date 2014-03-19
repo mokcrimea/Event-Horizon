@@ -39,7 +39,7 @@ exports.login = function(req, res) {
 
 exports.signup = function(req, res) {
   res.render('user/signup', {
-    title: 'Sign up',
+    title: 'Регистрация',
     user: new User()
   });
 };
@@ -53,7 +53,8 @@ exports.create = function(req, res, next) {
   user.provider = 'local';
   user.save(function(err) {
     if (err) {
-      return res.render('user/singup', {
+      log.debug(err);
+      return res.render('user/signup', {
         user: user,
         title: 'Sing Up'
       });
