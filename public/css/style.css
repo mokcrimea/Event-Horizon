@@ -79,10 +79,6 @@ h1{
 	border: none;
 }
 
-.btn-form:focus{
-	outline: 1px inset #79ABE6;
-}
-
 .infoBtn{
 	float: left;
 	margin-top: 9px;
