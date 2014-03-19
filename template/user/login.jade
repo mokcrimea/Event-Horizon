@@ -7,8 +7,8 @@ block content
   p.centerTextForm Введите имя пользователя и пароль.
   form.loginWindow(action="/login", method="post", role="form", name="login_form")
     .form-group
-      label.form-label Email
-        input.form-input(name="email" type="email" placeholder="E-mail")
+      label.form-label Пользователь
+        input.form-input(name="username" type="text" placeholder="Username")
     .form-group
       label.form-label Пароль
         input.form-input(name="password" type="password" placeholder="Password")
@@ -20,10 +20,10 @@ block content
   script.
     var form = document.login_form;
     form.submit.addEventListener('click', function(evt){
-      var reEmail = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+      var reUsername = /(^[A-zА-я0-9_]{3,20}$)/;
       var rePassword = /(^[A-zА-я0-9!@#$%^&*()_]{6,20}$)/;
 
-      if (!reEmail.test(form.email.value)) {
+      if (!reUsername.test(form.username.value)) {
         return evt.preventDefault();
       }
 
