@@ -4,10 +4,29 @@ block main
   h1= title
 
 block content
-  p Добро пожаловать
-  form(action="/upload" enctype="multipart/form-data" method="post")
+  form(action="/upload" enctype="multipart/form-data" method="post" name="upload_track" align="center")
     input(type="text" name="title")
     br
     input(type="file" name="upload")
     br
-    input(type="submit" value="Upload file")
+    button(name="submit" type="submit") Загрузить
+  script.
+    var form = document.upload_track;
+    form.submit.addEventListener('click', function(evt){
+      var validExtensions = [".gpx"];
+      var reTitle = /(^[A-zА-я0-9\s._-]{3,50}$)/;
+      if (!reTitle.test(form.title.value)) {
+        alert('Оповещение о недопустимых символах');
+        return evt.preventDefault();
+      }
+      var arrayOfFiles = form.upload;
+      if (form.upload.type == 'file') {
+        for (var i = 0; i < validExtensions.length; i++) {
+          var re = new RegExp(validExtensions[i] + '$', 'i');
+          if (!re.test(arrayOfFiles.value)) {
+            alert('Оповещение о неправильном формате файла');
+            return evt.preventDefault();
+          }
+        }
+      }
+    });

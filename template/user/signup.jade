@@ -7,13 +7,13 @@ block content
   form.loginWindow(action="/user", method="post", role="form" name="reg_form")
     .form-group
       label.form-label Имя
-        input.form-input(name="name" type="text" placeholder="Имя")
+        input.form-input(name="name" type="text" placeholder="Имя" value=user.name)
     .form-group
       label.form-label E-mail
-        input.form-input(name="email" type="email" placeholder="E-mail")
+        input.form-input(name="email" type="email" placeholder="E-mail" value=user.email)
     .form-group
       label.form-label Username
-        input.form-input(name="username" type="text" placeholder="Username")
+        input.form-input(name="username" type="text" placeholder="Username" value=user.username)
     .form-group
       label.form-label Пароль
         input.form-input(name="password" type="password" placeholder="Пароль")
