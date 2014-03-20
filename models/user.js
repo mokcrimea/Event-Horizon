@@ -15,12 +15,19 @@ var mongoose = require('mongoose'),
 var UserSchema = new Schema({
   name: { type: String},
   email: { type: String},
-  username: { type: String, unique: true, required: true},
-  hashedPassword: { type: String, required: true},
+  username: { type: String},
+  hashedPassword: { type: String},
   provider: {type: String},
-  salt: { type: String, required: true},
+  authToken: { type: String},
+  albums: [{
+    title: String,
+    id: String,
+    link: String,
+    updated: Date
+  }],
   created: { type: Date, default: Date.now},
-  tracks: [{ type: Schema.ObjectId, ref: 'Track'}]
+  tracks: [{ type: Schema.ObjectId, ref: 'Track'}],
+  yandex: { type: Object}
 });
 
 /**
@@ -65,8 +72,27 @@ UserSchema.methods = {
 
   checkPassword: function(password) {
     return this.encryptPassword(password) === this.hashedPassword;
-  }
+  },
 
+  setToken: function(token, callback) {
+    this.authToken = token;
+    this.save(callback);
+  },
+
+  updateUsername: function(username, callback) {
+    this.username = username;
+    this.save(callback);
+  },
+
+  createAlbum: function(obj, callback) {
+    this.albums.push({
+      title: obj.title,
+      id: obj.id,
+      link: obj.links.photos,
+      updated: obj.updated
+    });
+    this.save(callback);
+  }
 
 };
 

@@ -1,11 +1,15 @@
 .leftMenu
   .leftMenuHead Меню
   ul.ulMenuColumn
+    li
+      a(href="/auth/yandex" title="Мой профиль") Яндекс
     - if (req.isAuthenticated())
       li
         a(href="/user/"+req.user._id title="Мой профиль") Мой профиль
       li
         a(href="/track/list" title="Мои треки") Мои треки
+      li
+        a(href="/yandex/create" title="Создать альбом на Яндекс.Фото") Создать альбом
       li
         a(href="#" title="Фото") Фото
       li
@@ -16,4 +20,3 @@
       li
         a(href="/signup" title="Регистрация") Регистрация
 
-    

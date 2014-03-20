@@ -13,8 +13,7 @@ var TrackSchema = new Schema({
   name: { type: String},
   _creator: { type : Schema.ObjectId, ref : 'User'},
   created: { type: Date, default: Date.now},
-  images: { type: Array},
-  track: { type: Array, required: true}
+  images: { type: Array}
 });
 
 /**

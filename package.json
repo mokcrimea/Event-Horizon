@@ -20,7 +20,9 @@
     "libxmljs": "0.8.*",
     "passport": "latest",
     "passport-local": "latest",
+    "passport-yandex": "latest",
     "jade": "latest",
-    "view-helpers": "latest"
+    "view-helpers": "latest",
+    "request": "latest"
   }
 }

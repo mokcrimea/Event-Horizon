@@ -5,6 +5,7 @@
 var users = require('../controllers/users'),
   tracks = require('../controllers/tracks'),
   images = require('../controllers/images'),
+  yandex = require('../controllers/yandex'),
   auth = require('../middleware/authorization');
 
 
@@ -24,7 +25,19 @@ module.exports = function(app, passport) {
     failureRedirect: '/login',
     failureFlash: 'Неправильное имя пользователя или пароль'
   }), users.session);
+  app.get('/auth/yandex', passport.authenticate('yandex', {
+    failureRedirect: '/login'
+  }));
+  app.get('/auth/yandex/callback', passport.authenticate('yandex', {
+    failureRedirect: '/login'
+  }), yandex.document);
   // app.put('/user/:uId', auth.requireLogin, auth.user, users.update);
+
+  // yandex fotki
+  app.get('/yandex/create', auth.requireLogin, yandex.createAlbum);
+  app.get('/yandex/albums', auth.requireLogin, yandex.getAlbums);
+  app.post('/img/:tId/yandex', auth.requireLogin, auth.img, yandex.upload);
+
 
   //track routes
   app.param('tId', tracks.load);
