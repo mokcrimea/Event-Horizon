@@ -43,6 +43,15 @@ h1{
 }
 
 /*------------------------------*/
+.balyn-style{
+	width: 500px;
+	height: 350px;
+}
+
+.balun-img{
+	margin: 0 auto;
+	display: block;
+}
 /*-------------Form-------------*/
 .input-box{
 	float: left;

@@ -1,44 +1,31 @@
 var myMap;
 
-// Дождёмся загрузки API и готовности DOM.
 ymaps.ready(init);
 
 function init () {
-    // Создание экземпляра карты и его привязка к контейнеру с
-    // заданным id ("map").
-    myMap = new ymaps.Map('map', {
-        // При инициализации карты обязательно нужно указать
-        // её центр и коэффициент масштабирования.
-        center:[44.958306, 34.109535], // Москва
+    myMap = new ymaps.Map('map', {       
+        center:[44.958306, 34.109535],
         zoom:12
     });
 
-    
+    var MyBalloonContentLayoutClass = ymaps.templateLayoutFactory.createClass(
+    '<div class="balyn-style"><img class="balun-img" src="img/photo1.jpg" width="480"></div>' 
+        );
 
-	myMap.controls.add('zoomControl', { left: 5, top: 5 });
+    var setPhoto = function(text, coord){
+        var data = {
+            balloonContent: text,
+            hintContent: 'Метка',
+            iconContent: '1'
+        },
+        options = {balloonHasCloseButton: true,
+                   balloonContentLayout: MyBalloonContentLayoutClass},
+        myPlacemark = new ymaps.Placemark(coord, data, options);
 
-	var myPolyline = new ymaps.Polyline([
-            // Указываем координаты вершин ломаной.
-            [44.958306, 34.109735],
-            [44.959306, 34.109835],
-            [44.959306, 34.110000],
-            [44.960, 34.11001]
-        ], {
-            // Описываем свойства геообъекта.
-            // Содержимое балуна.
-            balloonContent: "Ваш трек"
-        }, {
-            // Задаем опции геообъекта.
-            // Отключаем кнопку закрытия балуна.
-            balloonHasCloseButton:false,
-            // Цвет линии.
-            strokeColor: "#000000",
-            // Ширина линии.
-            strokeWidth: 4,
-            // Коэффициент прозрачности.
-            strokeOpacity: 0.5
-        });
-	
-	myMap.geoObjects.add(myPolyline);
-}
+        myMap.geoObjects.add(myPlacemark);
+    }
+
+    setPhoto('Hello', [44.958306, 34.109535]);
+}   
+
 
