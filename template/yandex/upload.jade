@@ -4,15 +4,15 @@ block main
   h1= title
 
 block content
-  form(action="/img/#{req.track.id}/yandex" enctype="multipart/form-data" method="post" name="upload_images")
-    input(type="file" name="images" multiple="")
+  form(action="/track/#{req.track.id}/yandex" enctype="multipart/form-data" method="post" name="upload_images")
+    input(type="file" name="images" required multiple)
     br
     button(name="submit" type="submit") Загрузить
   script.
     var form = document.upload_images;
 
     form.submit.addEventListener('click', function(evt) {
-      var validExtensions = [".jpg", ".png"];
+      var validExtensions = [".jpg", ".png", ."gif", ".bmp"];
       var objOfFiles = form.images.files;
       if (form.images.type == 'file') {
 

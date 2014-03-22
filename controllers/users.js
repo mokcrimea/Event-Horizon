@@ -12,7 +12,7 @@ var mongoose = require('mongoose'),
  */
 
 exports.load = function(req, res, next, id) {
-  User.findById(id, function(err, user) {
+  User.findById(id, 'id authToken name username tracks created yandex', function(err, user) {
     if (err) return next(404, err);
     if (user) {
       req.reqUser = user;

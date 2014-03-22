@@ -4,7 +4,9 @@ block main
   h1= title
   ul
     li
-      a(href='/track/#{track.id}/img') Загрузка
+      a(href='/track/#{track.id}/yandex') Загрузить фотографии
+    li
+      a(href='/track/#{track.id}/galery') Галерея
 block content
   #map.map
   script(src="http://api-maps.yandex.ru/2.0/?load=package.full&lang=ru-RU")

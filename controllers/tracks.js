@@ -15,9 +15,10 @@ var mongoose = require('mongoose'),
  */
 
 exports.load = function(req, res, next, id) {
-  var trackPath = '/tmp/' + req.user.username + '/' + id + '/track';
-
-  Track.findById(id, 'name _creator created images', function(err, track) {
+  if (req.user) {
+    var trackPath = '/tmp/' + req.user.username + '/' + id + '/track';
+  }
+  Track.findById(id, 'name _creator created images album', function(err, track) {
     if (err) return next(404, err);
     if (track) {
       req.track = track;

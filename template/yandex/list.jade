@@ -1,0 +1,10 @@
+extends ../layout/page
+
+block main
+  h1= title
+
+block content
+  - if (images.length)
+
+      - each image in images
+        img(src="#{image.M.href}")

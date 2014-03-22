@@ -19,12 +19,6 @@ var UserSchema = new Schema({
   hashedPassword: { type: String},
   provider: {type: String},
   authToken: { type: String},
-  albums: [{
-    title: String,
-    id: String,
-    link: String,
-    updated: Date
-  }],
   created: { type: Date, default: Date.now},
   tracks: [{ type: Schema.ObjectId, ref: 'Track'}],
   yandex: { type: Object}
@@ -81,16 +75,6 @@ UserSchema.methods = {
 
   updateUsername: function(username, callback) {
     this.username = username;
-    this.save(callback);
-  },
-
-  createAlbum: function(obj, callback) {
-    this.albums.push({
-      title: obj.title,
-      id: obj.id,
-      link: obj.links.photos,
-      updated: obj.updated
-    });
     this.save(callback);
   }
 

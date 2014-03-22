@@ -13,7 +13,13 @@ var TrackSchema = new Schema({
   name: { type: String},
   _creator: { type : Schema.ObjectId, ref : 'User'},
   created: { type: Date, default: Date.now},
-  images: { type: Array}
+  album: {
+    title: String,
+    id: String,
+    link: String,
+    updated: Date,
+  },
+  images: []
 });
 
 /**
@@ -63,6 +69,21 @@ TrackSchema.methods = {
     files.forEach(function(el) {
       that.images.push(el);
     });
+    this.save(callback);
+  },
+
+  createAlbum: function(obj, callback) {
+    this.album = {
+      title: obj.title,
+      id: obj.id,
+      link: obj.links.photos,
+      updated: obj.updated
+    };
+    this.save(callback);
+  },
+
+  addPhoto: function(link, callback) {
+    this.images.push(link);
     this.save(callback);
   }
 
