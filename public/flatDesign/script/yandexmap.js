@@ -1,6 +1,12 @@
-var myMap;
+var myMap,
+    testArray = [
+                [[44.958306,34.109535], 'photo1.jpg'],
+                [[44.962786,34.084746], 'photo3.jpg'],
+                [[44.934436,34.087868], 'photo1.jpg'],
+                [[44.931022,34.134216], 'photo3.jpg']];
 
 ymaps.ready(init);
+
 
 function init () {
     myMap = new ymaps.Map('map', {       
@@ -23,10 +29,9 @@ function init () {
         myMap.geoObjects.add(myPlacemark);
         };
 
-    setPhoto([44.958306,34.109535], 'photo1.jpg');
-    setPhoto([44.962786,34.084746], 'photo3.jpg');
-    setPhoto([44.934436,34.087868], 'photo1.jpg');
-    setPhoto([44.931022,34.134216], 'photo3.jpg');
+    for (var i = 0; i < testArray.length; i++){
+        setPhoto(testArray[i][0], testArray[i][1]);
+    }
 };
 
 
