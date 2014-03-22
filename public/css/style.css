@@ -286,16 +286,16 @@ p{
    top: 25px;
    left: 25%;
    background-color:#FFF;
-   box-shadow: 0 0 20px black;
+   box-shadow: 0 0 500px black;
    display: none;
 }
-.popup + .title {
+/*.popup > .title {
   height:20px;
   font-size:120%;
   margin: 25px;
   font-weight: bold;
-}
-.popup + .message {
+}*/
+.popup >.message {
   margin: 15px 25px;
 }
 
@@ -304,4 +304,8 @@ p{
 }
 .btns button {
   margin: 0 50px;
+}
+
+.first_letter {
+	color: #f00!important;
 }

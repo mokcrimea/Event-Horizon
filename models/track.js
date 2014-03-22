@@ -37,10 +37,10 @@ TrackSchema.virtual('showId').get(function() {
 TrackSchema.methods = {
 
   /**
-   * Add a new track
+   * Создает новый трек и записывает пользователю ссылку на него (ObjectId)
    *
-   * @param {String}   name
-   * @param {Object}   user
+   * @param {String}   name Название трека
+   * @param {Object}   user Создатель
    * @param {Function} callback
    */
 
@@ -60,18 +60,10 @@ TrackSchema.methods = {
   },
 
   /**
-   * Save images paths into DB
-   * @param  {Array}   files
+   * Записывает данные по альбому в БД
+   * @param  {Object}   obj      данные альбома
    * @param  {Function} callback
    */
-  saveImages: function(files, callback) {
-    var that = this;
-    files.forEach(function(el) {
-      that.images.push(el);
-    });
-    this.save(callback);
-  },
-
   createAlbum: function(obj, callback) {
     this.album = {
       title: obj.title,
@@ -82,6 +74,11 @@ TrackSchema.methods = {
     this.save(callback);
   },
 
+  /**
+   * Записывает ссылки на загруженные фотографии
+   * @param {Object}   link     Объект ссылок для различных разрешений
+   * @param {Function} callback
+   */
   addPhoto: function(link, callback) {
     this.images.push(link);
     this.save(callback);

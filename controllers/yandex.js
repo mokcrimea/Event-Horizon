@@ -1,5 +1,5 @@
 /**
- * Module dependencies.
+ * Основные зависимости.
  */
 
 var mongoose = require('mongoose'),
@@ -7,12 +7,13 @@ var mongoose = require('mongoose'),
   Track = mongoose.model('Track'),
   request = require('request'),
   fs = require("fs"),
-  util = require('util'),
   async = require('async'),
   log = require('../lib/log')(module);
 
 /**
- * Load the service document
+ * Загружает сервисный документ в котором ищет имя пользователя.
+ * При авторизации через OAuth сервер не предоставляет имя
+ * пользователя в явном виде
  */
 
 exports.document = function(req, res, next) {
@@ -35,7 +36,7 @@ exports.document = function(req, res, next) {
   });
 };
 
-exports.createAlbum = function(req, res, next) {
+/*exports.createAlbum = function(req, res, next) {
   var title = 'Test';
   var options = {
     url: 'http://api-fotki.yandex.ru/api/users/' + req.user.username + '/albums/',
@@ -56,7 +57,7 @@ exports.createAlbum = function(req, res, next) {
     });
     next(404);
   });
-};
+};*/
 
 exports.new = function(req, res) {
   res.render('yandex/upload', {
@@ -93,14 +94,14 @@ exports.createAndUpload = function(req, res, next) {
     });
 
     /**
-     * Делаем проверку на существование. Если существует, то загружаем в него,
-     * иначе создаем новый альбом.
+     * Делаем проверку на существование альбома для текущего трека.
+     *  Если существует, то загружаем в него, иначе  -
+     *  создаем новый альбом.
      */
     if (!req.track.album.title) {
       async.series([
           createAlbum,
-          uploadPhotos,
-          response
+          uploadPhotos
         ],
         function(err, results) {
           if (err) throw err;
@@ -108,8 +109,7 @@ exports.createAndUpload = function(req, res, next) {
     } else {
       album_url = req.track.album.link;
       async.series([
-          uploadPhotos,
-          response
+          uploadPhotos
         ],
         function(err, results) {
           if (err) throw err;
@@ -117,6 +117,11 @@ exports.createAndUpload = function(req, res, next) {
     }
 
   });
+
+  /**
+   * Создает альбом с названием в виде: "2014-03-22T14:08:20"
+   * @param  {Function} callback
+   */
 
   function createAlbum(callback) {
     request(options, function(err, responce, body) {
@@ -138,7 +143,15 @@ exports.createAndUpload = function(req, res, next) {
     });
   }
 
+  /**
+   * Загружает фотографии используя модуль node-formidable.
+   * Сначала фотографии загружаеются на сервер, парсятся и отправляются на
+   * Яндекс.Фото.
+   * @param  {Function} callback
+   */
+
   function uploadPhotos(callback) {
+    var counter = files.length;
     log.info('Отправляю фоточки на сервер в: \n' + album_url);
     options.url = album_url;
     options.headers['Content-Type'] = 'image/png';
@@ -152,8 +165,13 @@ exports.createAndUpload = function(req, res, next) {
           next(500);
           throw err;
         }
-        req.track.addPhoto(JSON.parse(body).img);
         log.info('Завершил загрузку фотографии: ' + file);
+        req.track.addPhoto(JSON.parse(body).img);
+        console.log(counter);
+        counter--;
+        if (counter === 0) {
+          res.redirect('/track/' + req.track.id + '/galery');
+        }
         fs.unlink(file, function(err) {
           if (err) throw err;
         });
@@ -167,6 +185,11 @@ exports.createAndUpload = function(req, res, next) {
       callback();
     }
   }
+
+  /**
+   * Рендерит галерею загруженных изображений
+   * @param  {Function} callback
+   */
 
   function response(callback) {
     Track.findById(req.track.id, 'images', function(err, track) {
@@ -185,7 +208,7 @@ exports.createAndUpload = function(req, res, next) {
   }
 };
 
-exports.getAlbums = function(req, res, next) {
+/*exports.getAlbums = function(req, res, next) {
   var options = {
     url: 'http://api-fotki.yandex.ru/api/users/' + req.user.username + '/albums/',
     method: 'GET',
@@ -201,6 +224,11 @@ exports.getAlbums = function(req, res, next) {
     next(404);
   });
 };
+*/
+
+/**
+ * Показывает галерею изображений
+ */
 
 exports.show = function(req, res, next) {
   Track.findById(req.track.id, 'images', function(err, track) {

@@ -1,8 +1,6 @@
 .leftMenu
   .leftMenuHead Меню
   ul.ulMenuColumn
-    li
-      a(href="/auth/yandex" title="Мой профиль") Яндекс
     - if (req.isAuthenticated())
       li
         a(href="/user/"+req.user._id title="Мой профиль") Мой профиль

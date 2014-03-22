@@ -49,7 +49,7 @@ UserSchema.virtual('password')
 UserSchema.methods = {
 
   /**
-   * Encrypt password
+   * Зашифровывает пароль
    * @param  {String} password
    * @return {String}
    */
@@ -59,7 +59,7 @@ UserSchema.methods = {
   },
 
   /**
-   * Check the passwords
+   * Проверяет правильный ли пароль
    * @param  {String} password
    * @return {Boolean}
    */
@@ -68,11 +68,21 @@ UserSchema.methods = {
     return this.encryptPassword(password) === this.hashedPassword;
   },
 
+  /**
+   * Записывает AuthToken пользователя
+   * @param {String}   token
+   * @param {Function} callback
+   */
   setToken: function(token, callback) {
     this.authToken = token;
     this.save(callback);
   },
 
+  /**
+   * Обновляет поле username в документе пользователя
+   * @param  {String}   username
+   * @param  {Function} callback
+   */
   updateUsername: function(username, callback) {
     this.username = username;
     this.save(callback);
@@ -83,7 +93,7 @@ UserSchema.methods = {
 UserSchema.statics = {
 
   /**
-   * Find tracks created by user
+   * Находит треки созданные пользователем
    * @param  {ObjectId}   id
    * @param  {Function} callback
    */

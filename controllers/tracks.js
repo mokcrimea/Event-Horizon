@@ -75,8 +75,6 @@ exports.create = function(req, res) {
   var username = req.user.username;
   var trackId = track.id;
   var uploadDir = '/tmp/' + trackId;
-  var trackPath = uploadDir + '/track';
-  var timePath = uploadDir + '/time';
   var form = new formidable.IncomingForm();
   // form.uploadDir = uploadDir;
   createFolders(trackId, function(err) {

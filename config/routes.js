@@ -4,7 +4,7 @@
 
 var users = require('../controllers/users'),
   tracks = require('../controllers/tracks'),
-  images = require('../controllers/images'),
+  // images = require('../controllers/images'),
   yandex = require('../controllers/yandex'),
   auth = require('../middleware/authorization');
 
@@ -30,15 +30,15 @@ module.exports = function(app, passport) {
   }));
   app.get('/auth/yandex/callback', passport.authenticate('yandex', {
     failureRedirect: '/login'
-  }), yandex.document);
+  }), yandex.document, users.session);
   // app.put('/user/:uId', auth.requireLogin, auth.user, users.update);
 
   // yandex fotki
-  app.get('/yandex/create', auth.requireLogin, yandex.createAlbum);
-  app.get('/yandex/albums', auth.requireLogin, yandex.getAlbums);
+  // app.get('/yandex/create', auth.requireLogin, yandex.createAlbum);
+  // app.get('/yandex/albums', auth.requireLogin, yandex.getAlbums);
   app.get('/track/:tId/galery', yandex.show);
-  app.get('/track/:tId/yandex', auth.requireLogin, auth.img, yandex.new);
-  app.post('/track/:tId/yandex', auth.requireLogin, auth.img, yandex.createAndUpload);
+  app.get('/track/:tId/yandex', auth.requireLogin, auth.track, yandex.new);
+  app.post('/track/:tId/yandex', auth.requireLogin, auth.track, yandex.createAndUpload);
 
 
   //track routes
@@ -51,8 +51,8 @@ module.exports = function(app, passport) {
   // app.del('/track/:tId', auth.requireLogin, auth.track , tracks.delete);
 
   //upload pictures to the track
-  app.get('/track/:tId/img', auth.requireLogin, auth.img, images.new);
-  app.post('/img/:tId', auth.requireLogin, auth.img, images.create);
+  // app.get('/track/:tId/img', auth.requireLogin, auth.img, images.new);
+  // app.post('/img/:tId', auth.requireLogin, auth.img, images.create);
 
   //non-exists routes
   app.get(/.*/, function(req, res, next) {
