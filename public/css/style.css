@@ -43,14 +43,33 @@ h1{
 }
 
 /*------------------------------*/
-.balyn-style{
-	width: 500px;
-	height: 350px;
-}
-
-.balun-img{
+.balloon-img{
 	margin: 0 auto;
 	display: block;
+}
+
+#zoom-balloon-image{
+	position: absolute;
+	display: none;
+	opacity: 0;
+	transition: 1s;
+	z-index: 100;
+	margin: -30px 0 0 50px;
+	box-shadow: 0 0 500px #000;
+	
+	cursor: pointer;
+}
+
+
+.balloon-fullsize{
+	display: block;
+	float: right;
+	font-family: sans-serif;
+	font-size: 10pt;
+	padding-top: 5px;
+	text-decoration: underline;
+	color: #4967E9;
+	cursor: pointer;
 }
 /*-------------Form-------------*/
 .input-box{

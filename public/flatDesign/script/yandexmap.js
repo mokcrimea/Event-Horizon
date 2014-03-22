@@ -8,24 +8,50 @@ function init () {
         zoom:12
     });
 
-    var MyBalloonContentLayoutClass = ymaps.templateLayoutFactory.createClass(
-    '<div class="balyn-style"><img class="balun-img" src="img/photo1.jpg" width="480"></div>' 
-        );
-
-    var setPhoto = function(text, coord){
-        var data = {
-            balloonContent: text,
-            hintContent: 'Метка',
-            iconContent: '1'
-        },
-        options = {balloonHasCloseButton: true,
-                   balloonContentLayout: MyBalloonContentLayoutClass},
-        myPlacemark = new ymaps.Placemark(coord, data, options);
+    var setPhoto = function(coord, urlPicture){
+        var myPlacemark = new ymaps.Placemark(coord, {
+                balloonContentBody: 
+                "<img class='balloon-img' src='"+urlPicture+"' width='480'/>" +
+                "<div class='balloon-fullsize' onclick='ballonImageZoom()'>Увеличить фототграфию</div>",
+                hintContent: "Показать фотографию",
+            }, {
+                iconImageHref: urlPicture,
+                iconImageSize: [25, 20],
+                iconImageOffset: [0, 0]
+            });
 
         myMap.geoObjects.add(myPlacemark);
-    }
+        };
 
-    setPhoto('Hello', [44.958306, 34.109535]);
-}   
+    setPhoto([44.958306,34.109535], 'photo1.jpg');
+    setPhoto([44.962786,34.084746], 'photo3.jpg');
+    setPhoto([44.934436,34.087868], 'photo1.jpg');
+    setPhoto([44.931022,34.134216], 'photo3.jpg');
+};
 
 
+
+var ballonImageZoom = function(){
+    var imgBalloon = document.getElementsByClassName('balloon-img')[0],
+        imgBalloonSrc = imgBalloon.getAttribute('src'),
+        imgSrc = document.getElementById('zoom-balloon-image');
+        
+    imgSrc.setAttribute('src', imgBalloonSrc);
+    imgSrc.style.display = "block";
+
+    setTimeout(function(){
+        imgSrc.style.opacity = "1";
+    }, 10);
+    imgSrc.addEventListener('click', turnBallonImage);
+}
+
+var turnBallonImage = function(){  
+    var imgSrc = document.getElementById('zoom-balloon-image');
+    imgSrc.style.opacity = "0";
+
+    setTimeout(function(){
+         imgSrc.style.display = "none";
+    }, 700);
+   
+    document.body.removeEventListener('click', turnBallonImage);
+  }
