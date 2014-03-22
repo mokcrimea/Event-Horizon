@@ -7,4 +7,6 @@ block content
   - if (images.length)
 
       - each image in images
-        img(src="#{image.M.href}")
+        a.show-galery(href="#{image.XXL.href}")
+          img.gallery(src="#{image.M.href}" data-full="#{image.XL.href}")
+  script(src="/js/popup.js")

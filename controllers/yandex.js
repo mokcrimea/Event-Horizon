@@ -183,9 +183,6 @@ exports.createAndUpload = function(req, res, next) {
       callback();
     }
   }
-
-  next(404);
-
 };
 
 exports.getAlbums = function(req, res, next) {
@@ -209,7 +206,6 @@ exports.show = function(req, res, next) {
   Track.findById(req.track.id, 'images', function(err, track) {
     if (err) return next(404, err);
     if (track) {
-      console.log(track);
       res.render('yandex/list', {
         title: 'Галерея',
         images: track.images

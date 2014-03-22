@@ -15,9 +15,7 @@ var mongoose = require('mongoose'),
  */
 
 exports.load = function(req, res, next, id) {
-  if (req.user) {
-    var trackPath = '/tmp/' + req.user.username + '/' + id + '/track';
-  }
+  var trackPath = '/tmp/' + id + '/track';
   Track.findById(id, 'name _creator created images album', function(err, track) {
     if (err) return next(404, err);
     if (track) {
@@ -76,12 +74,12 @@ exports.create = function(req, res) {
   var track = new Track({});
   var username = req.user.username;
   var trackId = track.id;
-  var uploadDir = '/tmp/' + username + '/' + trackId;
+  var uploadDir = '/tmp/' + trackId;
   var trackPath = uploadDir + '/track';
   var timePath = uploadDir + '/time';
   var form = new formidable.IncomingForm();
   // form.uploadDir = uploadDir;
-  createFolders(username, trackId, function(err) {
+  createFolders(trackId, function(err) {
     if (err) throw err;
 
     form.parse(req, function(error, fields, files) {

@@ -275,3 +275,33 @@ p{
 	color: #07500D;
 	border: 1px solid green;
 }
+
+.gallery{
+	margin: 10px;
+	border: 1px solid green;
+}
+.popup {
+  position: absolute;
+   width:850;
+   top: 25px;
+   left: 25%;
+   background-color:#FFF;
+   box-shadow: 0 0 20px black;
+   display: none;
+}
+.popup + .title {
+  height:20px;
+  font-size:120%;
+  margin: 25px;
+  font-weight: bold;
+}
+.popup + .message {
+  margin: 15px 25px;
+}
+
+.btns {
+    text-align: center;
+}
+.btns button {
+  margin: 0 50px;
+}
