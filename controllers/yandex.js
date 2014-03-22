@@ -166,7 +166,9 @@ exports.createAndUpload = function(req, res, next) {
           throw err;
         }
         log.info('Завершил загрузку фотографии: ' + file);
-        req.track.addPhoto(JSON.parse(body).img);
+        req.track.addPhoto(JSON.parse(body), function(err){
+          if (err) throw err;
+        });
         console.log(counter);
         counter--;
         if (counter === 0) {
@@ -236,8 +238,16 @@ exports.show = function(req, res, next) {
     if (track) {
       res.render('yandex/list', {
         title: 'Галерея',
-        images: track.images
+        images: track.images,
+        id: req.track.id
       });
     }
   });
+};
+
+exports.deleteImage = function(req, res) {
+  Track.update({_id: req.track.id}, {$pull: {'images': {_id: req.params.iId}}}).exec(function(err){
+    if (err) throw err;
+  });
+  res.redirect('/track/' + req.track.id + '/galery');
 };

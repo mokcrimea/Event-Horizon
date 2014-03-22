@@ -7,6 +7,9 @@ block content
   - if (images.length)
 
       - each image in images
-        a.show-galery(href="#{image.XXL.href}")
-          img.gallery(src="#{image.M.href}" data-full="#{image.XL.href}")
+        a.show-galery(href="#{image.links.XXL.href}")
+          img.gallery(src="#{image.links.M.href}" data-full="#{image.links.XL.href}" data-remove="/track/#{id}/#{image._id}/remove")
+        form(method="POST" action="/track/#{id}/#{image._id}/remove" width="50px")
+          input(type="hidden" name="_method" value="DELETE")
+          button(name="submit" type="submit") Delete
   script(src="/js/popup.js")

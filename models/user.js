@@ -5,7 +5,6 @@
 var mongoose = require('mongoose'),
   crypto = require('crypto'),
   async = require('async'),
-  util = require('util'),
   Schema = mongoose.Schema;
 
 /**

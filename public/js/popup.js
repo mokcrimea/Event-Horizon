@@ -25,7 +25,7 @@ function openPopupFromLink(link) {
     link.dataset.title,
     link.dataset.full,
     function() {
-      return location.assign(link);
+      return location.assign(link.dataset.remove);
     }
   );
 }

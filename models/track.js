@@ -19,16 +19,12 @@ var TrackSchema = new Schema({
     link: String,
     updated: Date,
   },
-  images: []
-});
-
-/**
- * Virtuals
- */
-
-TrackSchema.virtual('showId').get(function() {
-  return this._id;
-});
+  images: [{
+    links : {},
+    param: '',
+    id: Schema.ObjectId
+  }]
+}, {id: true});
 
 /**
  * Methods
@@ -76,13 +72,15 @@ TrackSchema.methods = {
 
   /**
    * Записывает ссылки на загруженные фотографии
-   * @param {Object}   link     Объект ссылок для различных разрешений
+   * @param {Object}   obj     Объект ответа от сервера яндекса.
    * @param {Function} callback
    */
-  addPhoto: function(link, callback) {
-    this.images.push(link);
+  addPhoto: function(obj, callback) {
+    // link.id = new mongoose.Types.ObjectId;
+    this.images.push({links: obj.img, param: obj.id});
     this.save(callback);
   }
+
 
 };
 

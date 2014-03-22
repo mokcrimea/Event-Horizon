@@ -15,11 +15,14 @@ block content
     form.submit.addEventListener('click', function(evt){
       var validExtensions = [".gpx"];
       var reTitle = /(^[A-zА-я0-9\s._-]{3,50}$)/;
+
       if (!reTitle.test(form.title.value)) {
         alert('Оповещение о недопустимых символах');
         return evt.preventDefault();
       }
+
       var arrayOfFiles = form.upload;
+
       if (form.upload.type == 'file') {
         for (var i = 0; i < validExtensions.length; i++) {
           var re = new RegExp(validExtensions[i] + '$', 'i');

@@ -1,5 +1,5 @@
 /**
- * Module dependencies.
+ * Основные зависимости
  */
 
 var mongoose = require('mongoose'),
@@ -8,7 +8,7 @@ var mongoose = require('mongoose'),
   HttpError = require('../error').HttpError;
 
 /**
- * Load the user information
+ * Загрузка информации о пользователе
  */
 
 exports.load = function(req, res, next, id) {
@@ -24,7 +24,7 @@ exports.load = function(req, res, next, id) {
 };
 
 /**
- * Login form
+ * Форма логина
  */
 
 exports.login = function(req, res) {
@@ -34,7 +34,7 @@ exports.login = function(req, res) {
 };
 
 /**
- * Sing up form
+ * Форма регистрации
  */
 
 exports.signup = function(req, res) {
@@ -79,15 +79,7 @@ exports.session = function(req, res) {
 };
 
 /**
- * Update a User
- */
-
-exports.update = function(req, res) {
-
-};
-
-/**
- * List of tracks
+ * Список треков пользователя
  */
 
 exports.list = function(req, res) {
@@ -108,7 +100,7 @@ exports.list = function(req, res) {
 };
 
 /**
- * Show a user profile
+ * Профиль пользователя
  */
 
 exports.show = function(req, res, next) {
@@ -120,7 +112,7 @@ exports.show = function(req, res, next) {
 };
 
 /**
- * Logout
+ * Выход
  */
 
 exports.logout = function(req, res) {

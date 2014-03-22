@@ -1,5 +1,5 @@
 /**
- * Module dependencies.
+ * Основные зависимости
  */
 
 var mongoose = require('mongoose'),
@@ -11,7 +11,7 @@ var mongoose = require('mongoose'),
   log = require('../lib/log')(module);
 
 /**
- * Load the track creator
+ * Загрузка информации о треке
  */
 
 exports.load = function(req, res, next, id) {
@@ -32,7 +32,7 @@ exports.load = function(req, res, next, id) {
 };
 
 /**
- * Index
+ * Главная страница
  */
 
 exports.index = function(req, res) {
@@ -42,7 +42,7 @@ exports.index = function(req, res) {
 };
 
 /**
- * Upload
+ * Загрузка нового трека
  */
 
 exports.new = function(req, res) {
@@ -52,7 +52,7 @@ exports.new = function(req, res) {
 };
 
 /**
- * Show a track
+ * Отображение трека
  */
 
 exports.show = function(req, res, next) {
@@ -65,7 +65,7 @@ exports.show = function(req, res, next) {
 };
 
 /**
- * Create a new track
+ * Создание нового трека
  */
 
 exports.create = function(req, res) {
@@ -94,7 +94,7 @@ exports.create = function(req, res) {
           track.create(fields.title, req.user, function(err) {
 
             if (err) throw err;
-            log.info('The track succesfully created');
+            log.info('Трек успешно создан');
             req.flash('success', 'Трек успешно загружен');
             res.redirect('/track/' + track.id);
           });
@@ -107,7 +107,7 @@ exports.create = function(req, res) {
 };
 
 /**
- * Edit a track
+ * Редактировать трек
  */
 
 exports.edit = function(req, res) {
@@ -115,7 +115,7 @@ exports.edit = function(req, res) {
 };
 
 /**
- * Update a track
+ * Обновить трек
  */
 
 exports.update = function(req, res) {
@@ -123,7 +123,7 @@ exports.update = function(req, res) {
 };
 
 /**
- * Delete a track
+ * Удалить трек
  */
 
 exports.delete = function(req, res) {

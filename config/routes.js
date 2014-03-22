@@ -37,7 +37,8 @@ module.exports = function(app, passport) {
   // app.get('/yandex/create', auth.requireLogin, yandex.createAlbum);
   // app.get('/yandex/albums', auth.requireLogin, yandex.getAlbums);
   app.get('/track/:tId/galery', yandex.show);
-  app.get('/track/:tId/yandex', auth.requireLogin, auth.track, yandex.new);
+  app.delete('/track/:tId/:iId/remove', auth.requireLogin, auth.track, yandex.deleteImage);
+  app.get('/track/:tId/yandex', auth.requireLogin, yandex.new);
   app.post('/track/:tId/yandex', auth.requireLogin, auth.track, yandex.createAndUpload);
 
 
@@ -50,9 +51,6 @@ module.exports = function(app, passport) {
   // app.put('/track/:tId', auth.requireLogin, auth.track , tracks.update);
   // app.del('/track/:tId', auth.requireLogin, auth.track , tracks.delete);
 
-  //upload pictures to the track
-  // app.get('/track/:tId/img', auth.requireLogin, auth.img, images.new);
-  // app.post('/img/:tId', auth.requireLogin, auth.img, images.create);
 
   //non-exists routes
   app.get(/.*/, function(req, res, next) {
