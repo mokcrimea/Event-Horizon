@@ -16,16 +16,16 @@ module.exports = function(app, passport) {
 
   //user routes
   app.param('uId', users.load);
-  app.get('/login', users.login);
-  app.get('/signup', users.signup);
-  app.post('/user', users.create);
+  // app.get('/login', users.login);
+  // app.get('/signup', users.signup);
+  // app.post('/user', users.create);
   app.get('/logout', users.logout);
   app.get('/user/:uId', users.show);
   app.post('/login', passport.authenticate('local', {
     failureRedirect: '/login',
     failureFlash: 'Неправильное имя пользователя или пароль'
   }), users.session);
-  app.get('/auth/yandex', passport.authenticate('yandex', {
+  app.get('/login', passport.authenticate('yandex', {
     failureRedirect: '/login'
   }));
   app.get('/auth/yandex/callback', passport.authenticate('yandex', {

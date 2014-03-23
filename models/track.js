@@ -21,7 +21,8 @@ var TrackSchema = new Schema({
   },
   images: [{
     links : {},
-    param: '',
+    param: String,
+    self: String,
     id: Schema.ObjectId
   }]
 }, {id: true});
@@ -76,8 +77,7 @@ TrackSchema.methods = {
    * @param {Function} callback
    */
   addPhoto: function(obj, callback) {
-    // link.id = new mongoose.Types.ObjectId;
-    this.images.push({links: obj.img, param: obj.id});
+    this.images.push({links: obj.img, self: obj.links.self, param: obj.id});
     this.save(callback);
   }
 

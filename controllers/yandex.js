@@ -166,7 +166,7 @@ exports.createAndUpload = function(req, res, next) {
           throw err;
         }
         log.info('Завершил загрузку фотографии: ' + file);
-        req.track.addPhoto(JSON.parse(body), function(err){
+        req.track.addPhoto(JSON.parse(body), function(err) {
           if (err) throw err;
         });
         console.log(counter);
@@ -246,8 +246,28 @@ exports.show = function(req, res, next) {
 };
 
 exports.deleteImage = function(req, res) {
-  Track.update({_id: req.track.id}, {$pull: {'images': {_id: req.params.iId}}}).exec(function(err){
-    if (err) throw err;
+  // Track.update({_id: req.track.id}, {$pull: {'images': {_id: req.params.iId}}}).exec(function(err){
+  //   if (err) throw err;
+  // });
+  Track.findById(req.track.id, function(err, track) {
+    if (err) return next(404, err);
+    if (track) {
+      var removeLink = track.images.id(req.params.iId).self;
+      track.images.id(req.params.iId).remove();
+      track.save(function(err) {
+        if (err) throw err;
+      });
+      request({
+        url: removeLink,
+        method: 'DELETE',
+        headers: {
+          Authorization: 'OAuth ' + req.user.authToken
+        }
+      }, function(err, response, body) {
+        if (err) throw err;
+        log.info('Фотография удалена успешно');
+      });
+    }
   });
   res.redirect('/track/' + req.track.id + '/galery');
 };
