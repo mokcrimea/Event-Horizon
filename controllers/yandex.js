@@ -209,20 +209,20 @@ exports.updateGeoTags = function(req, res, next) {
         var geo;
         try {
           geo = (JSON.parse(body)).geo.coordinates;
+          req.track.addCoordinates(geo.split(' '), index, function(err) {
+            if (err) throw err;
+          });
         } catch (e) {
-          log.error('ОШИБКА!');
+          log.error(e);
           console.log(e);
         }
-        req.track.addCoordinates(geo.split(' '), index, function(err) {
-          if (err) throw err;
-        });
       });
     }, 5000);
   });
 };
 
 
-/*exports.getAlbums = function(req, res, next) {
+exports.getAlbums = function(req, res, next) {
   var options = {
     url: 'http://api-fotki.yandex.ru/api/users/' + req.user.username + '/albums/',
     method: 'GET',
@@ -233,12 +233,21 @@ exports.updateGeoTags = function(req, res, next) {
     }
   };
   request(options, function(err, response, body) {
-    if (err) console.log(err);
-    console.log(body);
-    next(404);
+    if (err) log.error(err);
+    var albums = [];
+    // console.log(JSON.parse(body));
+    JSON.parse(body).entries.forEach(function(album) {
+      albums.push({
+        alternate: album.links.alternate,
+        title: album.title,
+        imageCount: album.imageCount
+      });
+    });
+    req.reqUser.albums = albums;
+    next();
   });
 };
-*/
+
 
 /**
  * Показывает галерею изображений
@@ -257,34 +266,54 @@ exports.show = function(req, res, next) {
   });
 };
 
-exports.deleteImage = function(req, res) {
-  // Track.update({_id: req.track.id}, {$pull: {'images': {_id: req.params.iId}}}).exec(function(err){
-  //   if (err) throw err;
-  // });
+/**
+ * Удаляет изображение.
+ */
+
+exports.removePhoto = function(req, res) {
   Track.findById(req.track.id, function(err, track) {
     if (err) return next(404, err);
     if (track) {
-      var removeLink = track.images.id(req.params.iId).self;
-      track.images.id(req.params.iId).remove();
-      track.save(function(err) {
-        if (err) throw err;
-      });
-      request({
-        url: removeLink,
-        method: 'DELETE',
-        headers: {
-          Authorization: 'OAuth ' + req.user.authToken
-        }
-      }, function(err, response, body) {
-        if (err) throw err;
-        log.info('Фотография удалена успешно');
-      });
+      var removeLink;
+      //Обработка ошибки на тот случай если фотография уже удалена
+      try {
+        removeLink = track.images.id(req.params.iId).self;
+        track.images.id(req.params.iId).remove();
+        track.save(function(err) {
+          if (err) throw err;
+        });
+        request({
+          url: removeLink,
+          method: 'DELETE',
+          headers: {
+            Authorization: 'OAuth ' + req.user.authToken
+          }
+        }, function(err, response, body) {
+          log.info('Фотография удалена успешно');
+        });
+      } catch (e) {
+        log.error('Фотография уже удалена, ' + e);
+      }
     }
   });
   res.redirect('/track/' + req.track.id + '/galery');
 };
 
-exports.showInfo = function(req, res) {
+exports.removeAlbum = function(req, res, next) {
+  request({
+    url: req.track.album.self,
+    method: 'DELETE',
+    headers: {
+      Authorization: 'OAuth ' + req.user.authToken
+    }
+  }, function(err, response, body) {
+    log.info('Альбом успешно удален');
+  });
+  req.flash('success', 'Альбом успешно удален');
+  res.redirect('/track/list');
+};
+
+/*exports.showInfo = function(req, res) {
   var auth = 'OAuth ' + req.user.authToken;
   req.track.images.forEach(function(image) {
     console.log(image._id);
@@ -305,3 +334,4 @@ exports.showInfo = function(req, res) {
   });
   res.redirect('/track/' + req.track.id + '/galery');
 };
+*/

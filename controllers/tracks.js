@@ -56,11 +56,16 @@ exports.new = function(req, res) {
  */
 
 exports.show = function(req, res, next) {
+  var images = [];
+  req.track.images.forEach(function(image) {
+    images.push([image.coordinates[0], image.links.M.href]);
+  });
   var track = req.track;
   res.render('track/show', {
     title: track.name,
     coord: track.track,
-    track: track
+    track: track,
+    images: images
   });
 };
 
@@ -126,6 +131,18 @@ exports.update = function(req, res) {
  * Удалить трек
  */
 
-exports.delete = function(req, res) {
-
+exports.delete = function(req, res, next) {
+  Track.remove(req.track.id, function(err) {
+    if (err) return next(404, err);
+  });
+  fs.unlink('/tmp/' + req.track.id + '/track', function(err) {
+    if (err) log.error(err);
+    fs.unlink('/tmp/' + req.track.id + '/full', function(err) {
+      if (err) log.error(err);
+      fs.rmdir('/tmp/' + req.track.id + '/', function(err) {
+        if (err) log.error(err);
+      });
+    });
+  });
+  next();
 };

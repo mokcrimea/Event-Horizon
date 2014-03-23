@@ -43,7 +43,7 @@ function createPopup(title, message, onOk) {
   if (popup === undefined) {
     temp = document.createElement('div');
     temp.className = 'popup';
-    temp.innerHTML = '<div class="title">' + title + '</div><div class="message">' + '<img src="' + message + '">' + '</div><div class="btns"> <button>Да</button> <button>Нет</button></div>';
+    temp.innerHTML = '<div class="title">' + title + '</div><div class="message">' + '<img src="' + message + '" width="700px">' + '</div><div class="btns"> <button>Да</button> <button>Нет</button></div>';
     document.body.appendChild(temp);
     popup = document.body.lastChild;
     popup.style.display = 'block';
