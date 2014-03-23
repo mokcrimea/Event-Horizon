@@ -55,9 +55,14 @@ passport.use(new YandexStrategy({
           return done(err, user);
         });
       } else {
-      // user.setToken(accessToken, function(err){
-      //   if (err) console.log(err);
-      // });
+
+        /**
+         * Перезаписывает токен. Хотя он выдается на неограниченный срок.
+         */
+
+      user.setToken(accessToken, function(err){
+        if (err) console.log(err);
+      });
       return done(err, user);
       }
     });

@@ -90,7 +90,8 @@ exports.createAndUpload = function(req, res, next) {
   form.parse(req);
   form.on('end', function() {
     options.body = JSON.stringify({
-      title: title
+      title: title,
+      access: 'public'
     });
 
     /**
@@ -172,6 +173,7 @@ exports.createAndUpload = function(req, res, next) {
         console.log(counter);
         counter--;
         if (counter === 0) {
+          next();
           res.redirect('/track/' + req.track.id + '/galery');
         }
         fs.unlink(file, function(err) {
@@ -187,28 +189,38 @@ exports.createAndUpload = function(req, res, next) {
       callback();
     }
   }
-
-  /**
-   * Рендерит галерею загруженных изображений
-   * @param  {Function} callback
-   */
-
-  function response(callback) {
-    Track.findById(req.track.id, 'images', function(err, track) {
-      if (err) return next(404, err);
-      if (track) {
-        res.render('yandex/list', {
-          title: 'Галерея',
-          images: track.images
-        });
-      }
-    });
-
-    if (typeof(callback) == "function") {
-      callback();
-    }
-  }
 };
+
+
+exports.updateGeoTags = function(req, res, next) {
+  var auth = 'OAuth ' + req.user.authToken;
+  req.track.images.forEach(function(image, index) {
+    setTimeout(function() {
+      request({
+        url: image.self,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json;type=entry',
+          Authorization: auth
+        }
+      }, function(err, response, body) {
+        if (err) throw err;
+        var geo;
+        try {
+          geo = (JSON.parse(body)).geo.coordinates;
+        } catch (e) {
+          log.error('ОШИБКА!');
+          console.log(e);
+        }
+        req.track.addCoordinates(geo.split(' '), index, function(err) {
+          if (err) throw err;
+        });
+      });
+    }, 5000);
+  });
+};
+
 
 /*exports.getAlbums = function(req, res, next) {
   var options = {
@@ -266,6 +278,28 @@ exports.deleteImage = function(req, res) {
       }, function(err, response, body) {
         if (err) throw err;
         log.info('Фотография удалена успешно');
+      });
+    }
+  });
+  res.redirect('/track/' + req.track.id + '/galery');
+};
+
+exports.showInfo = function(req, res) {
+  var auth = 'OAuth ' + req.user.authToken;
+  req.track.images.forEach(function(image) {
+    console.log(image._id);
+    if (image._id == req.params.iId) {
+      request({
+        url: image.self,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json;type=entry',
+          Authorization: auth
+        }
+      }, function(err, response, body) {
+        if (err) throw err;
+        console.log(JSON.parse(body).geo.coordinates);
       });
     }
   });

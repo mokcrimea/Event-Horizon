@@ -38,8 +38,9 @@ module.exports = function(app, passport) {
   // app.get('/yandex/albums', auth.requireLogin, yandex.getAlbums);
   app.get('/track/:tId/galery', yandex.show);
   app.delete('/track/:tId/:iId/remove', auth.requireLogin, auth.track, yandex.deleteImage);
+  app.get('/track/:tId/:iId/show', auth.requireLogin, auth.track, yandex.showInfo);
   app.get('/track/:tId/yandex', auth.requireLogin, yandex.new);
-  app.post('/track/:tId/yandex', auth.requireLogin, auth.track, yandex.createAndUpload);
+  app.post('/track/:tId/yandex', auth.requireLogin, auth.track, yandex.createAndUpload, yandex.updateGeoTags);
 
 
   //track routes
