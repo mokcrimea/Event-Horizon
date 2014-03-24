@@ -10,7 +10,7 @@ var mongoose = require('mongoose'),
  */
 
 var TrackSchema = new Schema({
-  name: { type: String},
+  name: { type: String, require: true},
   _creator: { type : Schema.ObjectId, ref : 'User'},
   created: { type: Date, default: Date.now},
   album: {

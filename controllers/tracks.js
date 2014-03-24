@@ -85,6 +85,10 @@ exports.create = function(req, res) {
   createFolders(trackId, function(err) {
     if (err) throw err;
 
+/*    form.on('aborted', function() {
+      req.flash('error', 'Прозошла ошибка при загрузке файла');
+      res.redirect('/upload');
+    });*/
     form.parse(req, function(error, fields, files) {
 
       fs.readFile(files.upload.path, function(err, Data) {
@@ -100,7 +104,7 @@ exports.create = function(req, res) {
 
             if (err) throw err;
             log.info('Трек успешно создан');
-            req.flash('success', 'Трек успешно загружен');
+            req.flash('success','Трек успешно создан');
             res.redirect('/track/' + track.id);
           });
         });
@@ -134,6 +138,7 @@ exports.update = function(req, res) {
 exports.delete = function(req, res, next) {
   Track.remove(req.track.id, function(err) {
     if (err) return next(404, err);
+    log.info('Трек успешно удален из базы')
   });
   fs.unlink('/tmp/' + req.track.id + '/track', function(err) {
     if (err) log.error(err);

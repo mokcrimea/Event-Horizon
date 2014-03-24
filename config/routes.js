@@ -49,7 +49,7 @@ module.exports = function(app, passport) {
   app.post('/upload', auth.requireLogin, tracks.create);
   app.get('/track/list', auth.requireLogin, users.list);
   app.get('/track/:tId', auth.requireLogin, tracks.show);
-  app.delete('/track/:tId', auth.requireLogin, auth.track, tracks.delete, yandex.removeAlbum);
+  app.del('/track/:tId', auth.requireLogin, auth.track, tracks.delete, yandex.removeAlbum);
   // app.put('/track/:tId', auth.requireLogin, auth.track , tracks.update);
   // app.del('/track/:tId', auth.requireLogin, auth.track , tracks.delete);
 

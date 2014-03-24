@@ -62,26 +62,20 @@ module.exports = function(app, config, passport, mongoose) {
 
     app.use(flash());
 
-    //should be after session
-    //provides helper methods to the views
-    app.use(helpers(require('../package.json').name));
+    app.use(require('../middleware/helpers').transport);
 
 
-    var csrfValue = function(req) {
-      var token = (req.headers['x-csrf-token']) || (req.headers['x-xsrf-token']) || (req.cookies['X-CSRF-Token']);
-      return token;
-    };
-
-    var csrfToCookie = function(req, res, next) {
+    app.use(express.csrf({
+      value: function(req) {
+        var token = (req.headers['x-csrf-token']) || (req.headers['x-xsrf-token']) || (req.cookies['X-CSRF-Token']);
+        return token;
+      }
+    }));
+    app.use(function(req, res, next) {
       res.cookie('X-CSRF-Token', req.csrfToken());
       next();
-    };
-    app.use(express.csrf({
-      value: csrfValue
-    }));
-    app.use(csrfToCookie);
+    });
 
-    // должно быть последним
     app.use(app.router);
 
     // обрабокта ошибок

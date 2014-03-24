@@ -1,13 +1,13 @@
 {
-  "name": "application-name",
+  "name": "Tracker",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node app.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "express": "3.5",
-    "ejs": "*",
+    "jade": "latest",
     "nconf": "*",
     "winston": "0.7.*",
     "ejs-locals": "*",
@@ -21,8 +21,6 @@
     "passport": "latest",
     "passport-local": "latest",
     "passport-yandex": "latest",
-    "jade": "latest",
-    "view-helpers": "latest",
     "request": "latest"
   }
 }
