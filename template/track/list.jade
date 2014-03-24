@@ -5,11 +5,24 @@ block main
 
 block content
   - if (tracks.length)
-
+    ul.contentList
       - each track in tracks
         li
           a(href="/track/"+track.id title=track.name)= track.name
-            form(method="POST" action="/track/#{track.id}")
-              input(type="hidden" name="_method" value="DELETE")
-              button(type="submit") Delete
+          form.list-form(method="POST" id='remove_track' action="/track/#{track.id}")
+            input(type="hidden" name="_method" value="DELETE")
+            button(type="submit") Delete
+  script.
+    var form = document.getElementById('remove_track');
+    document.addEventListener('click', function(e) {
+      if (e.target.type == 'submit') {
+        var message = 'Вы уверены, что хотите удалить трек? Связанный альбом на Я.Фото так же будет удален!'
+        e.preventDefault();
+        if (confirm(message)) {
+          console.log(e.target);
+          return e.target.parentNode.submit();
+        }
+        return false;
+      }
 
+    });

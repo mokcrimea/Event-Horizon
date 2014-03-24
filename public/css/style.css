@@ -309,3 +309,15 @@ p{
 .first_letter {
 	color: #f00!important;
 }
+
+.contentList {
+	width: 400px;
+}
+.contentList li{
+	list-style-type: none;
+	margin-bottom: 10px;
+}
+.list-form {
+	float:right;
+	display:inline-block;
+}

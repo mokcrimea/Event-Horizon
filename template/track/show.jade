@@ -19,14 +19,18 @@ block content
 
     function init () {
         myMap = new ymaps.Map('map', {
-            center:[44.958306, 34.109535],
-            zoom:12
+            center: #{coord.substr(1, 50).split(',', 2)},
+            zoom:12,
+            behaviors: ['default', 'scrollZoom']
         });
 
-        myMap.controls.add('zoomControl', {
-          left: 2,
-          top: 2
+        myMap.controls.add('smallZoomControl', {
+          left: 3,
+          top: 5
         });
+        myMap.controls.add(new ymaps.control.TypeSelector(['yandex#map', 'yandex#publicMap', 'yandex#publicMap', 'yandex#satellite', 'yandex#hybrid']));
+        myMap.controls.add('miniMap')
+
 
         var setPhoto = function(coord, urlPicture){
             var myPlacemark = new ymaps.Placemark(coord, {
@@ -45,7 +49,6 @@ block content
 
           for (var i = 0; i < testArray.length; i++){
               setPhoto(testArray[i][0], testArray[i][1]);
-              console.log('Number: ' + i);
           }
 
             var myPolyline = new ymaps.Polyline(#{coord}, {

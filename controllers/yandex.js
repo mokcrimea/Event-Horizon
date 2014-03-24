@@ -300,17 +300,22 @@ exports.removePhoto = function(req, res) {
 };
 
 exports.removeAlbum = function(req, res, next) {
-  request({
-    url: req.track.album.self,
-    method: 'DELETE',
-    headers: {
-      Authorization: 'OAuth ' + req.user.authToken
-    }
-  }, function(err, response, body) {
-    log.info('Альбом успешно удален');
-  });
-  req.flash('success', 'Альбом успешно удален');
-  res.redirect('/track/list');
+  if (req.track.album.self) {
+    request({
+      url: req.track.album.self,
+      method: 'DELETE',
+      headers: {
+        Authorization: 'OAuth ' + req.user.authToken
+      }
+    }, function(err, response, body) {
+      log.info('Альбом успешно удален');
+    });
+    req.flash('success', 'Альбом успешно удален');
+    res.redirect('/track/list');
+  } else {
+    req.flash('error', 'Альбом связанный с Я.Фотками не существовал.');
+    res.redirect('/track/list');
+  }
 };
 
 /*exports.showInfo = function(req, res) {

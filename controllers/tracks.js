@@ -15,16 +15,11 @@ var mongoose = require('mongoose'),
  */
 
 exports.load = function(req, res, next, id) {
-  var trackPath = '/tmp/' + id + '/track';
   Track.findById(id, 'name _creator created images album', function(err, track) {
     if (err) return next(404, err);
     if (track) {
       req.track = track;
-      fs.readFile(trackPath, function(err, data) {
-        if (err) return next(404, err);
-        req.track.track = data;
-        next();
-      });
+      next();
     } else {
       next(new HttpError(404, 'Трек не существует'));
     }
@@ -56,16 +51,25 @@ exports.new = function(req, res) {
  */
 
 exports.show = function(req, res, next) {
+  var trackPath = '/tmp/' + req.track.id + '/track';
   var images = [];
   req.track.images.forEach(function(image) {
-    images.push([image.coordinates[0], image.links.M.href]);
+    if (image.links.L.href) {
+      images.push([image.coordinates[0], image.links.L.href]);
+    } else {
+      images.push([image.coordinates[0], image.links.orig.href]);
+    }
   });
   var track = req.track;
-  res.render('track/show', {
-    title: track.name,
-    coord: track.track,
-    track: track,
-    images: images
+
+  fs.readFile(trackPath, function(err, data) {
+    if (err) return next(404, err);
+    res.render('track/show', {
+      title: track.name,
+      coord: data.toString(),
+      track: track,
+      images: images
+    });
   });
 };
 
@@ -85,7 +89,7 @@ exports.create = function(req, res) {
   createFolders(trackId, function(err) {
     if (err) throw err;
 
-/*    form.on('aborted', function() {
+    /*    form.on('aborted', function() {
       req.flash('error', 'Прозошла ошибка при загрузке файла');
       res.redirect('/upload');
     });*/
@@ -104,7 +108,7 @@ exports.create = function(req, res) {
 
             if (err) throw err;
             log.info('Трек успешно создан');
-            req.flash('success','Трек успешно создан');
+            req.flash('success', 'Трек успешно создан');
             res.redirect('/track/' + track.id);
           });
         });
@@ -136,9 +140,9 @@ exports.update = function(req, res) {
  */
 
 exports.delete = function(req, res, next) {
-  Track.remove(req.track.id, function(err) {
+  Track.findByIdAndRemove(req.track.id, function(err) {
     if (err) return next(404, err);
-    log.info('Трек успешно удален из базы')
+    log.info('Трек успешно удален из базы');
   });
   fs.unlink('/tmp/' + req.track.id + '/track', function(err) {
     if (err) log.error(err);
