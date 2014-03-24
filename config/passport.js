@@ -1,28 +1,9 @@
 var mongoose = require('mongoose'),
-  LocalStrategy = require('passport-local').Strategy,
   YandexStrategy = require('passport-yandex').Strategy,
   User = mongoose.model('User');
 
 
 module.exports = function (passport, config) {
-
-passport.use(new LocalStrategy({
-    usernameField: 'username',
-    passwordField: 'password'
-  },
-  function(username, password, done) {
-      User.findOne({ username: username }, function (err, user) {
-      if (err) { return done(err); }
-      if (!user) {
-        return done(null, false, { errors: 'Unknown user' });
-      }
-      if (!user.checkPassword(password)) {
-        return done(null, false, { errors: 'Invalid password' });
-      }
-      return done(null, user);
-    });
-  }
-));
 
 passport.serializeUser(function(user, done) {
   done(null, user.id);

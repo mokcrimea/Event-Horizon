@@ -120,22 +120,6 @@ exports.create = function(req, res) {
 };
 
 /**
- * Редактировать трек
- */
-
-exports.edit = function(req, res) {
-
-};
-
-/**
- * Обновить трек
- */
-
-exports.update = function(req, res) {
-
-};
-
-/**
  * Удалить трек
  */
 

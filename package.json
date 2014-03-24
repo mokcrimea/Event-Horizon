@@ -19,7 +19,6 @@
     "async": "0.2.*",
     "libxmljs": "0.8.*",
     "passport": "latest",
-    "passport-local": "latest",
     "passport-yandex": "latest",
     "request": "latest"
   }

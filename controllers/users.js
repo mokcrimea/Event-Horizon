@@ -24,51 +24,6 @@ exports.load = function(req, res, next, id) {
 };
 
 /**
- * Форма логина
- */
-
-exports.login = function(req, res) {
-  res.render('user/login', {
-    title: 'Авторизация'
-  });
-};
-
-/**
- * Форма регистрации
- */
-
-exports.signup = function(req, res) {
-  res.render('user/signup', {
-    title: 'Регистрация',
-    user: new User()
-  });
-};
-
-/**
- * Create a User
- */
-
-exports.create = function(req, res, next) {
-  var user = new User(req.body);
-  user.provider = 'local';
-  user.save(function(err) {
-    if (err) {
-      log.debug(err);
-      return res.render('user/signup', {
-        user: user,
-        title: 'Sing Up'
-      });
-    }
-
-    req.logIn(user, function(err) {
-      if (err) return next(err);
-      req.flash('success', 'Пользователь зарегистрирован');
-      return res.redirect('/');
-    });
-  });
-};
-
-/**
  * Session
  */
 
