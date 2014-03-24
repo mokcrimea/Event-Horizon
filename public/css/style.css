@@ -88,6 +88,11 @@ h2{
 .slide-close-btn:hover{
 	opacity: .99;
 }
+
+.slide-img-content img{
+	opacity: 0;
+	transition: .3s;
+}
 /*------------------------------*/
 
 /*-------------Gallery----------*/
