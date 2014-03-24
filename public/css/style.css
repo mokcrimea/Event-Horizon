@@ -83,6 +83,35 @@ h2{
 	height: 27px;
 	transition: .4s;
 	cursor: pointer;
+	z-index: 10;
+}
+
+.slide-next-btn{
+	position: absolute;
+	background: url(../flatDesign/img/next-btn.jpg);
+	margin: 217px 0 0 1012px;
+	opacity: 0;
+	width: 89px;
+	height: 315px;
+	transition: .2s;
+	cursor: pointer;
+	z-index: 10;
+}
+
+.slide-prev-btn{
+	position: absolute;
+	background: url(../flatDesign/img/prev-btn.jpg);
+	margin-top: 217px;
+	opacity: 0;
+	width: 89px;
+	height: 315px;
+	transition: .2s;
+	cursor: pointer;
+	z-index: 10;
+}
+
+.slide-next-btn:hover, .slide-prev-btn:hover{
+	opacity: .6;
 }
 
 .slide-close-btn:hover{

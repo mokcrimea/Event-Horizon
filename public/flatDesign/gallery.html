@@ -7,7 +7,7 @@
     <title>Photo coordinates fixer - Галерея</title>
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
     <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
-    <link rel="stylesheet" href="../css/style.css"><!--[if !IE]>--><script type="text/javascript" src="/js/desine.js"></script> <!--<![endif]-->
+    <link rel="stylesheet" href="../css/style.css"><!--[if !IE]>--><script type="text/javascript" src="../flatDesign/script/desine.js"></script> <!--<![endif]-->
   </head>
   <body>
     <div class="backgroundSpace"></div>
@@ -26,7 +26,9 @@
 
         <div id="slideShow">
           <div class="slide-close-btn"></div>
-          <div class="slide-img-content"><img src="#" alt=""></div>
+          <div class="slide-next-btn"></div>
+          <div class="slide-prev-btn"></div>
+          <div class="slide-img-content"><img src="#" alt="" id="slide-img"></div>
         </div>
         
 
@@ -50,7 +52,7 @@
               <div class="gallery-close-btn" title="Удалить фотографию с альбома"></div>
               <div class="gallery-zoom-btn" title="Увеличить фотографию"></div>
               <div class="gallery-cont-for-img">
-                <img src="img/photo1.jpg" alt="">
+                <img src="img/photo8.jpg" alt="">
               </div>
             </div>
 
@@ -58,7 +60,7 @@
               <div class="gallery-close-btn" title="Удалить фотографию с альбома"></div>
               <div class="gallery-zoom-btn" title="Увеличить фотографию"></div>
               <div class="gallery-cont-for-img">
-                <img src="img/photo2.jpg" alt="">
+                <img src="img/photo7.jpg" alt="">
               </div>
             </div>
 
@@ -66,7 +68,7 @@
               <div class="gallery-close-btn" title="Удалить фотографию с альбома"></div>
               <div class="gallery-zoom-btn" title="Увеличить фотографию"></div>
               <div class="gallery-cont-for-img">
-                <img src="img/photo3.jpg" alt="">
+                <img src="img/photo9.jpg" alt="">
               </div>
             </div>
 
@@ -130,39 +132,15 @@
 
 
 
-          <!-- <a href="http://img-fotki.yandex.ru/get/9495/97237859.6/0_10ccda_456c49ab_XXL" class="show-galery"><img src="http://img-fotki.yandex.ru/get/9495/97237859.6/0_10ccda_456c49ab_M" data-full="http://img-fotki.yandex.ru/get/9495/97237859.6/0_10ccda_456c49ab_XL" data-remove="/track/532f0610b6202a4c29e13b01/532f063cb6202a4c29e13b03/remove" class="gallery"></a>
-          <form method="POST" action="/track/532f0610b6202a4c29e13b01/532f063cb6202a4c29e13b03/remove" width="50px">
-            <input type="hidden" name="_method" value="DELETE">
-            <button name="submit" type="submit">Delete</button>
-          </form><a href="http://img-fotki.yandex.ru/get/9798/97237859.6/0_10ccdb_b752e9c1_XXL" class="show-galery"><img src="http://img-fotki.yandex.ru/get/9798/97237859.6/0_10ccdb_b752e9c1_M" data-full="http://img-fotki.yandex.ru/get/9798/97237859.6/0_10ccdb_b752e9c1_XL" data-remove="/track/532f0610b6202a4c29e13b01/532f063db6202a4c29e13b04/remove" class="gallery"></a>
-          <form method="POST" action="/track/532f0610b6202a4c29e13b01/532f063db6202a4c29e13b04/remove" width="50px">
-            <input type="hidden" name="_method" value="DELETE">
+            <!--<input type="hidden" name="_method" value="DELETE">
             <button name="submit" type="submit">Delete</button>
           </form><a href="http://img-fotki.yandex.ru/get/9746/97237859.6/0_10ccde_f596aded_XXL" class="show-galery"><img src="http://img-fotki.yandex.ru/get/9746/97237859.6/0_10ccde_f596aded_M" data-full="http://img-fotki.yandex.ru/get/9746/97237859.6/0_10ccde_f596aded_XL" data-remove="/track/532f0610b6202a4c29e13b01/532f063eb6202a4c29e13b05/remove" class="gallery"></a>
-          <form method="POST" action="/track/532f0610b6202a4c29e13b01/532f063eb6202a4c29e13b05/remove" width="50px">
-            <input type="hidden" name="_method" value="DELETE">
-            <button name="submit" type="submit">Delete</button>
-          </form><a href="http://img-fotki.yandex.ru/get/9746/97237859.6/0_10ccdd_f7c72325_XXL" class="show-galery"><img src="http://img-fotki.yandex.ru/get/9746/97237859.6/0_10ccdd_f7c72325_M" data-full="http://img-fotki.yandex.ru/get/9746/97237859.6/0_10ccdd_f7c72325_XL" data-remove="/track/532f0610b6202a4c29e13b01/532f063eb6202a4c29e13b06/remove" class="gallery"></a>
-          <form method="POST" action="/track/532f0610b6202a4c29e13b01/532f063eb6202a4c29e13b06/remove" width="50px">
-            <input type="hidden" name="_method" value="DELETE">
-            <button name="submit" type="submit">Delete</button>
-          </form><a href="http://img-fotki.yandex.ru/get/9495/97237859.6/0_10ccdc_383a4e2d_XXL" class="show-galery"><img src="http://img-fotki.yandex.ru/get/9495/97237859.6/0_10ccdc_383a4e2d_M" data-full="http://img-fotki.yandex.ru/get/9495/97237859.6/0_10ccdc_383a4e2d_XL" data-remove="/track/532f0610b6202a4c29e13b01/532f063fb6202a4c29e13b07/remove" class="gallery"></a>
-          <form method="POST" action="/track/532f0610b6202a4c29e13b01/532f063fb6202a4c29e13b07/remove" width="50px">
-            <input type="hidden" name="_method" value="DELETE">
-            <button name="submit" type="submit">Delete</button>
-          </form><a href="http://img-fotki.yandex.ru/get/9798/97237859.6/0_10ccdf_f15b523b_XXL" class="show-galery"><img src="http://img-fotki.yandex.ru/get/9798/97237859.6/0_10ccdf_f15b523b_M" data-full="http://img-fotki.yandex.ru/get/9798/97237859.6/0_10ccdf_f15b523b_XL" data-remove="/track/532f0610b6202a4c29e13b01/532f064ab6202a4c29e13b0c/remove" class="gallery"></a>
-          <form method="POST" action="/track/532f0610b6202a4c29e13b01/532f064ab6202a4c29e13b0c/remove" width="50px">
-            <input type="hidden" name="_method" value="DELETE">
-            <button name="submit" type="submit">Delete</button>
-          </form> -->
-          <!--<script src="/js/popup.js"></script>-->
-
-
-
+          <form method="POST" action="/track/532f0610b6202a4c29e13b01/532f063eb6202a4c29e13b05/remove" width="50px">-->
+            
         </div>
       </div>
       <div class="footer">MTeam ©</div>
     </div>
-  <script type="text/javascript" src="../flatDesign/script/slideShow.js"></script>
+    <script type="text/javascript" src="../flatDesign/script/slideShow.js"></script>
   </body>
 </html>
