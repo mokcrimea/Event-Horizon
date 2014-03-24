@@ -20,10 +20,137 @@ h1{
 	text-align: center;
 }
 
+h2{
+	margin: 0;
+	padding: 0;
+	font-weight: 100;
+	display: inline-block;
+	font-size: 15pt;
+	float: left;
+}
+
 .centerTextForm{
 	text-align: center;
 	margin: 50px 20px 20px;
 }
+
+.table-block{
+	margin: 40px auto;
+	width: 400px;
+	border: 1px solid #79ABE6;
+	border-radius: 8px;
+}
+
+
+/*------------SlideShow---------*/
+
+#slideShow{
+	display: none;
+	position: fixed;
+	top: 0;
+	height: 750px;
+	width: 1100px;
+	margin-left: 50px;
+	background: #000;
+	border: 3px solid #000;
+	z-index: 20;
+}
+
+.backgroundSpace{
+	position: fixed;
+	display: block;
+	z-index: 19;
+	top: 1px;
+	left: 0;
+	background: #000;
+	opacity: .8;
+}
+
+.slide-img-content{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 750px;
+	width: 1100px;
+}
+
+.slide-close-btn{
+	position: absolute;
+	background: url(../flatDesign/img/close-btn2.png);
+	margin-left: 1000px;
+	opacity: .3;
+	width: 97px;
+	height: 27px;
+	transition: .4s;
+	cursor: pointer;
+}
+
+.slide-close-btn:hover{
+	opacity: .99;
+}
+/*------------------------------*/
+
+/*-------------Gallery----------*/
+
+.containerGallery{
+	display: inline-block;
+	margin-bottom: 20px;
+}
+
+.imgContainerGallery{
+	height: 250px;
+	width: 300px;
+	background: #1C1C1C;
+	float: left;
+	margin: 20px 0 0 20px;
+}
+
+.imgContainerGallery:hover .gallery-close-btn{
+	opacity: 1;
+}
+
+.imgContainerGallery:hover .gallery-zoom-btn{
+	opacity: .8;
+}
+
+
+.gallery-cont-for-img{
+	height: 100%;
+	width: 100%;
+	display: flex;
+	overflow: hidden;
+	justify-content: center;
+	align-items: center;
+}
+
+.gallery-close-btn{
+	position: absolute;
+	background: url(../flatDesign/img/close-btn.png);
+	z-index: 2;
+	height: 30px;
+	width: 30px;
+	margin-left: 270px;
+	opacity: 0;
+	transition: .5s;
+	cursor: pointer;
+}
+
+.gallery-zoom-btn{
+	position: absolute;
+	background: url(../flatDesign/img/zoom-btn.png);
+	z-index: 18;
+	height: 55px;
+	width: 55px;
+	margin:97px 0 0 122px;
+	opacity: 0;
+	transition: .5s;
+	cursor: pointer;
+}
+/*------------------------------*/
+
+
+
+
 
 /*-------------popup------------*/
 
