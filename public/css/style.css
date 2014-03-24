@@ -6,7 +6,7 @@ body{
 @font-face {
     	font-family: GardensC;
     	/*src: local(GardensC), url(../font/GardensC.otf);*/
-    	src: local(GardensC), url(../flatDesign/font/GardensC.otf);
+    	src: local(GardensC), url(../font/GardensC.otf);
 }
 
 h1{
@@ -20,14 +20,231 @@ h1{
 	text-align: center;
 }
 
+h2{
+	margin: 0;
+	padding: 0;
+	font-weight: 100;
+	display: inline-block;
+	font-size: 15pt;
+	float: left;
+}
+
 .centerTextForm{
 	text-align: center;
 	margin: 50px 20px 20px;
 }
+
+.table-block{
+	margin: 40px auto;
+	width: 400px;
+	border: 1px solid #79ABE6;
+	border-radius: 8px;
+}
+
+
+/*------------SlideShow---------*/
+
+#slideShow{
+	display: none;
+	position: fixed;
+	top: 0;
+	height: 750px;
+	width: 1100px;
+	margin-left: 50px;
+	background: #000;
+	border: 3px solid #000;
+	z-index: 20;
+}
+
+.backgroundSpace{
+	position: fixed;
+	display: block;
+	z-index: 19;
+	top: 1px;
+	left: 0;
+	background: #000;
+	opacity: .8;
+}
+
+.slide-img-content{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 750px;
+	width: 1100px;
+}
+
+.slide-close-btn{
+	position: absolute;
+	background: url(../img/close-btn2.png);
+	margin-left: 1000px;
+	opacity: .3;
+	width: 97px;
+	height: 27px;
+	transition: .4s;
+	cursor: pointer;
+	z-index: 10;
+}
+
+.slide-next-btn{
+	position: absolute;
+	background: url(../img/next-btn.jpg);
+	margin: 217px 0 0 1012px;
+	opacity: 0;
+	width: 89px;
+	height: 315px;
+	transition: .2s;
+	cursor: pointer;
+	z-index: 10;
+}
+
+.slide-prev-btn{
+	position: absolute;
+	background: url(../img/prev-btn.jpg);
+	margin-top: 217px;
+	opacity: 0;
+	width: 89px;
+	height: 315px;
+	transition: .2s;
+	cursor: pointer;
+	z-index: 10;
+}
+
+.slide-next-btn:hover, .slide-prev-btn:hover{
+	opacity: .6;
+}
+
+.slide-close-btn:hover{
+	opacity: .99;
+}
+
+.slide-img-content img{
+	opacity: 0;
+	transition: .3s;
+}
+/*------------------------------*/
+
+/*-------------Gallery----------*/
+
+.containerGallery{
+	display: inline-block;
+	margin-bottom: 20px;
+}
+
+.imgContainerGallery{
+	height: 250px;
+	width: 300px;
+	background: #1C1C1C;
+	float: left;
+	margin: 20px 0 0 20px;
+}
+
+.imgContainerGallery:hover .gallery-close-btn{
+	opacity: 1;
+}
+
+.imgContainerGallery:hover .gallery-zoom-btn{
+	opacity: .8;
+}
+
+
+.gallery-cont-for-img{
+	height: 100%;
+	width: 100%;
+	display: flex;
+	overflow: hidden;
+	justify-content: center;
+	align-items: center;
+}
+
+.gallery-close-btn{
+	position: absolute;
+	background: url(../img/close-btn.png);
+	z-index: 2;
+	height: 30px;
+	width: 30px;
+	margin-left: 270px;
+	opacity: 0;
+	transition: .5s;
+	cursor: pointer;
+}
+
+.gallery-zoom-btn{
+	position: absolute;
+	background: url(../img/zoom-btn.png);
+	z-index: 18;
+	height: 55px;
+	width: 55px;
+	margin:97px 0 0 122px;
+	opacity: 0;
+	transition: .5s;
+	cursor: pointer;
+}
+/*------------------------------*/
+
+
+
+
+
+/*-------------popup------------*/
+
+.alert-message{
+	position: absolute;
+	opacity: 0;
+	display: inline-block;
+	margin-left: 5px;
+	border: 1px solid #FBA2AB;
+	background-color: #FEE7E9;
+	border-radius: 5px;
+	font-family: sans-serif;
+	font-size: 9pt;
+	padding: 3px 10px;
+	color: #570007;
+	transition: 1s;
+}
+
+/*------------------------------*/
+.balloon-img{
+	margin: 0 auto;
+	display: block;
+}
+
+#zoom-balloon-image{
+	position: absolute;
+	display: none;
+	opacity: 0;
+	transition: 1s;
+	z-index: 100;
+	margin: -30px 0 0 50px;
+	box-shadow: 0 0 500px #000;
+
+	cursor: pointer;
+}
+
+
+.balloon-fullsize{
+	display: block;
+	float: right;
+	font-family: sans-serif;
+	font-size: 10pt;
+	padding-top: 5px;
+	text-decoration: underline;
+	color: #4967E9;
+	cursor: pointer;
+}
 /*-------------Form-------------*/
+.input-box{
+	float: left;
+	width: 310px;
+}
+
+.message-box{
+	float: left;
+}
+
 .loginWindow{
 	margin: 40px auto;
-	width: 440px;
+	width: 400px;
 	border: 1px solid #79ABE6;
 	border-radius: 8px;
 }
@@ -37,17 +254,12 @@ h1{
 	padding: 0;
 }
 
-.btn-right{
-	margin-left: 60%;
-	padding: 0;
-}
-
 .form-label{
 	margin-left: 50px;
 	padding-top: 2px;
 	display: block;
 	font-size: 14pt;
-	/*float: left;*/
+	float: left; /*аЃаБбаАбб!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 }
 
 .form-group{
@@ -56,12 +268,12 @@ h1{
 
 .form-input{
 	float: right;
-	margin-right: 80px;
+	/*margin-right: 80px; */
 	width: 170px;
 	height: 20px;
 }
 
-.loginWindow .form-group:first-child{
+.first-line-group{
 	margin-top: 30px;
 }
 
@@ -77,6 +289,7 @@ h1{
 	letter-spacing: 1pt;
 	text-shadow: 0 1px rgba(0, 0, 0, 0.2);
 	float: left;
+	outline: none;
 }
 
 .btn-form:active{
@@ -90,22 +303,27 @@ h1{
 }
 
 .form-link{
-font-family: sans-serif;
-font-size: 12pt;
-color: #476EFF;
+	font-family: sans-serif;
+	font-size: 12pt;
+	color: #476EFF;
 }
 
 .form-link:hover{
-text-decoration: none;
+	text-decoration: none;
 }
 
 .form-link:active{
-color: #FF0A13;
-text-decoration: underline;
+	color: #FF0A13;
+	text-decoration: underline;
+}
+
+.clearStyle{
+	clear: both;
 }
 /*---------------------------*/
 
 .tempBack{
+	text-decoration: underline;
 	position: absolute;
 	display: block;
 	width: 100%;
@@ -279,3 +497,4 @@ p{
 .first_letter {
 	color: #f00!important;
 }
+

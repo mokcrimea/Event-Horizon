@@ -256,11 +256,18 @@ exports.getAlbums = function(req, res, next) {
 exports.show = function(req, res, next) {
   Track.findById(req.track.id, 'images', function(err, track) {
     if (err) return next(404, err);
+    var images_links = [];
     if (track) {
+      track.images.forEach(function(image, index) {
+        images_links.push({
+          links: image.links
+        });
+      });
       res.render('yandex/list', {
         title: 'Галерея',
-        images: track.images,
-        id: req.track.id
+        // images: track.images,
+        id: req.track.id,
+        images: images_links
       });
     }
   });

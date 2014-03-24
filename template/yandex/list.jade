@@ -5,17 +5,138 @@ block main
 
 block content
   - if (images.length)
-
+    .containerGallery
       - each image in images
-        a.show-galery(href="#")
-          if image.links.orig.height > image.links.orig.width
-            img(src="#{image.links.orig.href}" height="300px" data-full="#{image.links.orig.href}" data-remove="/track/#{id}/#{image._id}/remove")
-          else
-            img(src="#{image.links.orig.href}" width="300px" data-full="#{image.links.orig.href}" data-remove="/track/#{id}/#{image._id}/remove")
-            //- form(method="POST" action="/track/#{id}/#{image._id}/remove" width="50px")
-            //-   input(type="hidden" name="_method" value="DELETE")
-            //-   button(name="submit" type="submit") Delete
-            //- form(method="GET" action="/track/#{id}/#{image._id}/show" width="50px")
-            //-   button(name="submit" type="submit") Отобразить
-  script(src="/js/popup.js")
+        .imgContainerGallery
+          .gallery-close-btn(title="Удалить фотографию с альбома")
+          .gallery-zoom-btn(title='Увеличить фотографию')
+          .gallery-cont-for-img
+            if image.links.orig.height > image.links.orig.width
+              img(src="#{image.links.orig.href}" height="300px" data-full="#{image.links.orig.href}" data-remove="/track/#{id}/#{image._id}/remove")
+            else
+              img(src="#{image.links.orig.href}" width="300px" data-full="#{image.links.orig.href}" data-remove="/track/#{id}/#{image._id}/remove")
 
+  //- script(src="/js/slideShow.js")
+  script.
+    document.body.addEventListener('click', function(event) {
+        if (event.target.className.search('gallery-zoom-btn') != -1) openSlideShow(event.target.parentNode);
+        if (event.target.className.search('slide-close-btn') != -1) closeSlideShow(event.target.parentNode);
+        if (event.target.className.search('slide-next-btn') != -1) showNextPhoto();
+        if (event.target.className.search('slide-prev-btn') != -1) showPrevPhoto();
+    }, true);
+
+    var arraySrcList=[],
+        inputDataObject = !{JSON.stringify(images)};
+
+    // Функция открывает окно слайд-обозревателя
+    function openSlideShow(imgContainerGallery){
+
+      function getClientWidth(){
+        return document.compatMode=='CSS1Compat' && !window.opera?document.documentElement.clientWidth:document.body.clientWidth;
+      }
+
+      function getClientHeight(){
+        return document.compatMode=='CSS1Compat' && !window.opera?document.documentElement.clientHeight:document.body.clientHeight;
+      }
+
+      var mainWindowSlide = document.getElementById('slideShow'),
+          backgroundBlock = document.getElementsByClassName('backgroundSpace')[0],
+          thisImgSrc = imgContainerGallery.childNodes[5].childNodes[1].src;
+
+      for (var i = 0; i < inputDataObject.length; i++){
+        arraySrcList[i] = inputDataObject[i].links.orig.href;
+      }
+
+      mainWindowSlide.style.display = 'block';
+
+      if (getClientHeight() > 750) mainWindowSlide.style.top = (getClientHeight() - 750) / 2 + 'px';
+
+      backgroundBlock.style.display = 'block';
+      backgroundBlock.style.width = getClientWidth() + 'px';
+      backgroundBlock.style.height = getClientHeight() + 'px';
+
+      setPhotoToSlide(thisImgSrc);
+    }
+
+    // Функция закрытия слайд-обозревателя
+    function closeSlideShow(slideShowWindow){
+      slideShowWindow.style.display = "none";
+      document.getElementById('slide-img').style.opacity = "0";
+      document.getElementsByClassName('backgroundSpace')[0].style.display = "none";
+    }
+
+    // Функция открывает фотографию в слайд-обозревателе
+    function setPhotoToSlide(inputPhoto){
+
+      var slideImg = document.getElementById('slide-img'),
+          originalImg = new Image();
+
+      slideImg.removeAttribute('width');
+      slideImg.removeAttribute('height');
+      slideImg.src = inputPhoto;
+      originalImg.src = inputPhoto;
+
+      originalImg.onload = function(){
+        var originalHeight = originalImg.height,
+            originalWidth = originalImg.width,
+            differentSize;
+
+        if ((originalHeight > 750) || (originalWidth > 1100)){
+
+          if (originalHeight > originalWidth){
+            slideImg.setAttribute('height', '750px');
+          }
+
+          if (originalWidth > originalHeight){
+            differentSize = 1100 * originalHeight / originalWidth;
+            if (differentSize > 750){
+              slideImg.setAttribute('height', '750px');
+            } else{
+              slideImg.setAttribute('width', '1100px');
+            }
+          }
+
+        }
+        slideImg.style.opacity = "1";
+        return;
+      }
+    }
+
+    // Функция перелистывания фото вперёд
+    function showNextPhoto(){
+      changePhotoSlide(true);
+    }
+
+    // Функция перелистывания фото назад
+    function showPrevPhoto(){
+      changePhotoSlide(false);
+    }
+
+    // Функция определяет следующую необходимую фотографию
+    function changePhotoSlide(bool){
+      var nowImg = document.getElementById('slide-img'),
+          positionPhoto;
+
+      nowImg.style.opacity = '0';
+
+      positionPhoto = arraySrcList.indexOf(nowImg.src);
+      if (bool){
+        if (positionPhoto != arraySrcList.length - 1){
+          setPhotoToSlide(arraySrcList[positionPhoto + 1]);
+        }
+      } else {
+        if (positionPhoto != 0){
+          setPhotoToSlide(arraySrcList[positionPhoto - 1]);
+        }
+      }
+    }
+//- form(method="POST" action="/track/#{id}/#{image._id}/remove" width="50px")
+//-   input(type="hidden" name="_method" value="DELETE")
+//-   button(name="submit" type="submit") Delete
+//- form(method="GET" action="/track/#{id}/#{image._id}/show" width="50px")
+//-   button(name="submit" type="submit") Отобразить
+//- a.show-galery(href="#")
+//- if image.links.orig.height > image.links.orig.width
+  //- img(src="#{image.links.orig.href}" height="300px" data-full="#{image.links.orig.href}" data-remove="/track/#{id}/#{image._id}/remove")
+//- else
+  //- img(src="#{image.links.orig.href}" width="300px" data-full="#{image.links.orig.href}" data-remove="/track/#{id}/#{image._id}/remove")
