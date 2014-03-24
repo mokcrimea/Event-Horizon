@@ -275,3 +275,7 @@ p{
 	color: #07500D;
 	border: 1px solid green;
 }
+
+.first_letter {
+	color: #f00!important;
+}

@@ -5,7 +5,6 @@
 var mongoose = require('mongoose'),
   crypto = require('crypto'),
   async = require('async'),
-  util = require('util'),
   Schema = mongoose.Schema;
 
 /**
@@ -15,12 +14,13 @@ var mongoose = require('mongoose'),
 var UserSchema = new Schema({
   name: { type: String},
   email: { type: String},
-  username: { type: String, unique: true, required: true},
-  hashedPassword: { type: String, required: true},
+  username: { type: String},
+  hashedPassword: { type: String},
   provider: {type: String},
-  salt: { type: String, required: true},
+  authToken: { type: String},
   created: { type: Date, default: Date.now},
-  tracks: [{ type: Schema.ObjectId, ref: 'Track'}]
+  tracks: [{ type: Schema.ObjectId, ref: 'Track'}],
+  yandex: { type: Object}
 });
 
 /**
@@ -48,7 +48,7 @@ UserSchema.virtual('password')
 UserSchema.methods = {
 
   /**
-   * Encrypt password
+   * Зашифровывает пароль
    * @param  {String} password
    * @return {String}
    */
@@ -58,22 +58,41 @@ UserSchema.methods = {
   },
 
   /**
-   * Check the passwords
+   * Проверяет правильный ли пароль
    * @param  {String} password
    * @return {Boolean}
    */
 
   checkPassword: function(password) {
     return this.encryptPassword(password) === this.hashedPassword;
-  }
+  },
 
+  /**
+   * Записывает AuthToken пользователя
+   * @param {String}   token
+   * @param {Function} callback
+   */
+  setToken: function(token, callback) {
+    this.authToken = token;
+    this.save(callback);
+  },
+
+  /**
+   * Обновляет поле username в документе пользователя
+   * @param  {String}   username
+   * @param  {Function} callback
+   */
+  updateUsername: function(username, callback) {
+    this.username = username;
+    this.save(callback);
+  }
 
 };
 
 UserSchema.statics = {
 
   /**
-   * Find tracks created by user
+   * Находит треки созданные пользователем
    * @param  {ObjectId}   id
    * @param  {Function} callback
    */

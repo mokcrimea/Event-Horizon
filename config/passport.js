@@ -1,36 +1,53 @@
 var mongoose = require('mongoose'),
-  LocalStrategy = require('passport-local').Strategy,
+  YandexStrategy = require('passport-yandex').Strategy,
   User = mongoose.model('User');
 
 
-module.exports = function (passport) {
+module.exports = function (passport, config) {
 
-passport.use(new LocalStrategy({
-    usernameField: 'username',
-    passwordField: 'password'
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
+
+passport.use(new YandexStrategy({
+    clientID: config.get('yandex:clientID'),
+    clientSecret: config.get('yandex:clientSecret'),
+    callbackURL: config.get('yandex:callbackURL')
   },
-  function(username, password, next) {
-      User.findOne({ username: username }, function (err, user) {
-      if (err) { return next(err); }
+  function(accessToken, refreshToken, profile, done) {
+    User.findOne({ 'yandex.id': profile.id }, function (err, user) {
       if (!user) {
-        return next(null, false, { errors: 'Unknown user' });
+          user = new User({
+          authToken: accessToken,
+          name: profile.displayName,
+          email: profile.emails[0].value,
+          username: profile.username,
+          provider: 'yandex',
+          yandex: profile._json
+        });
+        user.save(function(err){
+          if (err) console.log(err);
+          return done(err, user);
+        });
+      } else {
+
+        /**
+         * Перезаписывает токен. Хотя он выдается на неограниченный срок.
+         */
+
+      user.setToken(accessToken, function(err){
+        if (err) console.log(err);
+      });
+      return done(err, user);
       }
-      if (!user.checkPassword(password)) {
-        return next(null, false, { errors: 'Invalid password' });
-      }
-      return next(null, user);
     });
   }
 ));
-
-passport.serializeUser(function(user, next) {
-  next(null, user.id);
-});
-
-passport.deserializeUser(function(id, next) {
-  User.findById(id, function(err, user) {
-    next(err, user);
-  });
-});
 
 };

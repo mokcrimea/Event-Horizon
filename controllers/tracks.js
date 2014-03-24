@@ -1,5 +1,5 @@
 /**
- * Module dependencies.
+ * Основные зависимости
  */
 
 var mongoose = require('mongoose'),
@@ -11,21 +11,15 @@ var mongoose = require('mongoose'),
   log = require('../lib/log')(module);
 
 /**
- * Load the track creator
+ * Загрузка информации о треке
  */
 
 exports.load = function(req, res, next, id) {
-  var trackPath = '/tmp/' + req.user.username + '/' + id + '/track';
-
-  Track.findById(id, 'name _creator created images', function(err, track) {
+  Track.findById(id, 'name _creator created images album', function(err, track) {
     if (err) return next(404, err);
     if (track) {
       req.track = track;
-      fs.readFile(trackPath, function(err, data) {
-        if (err) return next(404, err);
-        req.track.track = data;
-        next();
-      });
+      next();
     } else {
       next(new HttpError(404, 'Трек не существует'));
     }
@@ -33,7 +27,7 @@ exports.load = function(req, res, next, id) {
 };
 
 /**
- * Index
+ * Главная страница
  */
 
 exports.index = function(req, res) {
@@ -43,7 +37,7 @@ exports.index = function(req, res) {
 };
 
 /**
- * Upload
+ * Загрузка нового трека
  */
 
 exports.new = function(req, res) {
@@ -53,20 +47,34 @@ exports.new = function(req, res) {
 };
 
 /**
- * Show a track
+ * Отображение трека
  */
 
 exports.show = function(req, res, next) {
+  var trackPath = '/tmp/' + req.track.id + '/track';
+  var images = [];
+  req.track.images.forEach(function(image) {
+    if (image.links.L.href) {
+      images.push([image.coordinates[0], image.links.L.href]);
+    } else {
+      images.push([image.coordinates[0], image.links.orig.href]);
+    }
+  });
   var track = req.track;
-  res.render('track/show', {
-    title: track.name,
-    coord: track.track,
-    track: track
+
+  fs.readFile(trackPath, function(err, data) {
+    if (err) return next(404, err);
+    res.render('track/show', {
+      title: track.name,
+      coord: data.toString(),
+      track: track,
+      images: images
+    });
   });
 };
 
 /**
- * Create a new track
+ * Создание нового трека
  */
 
 exports.create = function(req, res) {
@@ -75,14 +83,16 @@ exports.create = function(req, res) {
   var track = new Track({});
   var username = req.user.username;
   var trackId = track.id;
-  var uploadDir = '/tmp/' + username + '/' + trackId;
-  var trackPath = uploadDir + '/track';
-  var timePath = uploadDir + '/time';
+  var uploadDir = '/tmp/' + trackId;
   var form = new formidable.IncomingForm();
   // form.uploadDir = uploadDir;
-  createFolders(username, trackId, function(err) {
+  createFolders(trackId, function(err) {
     if (err) throw err;
 
+    /*    form.on('aborted', function() {
+      req.flash('error', 'Прозошла ошибка при загрузке файла');
+      res.redirect('/upload');
+    });*/
     form.parse(req, function(error, fields, files) {
 
       fs.readFile(files.upload.path, function(err, Data) {
@@ -97,8 +107,8 @@ exports.create = function(req, res) {
           track.create(fields.title, req.user, function(err) {
 
             if (err) throw err;
-            log.info('The track succesfully created');
-            req.flash('success', 'Трек успешно загружен');
+            log.info('Трек успешно создан');
+            req.flash('success', 'Трек успешно создан');
             res.redirect('/track/' + track.id);
           });
         });
@@ -110,25 +120,22 @@ exports.create = function(req, res) {
 };
 
 /**
- * Edit a track
+ * Удалить трек
  */
 
-exports.edit = function(req, res) {
-
-};
-
-/**
- * Update a track
- */
-
-exports.update = function(req, res) {
-
-};
-
-/**
- * Delete a track
- */
-
-exports.delete = function(req, res) {
-
+exports.delete = function(req, res, next) {
+  Track.findByIdAndRemove(req.track.id, function(err) {
+    if (err) return next(404, err);
+    log.info('Трек успешно удален из базы');
+  });
+  fs.unlink('/tmp/' + req.track.id + '/track', function(err) {
+    if (err) log.error(err);
+    fs.unlink('/tmp/' + req.track.id + '/full', function(err) {
+      if (err) log.error(err);
+      fs.rmdir('/tmp/' + req.track.id + '/', function(err) {
+        if (err) log.error(err);
+      });
+    });
+  });
+  next();
 };

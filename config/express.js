@@ -3,7 +3,6 @@
  */
 
 var express = require('express'),
-
   MongoStore = require('connect-mongo')(express),
   log = require('../lib/log')(module),
   path = require('path'),
@@ -25,11 +24,11 @@ module.exports = function(app, config, passport, mongoose) {
   app.use(express.favicon(path.join(path.resolve(__dirname, '../public/img/favicon.ico'))));
   app.use(express.static(path.join(path.resolve(__dirname, '../public'))));
 
-  //template engine and views path
+
   app.set('views', path.resolve(__dirname, '../template'));
   app.set('view engine', 'jade');
 
-  //Logging
+  // Логирование
   if (app.get('env') == 'development') {
     app.use(express.logger('dev'));
   } else {
@@ -42,9 +41,9 @@ module.exports = function(app, config, passport, mongoose) {
 
     app.use(require('../middleware/sendHttpError'));
 
+
     app.use(express.urlencoded());
     app.use(express.json());
-    // app.use(express.bodyParser());
     app.use(express.methodOverride());
 
     //mongo-session setting
@@ -57,22 +56,29 @@ module.exports = function(app, config, passport, mongoose) {
       })
     }));
 
-    // initialize passport
     app.use(passport.initialize());
     app.use(passport.session());
 
-    // enable flash middleware
+
     app.use(flash());
 
-    //should be after session
-    //provides helper methods to the views
-    app.use(helpers(require('../package.json').name));
+    app.use(require('../middleware/helpers').transport);
 
-    //Добавить защиту от CSRF!
 
-    //sould be last
+    app.use(express.csrf({
+      value: function(req) {
+        var token = (req.headers['x-csrf-token']) || (req.headers['x-xsrf-token']) || (req.cookies['X-CSRF-Token']);
+        return token;
+      }
+    }));
+    app.use(function(req, res, next) {
+      res.cookie('X-CSRF-Token', req.csrfToken());
+      next();
+    });
+
     app.use(app.router);
 
+    // обрабокта ошибок
     app.use(function(err, req, res, next) {
       if (typeof err == 'number') { // next(404);
         err = new HttpError(err);
@@ -93,7 +99,7 @@ module.exports = function(app, config, passport, mongoose) {
 
   });
 
-  //pretify html in development mode
+  // красивое отображение html кода
   app.configure('development', function() {
     app.locals.pretty = true;
   });

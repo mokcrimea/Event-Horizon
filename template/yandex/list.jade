@@ -1,0 +1,21 @@
+extends ../layout/page
+
+block main
+  h1= title
+
+block content
+  - if (images.length)
+
+      - each image in images
+        a.show-galery(href="#")
+          if image.links.orig.height > image.links.orig.width
+            img(src="#{image.links.orig.href}" height="300px" data-full="#{image.links.orig.href}" data-remove="/track/#{id}/#{image._id}/remove")
+          else
+            img(src="#{image.links.orig.href}" width="300px" data-full="#{image.links.orig.href}" data-remove="/track/#{id}/#{image._id}/remove")
+            //- form(method="POST" action="/track/#{id}/#{image._id}/remove" width="50px")
+            //-   input(type="hidden" name="_method" value="DELETE")
+            //-   button(name="submit" type="submit") Delete
+            //- form(method="GET" action="/track/#{id}/#{image._id}/show" width="50px")
+            //-   button(name="submit" type="submit") Отобразить
+  script(src="/js/popup.js")
+

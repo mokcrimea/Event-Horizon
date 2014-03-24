@@ -6,3 +6,7 @@ block main
 block content
   p=user.username
   p=user.created
+  h2 Альбомы пользователя на Яндекс.Фото
+  - each album in user.albums
+    a(href='#{album.alternate}')=album.title
+    p. Количество изобажений - #{album.imageCount}

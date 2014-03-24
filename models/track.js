@@ -10,19 +10,24 @@ var mongoose = require('mongoose'),
  */
 
 var TrackSchema = new Schema({
-  name: { type: String},
+  name: { type: String, require: true},
   _creator: { type : Schema.ObjectId, ref : 'User'},
   created: { type: Date, default: Date.now},
-  images: { type: Array}
-});
-
-/**
- * Virtuals
- */
-
-TrackSchema.virtual('showId').get(function() {
-  return this._id;
-});
+  album: {
+    title: String,
+    id: String,
+    link: String,
+    self: String,
+    updated: Date,
+  },
+  images: [{
+    links : {},
+    param: String,
+    self: String,
+    coordinates: [],
+    id: Schema.ObjectId
+  }]
+}, {id: true});
 
 /**
  * Methods
@@ -31,10 +36,10 @@ TrackSchema.virtual('showId').get(function() {
 TrackSchema.methods = {
 
   /**
-   * Add a new track
+   * Создает новый трек и записывает пользователю ссылку на него (ObjectId)
    *
-   * @param {String}   name
-   * @param {Object}   user
+   * @param {String}   name Название трека
+   * @param {Object}   user Создатель
    * @param {Function} callback
    */
 
@@ -54,17 +59,38 @@ TrackSchema.methods = {
   },
 
   /**
-   * Save images paths into DB
-   * @param  {Array}   files
+   * Записывает данные по альбому в БД
+   * @param  {Object}   obj      данные альбома
    * @param  {Function} callback
    */
-  saveImages: function(files, callback) {
-    var that = this;
-    files.forEach(function(el) {
-      that.images.push(el);
-    });
+  createAlbum: function(obj, callback) {
+    this.album = {
+      title: obj.title,
+      id: obj.id,
+      link: obj.links.photos,
+      self: obj.links.self,
+      updated: obj.updated
+    };
+    this.save(callback);
+  },
+
+  /**
+   * Записывает ссылки на загруженные фотографии
+   * @param {Object}   obj     Объект ответа от сервера яндекса.
+   * @param {Function} callback
+   */
+  addPhoto: function(obj, callback) {
+    this.images.push({links: obj.img, self: obj.links.self, param: obj.id});
+    this.save(callback);
+  },
+
+  addCoordinates: function(coord, index, callback) {
+    var x = parseFloat(coord[0]);
+    var y = parseFloat(coord[1]);
+    this.images[index].coordinates.push([x, y]);
     this.save(callback);
   }
+
 
 };
 

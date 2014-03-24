@@ -4,45 +4,95 @@ block main
   h1= title
   ul
     li
-      a(href='/track/#{track.id}/img') Загрузка
+      a(href='/track/#{track.id}/yandex') Загрузить фотографии
+    li
+      a(href='/track/#{track.id}/galery') Галерея
 block content
   #map.map
   script(src="http://api-maps.yandex.ru/2.0/?load=package.full&lang=ru-RU")
   script.
-    var myMap;
+    var myMap,
+        testArray = !{JSON.stringify(images)};
 
-    // Дождёмся загрузки API и готовности DOM.
     ymaps.ready(init);
 
-    function init() {
-      // Создание экземпляра карты и его привязка к контейнеру с
-      // заданным id ("map").
-      myMap = new ymaps.Map('map', {
-        // При инициализации карты обязательно нужно указать
-        // её центр и коэффициент масштабирования.
-        center: [44.958306, 34.109535], // Москва
-        zoom: 12
-      });
-      myMap.controls.add('zoomControl', {
-        left: 5,
-        top: 5
-      });
 
-      var myPolyline = new ymaps.Polyline(#{coord}, {
-        // Описываем свойства геообъекта.
-        // Содержимое балуна.
-        balloonContent: "Ваш трек"
-      }, {
-        // Задаем опции геообъекта.
-        // Отключаем кнопку закрытия балуна.
-        balloonHasCloseButton: false,
-        // Цвет линии.
-        strokeColor: "#000000",
-        // Ширина линии.
-        strokeWidth: 4,
-        // Коэффициент прозрачности.
-        strokeOpacity: 0.5
-      });
+    function init () {
+        myMap = new ymaps.Map('map', {
+            center: #{coord.substr(1, 50).split(',', 2)},
+            zoom:12,
+            behaviors: ['default', 'scrollZoom']
+        });
 
-      myMap.geoObjects.add(myPolyline);
+        myMap.controls.add('smallZoomControl', {
+          left: 3,
+          top: 5
+        });
+        myMap.controls.add(new ymaps.control.TypeSelector(['yandex#map', 'yandex#publicMap', 'yandex#publicMap', 'yandex#satellite', 'yandex#hybrid']));
+        myMap.controls.add('miniMap')
+
+
+        var setPhoto = function(coord, urlPicture){
+            var myPlacemark = new ymaps.Placemark(coord, {
+                    balloonContentBody:
+                    "<img class='balloon-img' src='"+urlPicture+"' width='480'/>" +
+                    "<div class='balloon-fullsize' onclick='ballonImageZoom()'>Увеличить фототграфию</div>",
+                    hintContent: "Показать фотографию",
+                }, {
+                    iconImageHref: urlPicture,
+                    iconImageSize: [10, 10],
+                    iconImageOffset: [0, 0]
+                });
+
+            myMap.geoObjects.add(myPlacemark);
+            };
+
+          for (var i = 0; i < testArray.length; i++){
+              setPhoto(testArray[i][0], testArray[i][1]);
+          }
+
+            var myPolyline = new ymaps.Polyline(#{coord}, {
+              // Описываем свойства геообъекта.
+              // Содержимое балуна.
+              balloonContent: "Ваш трек"
+            }, {
+              // Задаем опции геообъекта.
+              // Отключаем кнопку закрытия балуна.
+              balloonHasCloseButton: false,
+              // Цвет линии.
+              strokeColor: "#26ff4a",
+              // Ширина линии.
+              strokeWidth: 4,
+              // Коэффициент прозрачности.
+              strokeOpacity: 0.8
+            });
+
+          myMap.geoObjects.add(myPolyline);
+        };
+
+
+
+    var ballonImageZoom = function(){
+        var imgBalloon = document.getElementsByClassName('balloon-img')[0],
+            imgBalloonSrc = imgBalloon.getAttribute('src'),
+            imgSrc = document.getElementById('zoom-balloon-image');
+
+        imgSrc.setAttribute('src', imgBalloonSrc);
+        imgSrc.style.display = "block";
+
+        setTimeout(function(){
+            imgSrc.style.opacity = "1";
+        }, 10);
+        imgSrc.addEventListener('click', turnBallonImage);
     }
+
+    var turnBallonImage = function(){
+        var imgSrc = document.getElementById('zoom-balloon-image');
+        imgSrc.style.opacity = "0";
+
+        setTimeout(function(){
+             imgSrc.style.display = "none";
+        }, 700);
+
+        document.body.removeEventListener('click', turnBallonImage);
+      }
