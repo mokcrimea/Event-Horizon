@@ -77,7 +77,7 @@ exports.show = function(req, res, next) {
  * Создание нового трека
  */
 
-exports.create = function(req, res) {
+exports.create = function(req, res, next) {
   var formidable = require('formidable');
   var parseTrack = require('../lib/parseTrack');
   var track = new Track({});
@@ -99,7 +99,16 @@ exports.create = function(req, res) {
           if (err) throw err;
 
           parseTrack(Data, uploadDir, function(err) {
-            if (err) throw err;
+            // На случай если формат файла не правильный
+            if (err) {
+              fs.unlink(files.upload.path, function(err) {
+                if (err) throw err;
+              });
+              fs.rmdir('/tmp/' + trackId + '/', function(err) {
+                if (err) log.error(err);
+              });
+              return next(new HttpError(err, 'Неправильный формат загружаемого файла'));
+            }
 
             fs.unlink(files.upload.path, function(err) {
               if (err) throw err;
