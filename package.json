@@ -10,7 +10,6 @@
     "jade": "latest",
     "nconf": "*",
     "winston": "0.7.*",
-    "ejs-locals": "*",
     "formidable": "1.*",
     "mongodb": "latest",
     "mongoose": "latest",
@@ -20,7 +19,6 @@
     "libxmljs": "0.8.*",
     "passport": "latest",
     "passport-yandex": "latest",
-    "request": "latest",
-    "xml2js": "latest"
+    "request": "latest"
   }
 }
