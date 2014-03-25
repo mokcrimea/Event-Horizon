@@ -42,6 +42,7 @@ function openSlideShow(imgContainerGallery){
 function closeSlideShow(){
   document.getElementById('slideShow').style.display = "none";
   document.getElementsByClassName('backgroundSpace')[0].style.display = "none";
+  document.getElementById('slide-img').style.opacity = '0';
 }
 
 // Функция открывает фотографию в слайд-обозревателе
