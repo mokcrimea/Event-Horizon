@@ -217,6 +217,10 @@ h2{
 	transition: .5s;
 	cursor: pointer;
 }
+
+.gallery-close-btn:focus {
+	outline: 0;
+}
 /*------------------------------*/
 
 
@@ -247,14 +251,15 @@ h2{
 }
 
 #zoom-balloon-image{
-	position: absolute;
+	position: fixed;
 	display: none;
 	opacity: 0;
 	transition: 1s;
 	z-index: 100;
-	margin: -30px 0 0 50px;
+	/*margin-left: 50px;*/
 	box-shadow: 0 0 500px #000;
-	
+	top: 0;
+	left: 0;
 	cursor: pointer;
 }
 
