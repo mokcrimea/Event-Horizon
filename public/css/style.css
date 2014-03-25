@@ -58,7 +58,7 @@ h2{
 
 .backgroundSpace{
 	position: fixed;
-	display: block;
+	display: none;
 	z-index: 19;
 	top: 1px;
 	left: 0;

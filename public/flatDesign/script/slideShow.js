@@ -33,17 +33,27 @@ function openSlideShow(imgContainerGallery){
   document.getElementsByClassName('backgroundSpace')[0].style.display = 'block';
 
   changeBckgroundSlideSize();
-
   setPhotoToSlide(thisImgSrc);
 
+  document.addEventListener('keydown', setSlideKeyNavigate);
 }
+
+
+function setSlideKeyNavigate(e){
+  if (e.keyCode == 37) return changePhotoSlide(false);
+  if (e.keyCode == 39) return changePhotoSlide(true);
+  if (e.keyCode == 27) return closeSlideShow(event.target.parentNode);
+}
+
 
 // Функция закрытия слайд-обозревателя
 function closeSlideShow(){
   document.getElementById('slideShow').style.display = "none";
   document.getElementsByClassName('backgroundSpace')[0].style.display = "none";
   document.getElementById('slide-img').style.opacity = '0';
+  document.removeEventListener('keydown', setSlideKeyNavigate);
 }
+
 
 // Функция открывает фотографию в слайд-обозревателе
 function setPhotoToSlide(inputPhoto){
@@ -75,7 +85,6 @@ function setPhotoToSlide(inputPhoto){
           slideImg.setAttribute('width', '1100px');
         }
       }
-
     }
     document.getElementsByClassName('slide-load-img')[0].style.display = "none";
     slideImg.style.opacity = "1";
@@ -83,6 +92,7 @@ function setPhotoToSlide(inputPhoto){
     return;
   }
 }
+
 
 // Функция определяет следующую необходимую фотографию
 function changePhotoSlide(bool){
@@ -112,6 +122,7 @@ function changePhotoSlide(bool){
     }
   }
 }
+
 
 // Функция подстройки зайднего фона при режиме обозревателя фото
 function changeBckgroundSlideSize(){
