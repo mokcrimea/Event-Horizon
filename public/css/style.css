@@ -194,11 +194,16 @@ h2{
 	align-items: center;
 }
 
+.gallery-close-btn:focus {
+	outline: 0;
+}
+
 .gallery-close-btn{
 	position: absolute;
 	background: url(../img/close-btn.png);
 	z-index: 2;
 	height: 30px;
+	border: 0;
 	width: 30px;
 	margin-left: 270px;
 	opacity: 0;

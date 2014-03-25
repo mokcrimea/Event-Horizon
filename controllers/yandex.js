@@ -61,7 +61,7 @@ exports.document = function(req, res, next) {
 
 exports.new = function(req, res) {
   res.render('yandex/upload', {
-    title: 'Загрузка фотографий к треку',
+    title: 'Загрузка фотографий в галерею',
   });
 };
 
@@ -253,17 +253,25 @@ exports.getAlbums = function(req, res, next) {
  * Показывает галерею изображений
  */
 
-exports.show = function(req, res, next) {
+exports.gallery = function(req, res, next) {
   Track.findById(req.track.id, 'images', function(err, track) {
     if (err) return next(404, err);
     var images_links = [];
     if (track) {
+      if (track.images.length === 0) {
+        // ..Добавить INFO блок
+        return res.render('yandex/upload', {
+          title: 'Загрузка фотографий в галерею',
+          success: 'У вас нет загруженый фотографий. Загрузить можно с помощью формы ниже'
+        });
+      }
       track.images.forEach(function(image, index) {
         images_links.push({
-          links: image.links
+          links: image.links,
+          _id: image._id
         });
       });
-      res.render('yandex/list', {
+      res.render('yandex/gallery', {
         title: 'Галерея',
         // images: track.images,
         id: req.track.id,
@@ -301,9 +309,17 @@ exports.removePhoto = function(req, res) {
       } catch (e) {
         log.error('Фотография уже удалена, ' + e);
       }
+      res.render('yandex/gallery', {
+        title: 'Галерея',
+        images: track.images,
+        id: req.track.id,
+        // images: images_links
+      });
     }
   });
-  res.redirect('/track/' + req.track.id + '/galery');
+  //!!!Проверить как будет лучше!!!
+  // req.flash('success', 'Фотография успешно удалена');
+  // res.redirect('/track/' + req.track.id + '/galery');
 };
 
 exports.removeAlbum = function(req, res, next) {

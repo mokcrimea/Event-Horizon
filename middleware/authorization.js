@@ -31,11 +31,3 @@ exports.track = function(req, res, next) {
   }
   next();
 };
-
-// exports.img = function(req, res, next) {
-//   if (req.track._creator != req.user.id) {
-//     req.flash('error', 'Извините, вы не авторизованы для совершения этого действия');
-//     return res.redirect('/track/' + req.params.id);
-//   }
-//   next();
-// };

@@ -27,7 +27,7 @@ var TrackSchema = new Schema({
     coordinates: [],
     id: Schema.ObjectId
   }]
-}, {id: true});
+});
 
 /**
  * Methods

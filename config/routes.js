@@ -31,7 +31,7 @@ module.exports = function(app, passport) {
   // yandex fotki
   // app.get('/yandex/create', auth.requireLogin, yandex.createAlbum);
   // app.get('/yandex/albums', auth.requireLogin, yandex.getAlbums);
-  app.get('/track/:tId/galery', auth.requireLogin, yandex.show);
+  app.get('/track/:tId/galery', auth.requireLogin, yandex.gallery);
   app.delete('/track/:tId/:iId/remove', auth.requireLogin, auth.track, yandex.removePhoto);
   // app.get('/track/:tId/:iId/show', auth.requireLogin, auth.track, yandex.showInfo);
   app.get('/track/:tId/yandex', auth.requireLogin, yandex.new);
