@@ -88,31 +88,36 @@ exports.create = function(req, res) {
   // form.uploadDir = uploadDir;
   createFolders(trackId, function(err) {
     if (err) throw err;
-
     /*    form.on('aborted', function() {
       req.flash('error', 'Прозошла ошибка при загрузке файла');
       res.redirect('/upload');
     });*/
+
     form.parse(req, function(error, fields, files) {
-
-      fs.readFile(files.upload.path, function(err, Data) {
-        if (err) throw err;
-
-        parseTrack(Data, uploadDir, function(err) {
+      try {
+        fs.readFile(files.upload.path, function(err, Data) {
           if (err) throw err;
-          fs.unlink(files.upload.path, function(err) {
-            if (err) throw err;
-          });
 
-          track.create(fields.title, req.user, function(err) {
-
+          parseTrack(Data, uploadDir, function(err) {
             if (err) throw err;
-            log.info('Трек успешно создан');
-            req.flash('success', 'Трек успешно создан');
-            res.redirect('/track/' + track.id);
+
+            fs.unlink(files.upload.path, function(err) {
+              if (err) throw err;
+            });
+
+            track.create(fields.title, req.user, function(err) {
+
+              if (err) throw err;
+              log.info('Трек успешно создан');
+              req.flash('success', 'Трек успешно создан');
+              res.redirect('/track/' + track.id);
+            });
           });
         });
-      });
+      } catch (e) {
+        log.debug(e);
+        res.redirect('/upload');
+      }
     });
 
   });

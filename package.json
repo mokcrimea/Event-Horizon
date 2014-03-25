@@ -20,6 +20,7 @@
     "libxmljs": "0.8.*",
     "passport": "latest",
     "passport-yandex": "latest",
-    "request": "latest"
+    "request": "latest",
+    "xml2js": "latest"
   }
 }
