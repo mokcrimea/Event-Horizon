@@ -20,7 +20,7 @@ function openSlideShow(imgContainerGallery){
   }
 
   var mainWindowSlide = document.getElementById('slideShow'),
-      thisImgSrc = imgContainerGallery.childNodes[5].childNodes[1].src;
+      thisImgSrc = imgContainerGallery.getElementsByTagName('img')[0].src;
 
   for (var i = 0; i < inputDataObject.length; i++){
     arraySrcList[i] = inputDataObject[i].links.orig.href;
