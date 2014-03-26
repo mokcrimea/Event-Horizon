@@ -9,6 +9,9 @@ block main
       li Галерея
     a(href='#')
       li Удалить
+        form(method="POST" action="/track/#{track.id}")
+          input(type="hidden" name="_method" value="DELETE")
+          button(type="submit" onclick="return confirm('Вы уверены, что хотите удалить трек?')")
 block content
   img#zoom-balloon-image
   #map.map

@@ -562,6 +562,18 @@ p{
 	float: right;
 	margin-right: 25px;
 }
+.trackMenu > a:last-child button {
+	padding: 0 40px;
+	border-radius: 25px;
+	height: 28px;
+	opacity: 0;
+	cursor: pointer;
+	position: fixed;
+	margin-top: -24px;
+	margin-left: -4px;
+	border: 0;
+}
+
 .trackMenu > a:last-child:hover {
 	background-color: #ff6363;
 }
