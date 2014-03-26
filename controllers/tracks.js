@@ -54,10 +54,12 @@ exports.show = function(req, res, next) {
   var trackPath = '/tmp/' + req.track.id + '/track';
   var images = [];
   req.track.images.forEach(function(image) {
-    if (image.links.L.href) {
-      images.push([image.coordinates[0], image.links.L.href]);
-    } else {
-      images.push([image.coordinates[0], image.links.orig.href]);
+    if (image.coordinates[0]) {
+      if (image.links.L.href) {
+        images.push([image.coordinates[0], image.links.L.href]);
+      } else {
+        images.push([image.coordinates[0], image.links.orig.href]);
+      }
     }
   });
   var track = req.track;
