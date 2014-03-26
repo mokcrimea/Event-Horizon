@@ -6,7 +6,7 @@ body{
 @font-face {
     	font-family: GardensC;
     	/*src: local(GardensC), url(../font/GardensC.otf);*/
-    	src: local(GardensC), url(../font/GardensC.otf);
+    	src: local(GardensC), url(../flatDesign/font/GardensC.otf);
 }
 
 h1{
@@ -76,7 +76,8 @@ h2{
 
 .slide-close-btn{
 	position: absolute;
-	background: url(../img/close-btn2.png);
+	/*background: url(../img/close-btn2.png);*/
+	background: url(../flatDesign/img/close-btn2.png);
 	margin-left: 1000px;
 	opacity: .3;
 	width: 97px;
@@ -88,7 +89,8 @@ h2{
 
 .slide-next-btn{
 	position: absolute;
-	background: url(../img/next-btn.jpg);
+	/*background: url(../img/next-btn.jpg);*/
+	background: url(../flatDesign/img/next-btn.jpg);
 	margin: 217px 0 0 1012px;
 	opacity: 0;
 	width: 89px;
@@ -100,7 +102,8 @@ h2{
 
 .slide-prev-btn{
 	position: absolute;
-	background: url(../img/prev-btn.jpg);
+	/*background: url(../img/prev-btn.jpg);*/
+	background: url(../flatDesign/img/prev-btn.jpg);
 	margin-top: 217px;
 	opacity: 0;
 	width: 89px;
@@ -113,7 +116,8 @@ h2{
 .slide-load-img{
 	display: none;
 	position: absolute;
-	background: url(../img/load-img.png);
+	/*background: url(../img/load-img.png);*/
+	background: url(../flatDesign/img/load-img.png);
 	margin: 338px 0 0 512px;
 	opacity: 1;
 	width: 75px;
@@ -200,7 +204,8 @@ h2{
 
 .gallery-close-btn{
 	position: absolute;
-	background: url(../img/close-btn.png);
+	/*background: url(../img/close-btn.png);*/
+	background: url(../flatDesign/img/close-btn.png);
 	z-index: 2;
 	height: 30px;
 	border: 0;
@@ -213,7 +218,8 @@ h2{
 
 .gallery-zoom-btn{
 	position: absolute;
-	background: url(../img/zoom-btn.png);
+	/*background: url(../img/zoom-btn.png);*/
+	background: url(../flatDesign/img/zoom-btn.png);
 	z-index: 18;
 	height: 55px;
 	width: 55px;
@@ -578,4 +584,88 @@ p{
 	font-size: 14pt;
 	transition: .5s;
 	text-decoration: none;
+}
+/*------------------------------------------*/
+
+.list-information{
+	display: block;
+	margin: 5px 20px;
+	padding: 12px 20px 7px;
+	border-radius: 5px;
+}
+
+.content h1 + .list-information{
+	margin-top: 40px;
+}
+
+.list-information:hover{
+	padding: 11px 19px 6px;
+	border: 1px solid #79ABE6;
+}
+
+.list-information a{
+	font-family: Verdana, sans-serif;
+	display: block;
+	float: left;
+	width: 500px;
+	color: #141CE0;
+}
+
+.list-information a:visited{
+	color: #141CE0;
+}
+
+.list-information form{
+	float: right;
+}
+
+.list-information form button{
+	position: relative;
+	top: -7px;
+	font-size: 22pt;
+	padding: 0;
+	opacity: 0;
+	background: #fff;
+	color: #5A5A5A;
+	border: none;
+	outline: none;
+	cursor: pointer;
+}
+
+.list-information form button:hover{
+	transition: .2s linear;
+	-moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+.list-information-btn{
+	position: relative;
+	top: -3px;
+	opacity: 0;
+	transition: .1s;
+	background: white;
+	border: 1px solid #CACACA;
+	background: #F5F5F5;
+	color: #1F2C21;
+	border-radius: 4px;
+	cursor: pointer;
+	padding: 3px 10px;
+	margin-left: 40px;
+	outline: none;
+}
+
+.list-information:hover button{
+	opacity: 1;
+}
+
+.list-information-btn:hover{
+	background: #E0EEFF;
+	border-color: #97ADDB;
+}
+
+.list-information-btn:active{
+	color: #1331D3;
 }
