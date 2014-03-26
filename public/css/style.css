@@ -6,7 +6,7 @@ body{
 @font-face {
     	font-family: GardensC;
     	/*src: local(GardensC), url(../font/GardensC.otf);*/
-    	src: local(GardensC), url(../flatDesign/font/GardensC.otf);
+    	src: local(GardensC), url(../font/GardensC.otf);
 }
 
 h1{
@@ -76,7 +76,7 @@ h2{
 
 .slide-close-btn{
 	position: absolute;
-	background: url(../flatDesign/img/close-btn2.png);
+	background: url(../img/close-btn2.png);
 	margin-left: 1000px;
 	opacity: .3;
 	width: 97px;
@@ -88,7 +88,7 @@ h2{
 
 .slide-next-btn{
 	position: absolute;
-	background: url(../flatDesign/img/next-btn.jpg);
+	background: url(../img/next-btn.jpg);
 	margin: 217px 0 0 1012px;
 	opacity: 0;
 	width: 89px;
@@ -100,7 +100,7 @@ h2{
 
 .slide-prev-btn{
 	position: absolute;
-	background: url(../flatDesign/img/prev-btn.jpg);
+	background: url(../img/prev-btn.jpg);
 	margin-top: 217px;
 	opacity: 0;
 	width: 89px;
@@ -113,7 +113,7 @@ h2{
 .slide-load-img{
 	display: none;
 	position: absolute;
-	background: url(../flatDesign/img/load-img.png);
+	background: url(../img/load-img.png);
 	margin: 338px 0 0 512px;
 	opacity: 1;
 	width: 75px;
@@ -194,11 +194,16 @@ h2{
 	align-items: center;
 }
 
+.gallery-close-btn:focus {
+	outline: 0;
+}
+
 .gallery-close-btn{
 	position: absolute;
-	background: url(../flatDesign/img/close-btn.png);
+	background: url(../img/close-btn.png);
 	z-index: 2;
 	height: 30px;
+	border: 0;
 	width: 30px;
 	margin-left: 270px;
 	opacity: 0;
@@ -208,7 +213,7 @@ h2{
 
 .gallery-zoom-btn{
 	position: absolute;
-	background: url(../flatDesign/img/zoom-btn.png);
+	background: url(../img/zoom-btn.png);
 	z-index: 18;
 	height: 55px;
 	width: 55px;
@@ -216,10 +221,6 @@ h2{
 	opacity: 0;
 	transition: .5s;
 	cursor: pointer;
-}
-
-.gallery-close-btn:focus {
-	outline: 0;
 }
 /*------------------------------*/
 
@@ -256,7 +257,7 @@ h2{
 	opacity: 0;
 	transition: 1s;
 	z-index: 100;
-	/*margin-left: 50px;*/
+	/*margin: -30px 0 0 50px;*/
 	box-shadow: 0 0 500px #000;
 	top: 0;
 	left: 0;
@@ -317,7 +318,7 @@ h2{
 
 .first-line-group{
 	margin-top: 30px;
-} 
+}
 
 .btn-form{
 	cursor: pointer;
@@ -483,18 +484,17 @@ h2{
 	cursor: pointer;
 }
 
-
 #map{
 	margin: 20px auto;
-	width:700px;
-	height:500px
+	width:950px;
+	height:600px
 }
 
 p{
-	font-family: Tahoma;
+	font-family: Verdana, Tahoma, sans-serif;
 	text-align: justify;
 	font-size: 12pt;
-	margin: 0 20px 20px;
+	margin: 20px;
 	color: #404040;
 }
 
@@ -534,4 +534,48 @@ p{
 	background: #BDEAC1;
 	color: #07500D;
 	border: 1px solid green;
+}
+
+.first_letter {
+	color: #f00!important;
+}
+
+.trackMenu {
+	padding-left: 20px;
+/*	display: flex;
+	justify-content: flex-start;*/
+	/*background-color: #46D899;*/
+}
+
+.trackMenu li{
+	position: relative;
+	display: inline-block;
+	list-style-type: none;
+}
+.trackMenu a:hover {
+	background-color: #a6edc0;
+}
+.trackMenu li:active {
+	top: 2px;
+}
+.trackMenu > a:last-child {
+	float: right;
+	margin-right: 25px;
+}
+.trackMenu > a:last-child:hover {
+	background-color: #ff6363;
+}
+
+.trackMenu a{
+	padding: 4px 10px;
+	background-color: #f0f6f2;
+	margin-right: 10px;
+	border-radius: 25px;
+	display: inline-block;
+	height: 23px;
+	text-align: left;
+	color: #575757;
+	font-size: 14pt;
+	transition: .5s;
+	text-decoration: none;
 }

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Track installer</title>      
+    <link rel="stylesheet" type="text/css" href="../css/style.css"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script src="http://api-maps.yandex.ru/2.0/?load=package.full&lang=ru-RU" type="text/javascript"></script>
+    <script type="text/javascript" src="script/yandexmap.js"></script>
+     <!--[if !IE]>-->
+        <script type="text/javascript" src="script/desine.js"></script>
+    <!--<![endif]-->
+</head>
+
+<body>
+    <div class="tempBack"></div>
+
+    <div class="main">
+        <div class="header">
+            <div class="headLogo">Coordinates fixer</div>
+            <ul class="ulMenuLine">
+                <li><a href="#">Главная</a></li>
+                <li><a href="#">Новости</a></li>
+                <li><a href="#">Помощь</a></li>
+                <li><a href="#">Войти</a></li>
+            </ul>
+        </div>
+
+        <div class="container">
+           <div class="leftMenu">
+                <div class="leftMenuHead">Меню</div>
+                <ul class="ulMenuColumn">
+                    <li><a href="#">Мой профиль</a></li>
+                    <li><a href="#">Мои треки</a></li>
+                    <li><a href="#">Фото</a></li>
+                    <li><a href="#">Карта</a></li>
+                </ul>
+           </div>
+           <div id="slideShow">
+                <div class="slide-close-btn"></div>
+                <div class="slide-next-btn"></div>
+                <div class="slide-prev-btn"></div>
+                <div class="slide-load-img"></div>
+                <div class="slide-img-content"><img src="#" alt="" id="slide-img"></div>
+            </div>
+           <div class="content">
+                <h1>Главная</h1>
+                <p>"Название сервиса" - это сервир, позволяющий воссоздать картину поездки, туристического похода, просто прогулки, если у вас шла запись gps-маршрута. Вы можете загрузить gps-трек (в формате .gpx), и сайт прогрузит его на карту Яндекс. Добавив фотографии к этому треку - создастся галерея этого маршрута. В добавок, если у фотографий есть геометки, то они отображатся на карте в правильных местах.</p>
+
+                <div class="backgroundSpace"></div>
+
+                <div class="containerGallery">
+                    <div class="imgContainerGallery">
+                      <div class="gallery-close-btn" title="Удалить фотографию с альбома"></div>
+                      <div class="gallery-zoom-btn" title="Увеличить фотографию"></div>
+                      <div class="gallery-cont-for-img">
+                        <img src="img/photo8.jpg" alt="">
+                      </div>
+                    </div>
+
+                    <div class="imgContainerGallery">
+                      <div class="gallery-close-btn" title="Удалить фотографию с альбома"></div>
+                      <div class="gallery-zoom-btn" title="Увеличить фотографию"></div>
+                      <div class="gallery-cont-for-img">
+                        <img src="img/photo7.jpg" alt="">
+                      </div>
+                    </div>
+
+                    <div class="imgContainerGallery">
+                      <div class="gallery-close-btn" title="Удалить фотографию с альбома"></div>
+                      <div class="gallery-zoom-btn" title="Увеличить фотографию"></div>
+                      <div class="gallery-cont-for-img">
+                        <img src="img/photo9.jpg" alt="">
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">MTeam ©</div>
+    </div>
+    <script type="text/javascript" src="../flatDesign/script/slideShow.js"></script>
+</body>
+</html>
