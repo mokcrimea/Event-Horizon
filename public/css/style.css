@@ -484,11 +484,10 @@ h2{
 	cursor: pointer;
 }
 
-
 #map{
 	margin: 20px auto;
-	width:700px;
-	height:500px
+	width:950px;
+	height:600px
 }
 
 p{

@@ -7,6 +7,7 @@ var mongoose = require('mongoose'),
   Track = mongoose.model('Track'),
   request = require('request'),
   fs = require("fs"),
+  HttpError = require('../error').HttpError,
   async = require('async'),
   log = require('../lib/log')(module);
 
@@ -66,12 +67,12 @@ exports.new = function(req, res) {
 };
 
 exports.createAndUpload = function(req, res, next) {
-
   var formidable = require('formidable');
   var form = new formidable.IncomingForm();
   form.multiples = true;
   var files = [];
   var album_url;
+  var maxSize = 20971520; // 20 мб.
   var title = new Date().toJSON().substr(0, 19);
   var options = {
     url: 'http://api-fotki.yandex.ru/api/users/' + req.user.username + '/albums/',
@@ -83,15 +84,27 @@ exports.createAndUpload = function(req, res, next) {
     },
     body: ''
   };
-
-  form.on('file', function(field, file) {
-    files.push(file.path);
+  form.on('fileBegin', function(name, file) {
+    var type = file.type;
+    if (type != 'image/jpeg' && type != 'image/png' && type != 'image/gif' && type != 'image/bmp') {
+      return next(new HttpError(415, 'Неправильный формат файла'));
+    } else {
+      files.push(file.path);
+    }
   });
-  form.parse(req);
+  form.on('file', function(name, file) {
+    if (file.size > maxSize) {
+      return next(new HttpError(413, 'Допускаются файлы размером не более 20 Мб.'));
+    }
+  });
+  form.on('error', function(message) {
+    log.debug(message);
+    return next(400, message);
+  });
+
   form.on('end', function() {
     options.body = JSON.stringify({
-      title: title,
-      access: 'public'
+      title: title
     });
 
     /**
@@ -99,26 +112,29 @@ exports.createAndUpload = function(req, res, next) {
      *  Если существует, то загружаем в него, иначе  -
      *  создаем новый альбом.
      */
-    if (!req.track.album.title) {
-      async.series([
-          createAlbum,
-          uploadPhotos
-        ],
-        function(err, results) {
-          if (err) throw err;
-        });
-    } else {
-      album_url = req.track.album.link;
-      async.series([
-          uploadPhotos
-        ],
-        function(err, results) {
-          if (err) throw err;
-        });
+    // Проверяем если длина массива с файлами 0,
+    // значит ранее произошла ошибка 415
+    if (files.length !== 0) {
+      if (!req.track.album.title) {
+        async.series([
+            createAlbum,
+            uploadPhotos
+          ],
+          function(err, results) {
+            if (err) throw err;
+          });
+      } else {
+        album_url = req.track.album.link;
+        async.series([
+            uploadPhotos
+          ],
+          function(err, results) {
+            if (err) throw err;
+          });
+      }
     }
-
   });
-
+  form.parse(req);
   /**
    * Создает альбом с названием в виде: "2014-03-22T14:08:20"
    * @param  {Function} callback

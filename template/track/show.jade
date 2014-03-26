@@ -29,8 +29,8 @@ block content
           left: 3,
           top: 5
         });
-        //- myMap.controls.add(new ymaps.control.TypeSelector(['yandex#map', 'yandex#publicMap', 'yandex#publicMap', 'yandex#satellite', 'yandex#hybrid']));
-        //- myMap.controls.add('miniMap')
+        myMap.controls.add(new ymaps.control.TypeSelector(['yandex#map', 'yandex#publicMap', 'yandex#publicMap', 'yandex#satellite', 'yandex#hybrid']));
+        myMap.controls.add('miniMap')
 
         var originalImg = new Image(), pictureWidth, pictureHeight;
 
@@ -51,7 +51,9 @@ block content
 
 
         function determineImgBalloonSize(i){
+          try {
             originalImg.src = arrayInputDataCoordImg[i][1];
+          } catch(e) {}
             originalImg.onload = function(){
               pictureWidth = 480;
               pictureHeight = 480 * originalImg.height / originalImg.width;
@@ -69,13 +71,13 @@ block content
             var myPolyline = new ymaps.Polyline(#{coord}, {
               // Описываем свойства геообъекта.
               // Содержимое балуна.
-              balloonContent: "Ваш трек"
+              //- balloonContent: "Ваш трек"
             }, {
               // Задаем опции геообъекта.
               // Отключаем кнопку закрытия балуна.
-              balloonHasCloseButton: false,
+              //- balloonHasCloseButton: false,
               // Цвет линии.
-              strokeColor: "#26ff4a",
+              strokeColor: "#f4a",
               // Ширина линии.
               strokeWidth: 4,
               // Коэффициент прозрачности.

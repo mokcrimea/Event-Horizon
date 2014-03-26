@@ -12,24 +12,25 @@ block content
     var form = document.upload_images;
 
     form.submit.addEventListener('click', function(evt) {
-      var validExtensions = [".jpg", ".png", ".gif", ".bmp"];
+      var validFileType = ["image/jpeg", "image/png", "image/gif", "image/bmp"];
+      var maxSize = 20971520;
       var objOfFiles = form.images.files;
-      if (form.images.type == 'file') {
-
         for (var i = 0; i < objOfFiles.length; i++) {
           var valid = false;
-          for (var j = 0; j < validExtensions.length; j++) {
+          for (var j = 0; j < validFileType.length; j++) {
 
-            var re = new RegExp(validExtensions[j] + '$', 'i');
-            if (re.test(objOfFiles[i].name)) {
+            var re = new RegExp(validFileType[j] + '$', 'i');
+            if (re.test(objOfFiles[i].type) && objOfFiles[i].size < maxSize) {
               valid = true;
+              break;
             }
           }
           if (!valid) {
-            alert('Оповещение о неправильном формате файла');
+            console.log(objOfFiles);
+            alert('Ошибка загрузки файла "' + objOfFiles[i].name + '".\n К загрузке допускаются изображения следующих типов:\n JPEG \n GIF\n PNG\n BMP\n Размер одного изображения не должен превышать 20 мегабайт');
             evt.preventDefault();
           }
 
         }
-      }
+
     });
