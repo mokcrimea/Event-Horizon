@@ -211,29 +211,34 @@ exports.createAndUpload = function(req, res, next) {
 exports.updateGeoTags = function(req, res, next) {
   var auth = 'OAuth ' + req.user.authToken;
   req.track.images.forEach(function(image, index) {
-    setTimeout(function() {
-      request({
-        url: image.self,
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json;type=entry',
-          Authorization: auth
-        }
-      }, function(err, response, body) {
-        if (err) throw err;
-        var geo;
-        try {
-          geo = (JSON.parse(body)).geo.coordinates;
-          req.track.addCoordinates(geo.split(' '), index, function(err) {
-            if (err) throw err;
-          });
-        } catch (e) {
-          log.error(e);
-          console.log(e);
-        }
-      });
-    }, 5000);
+    if (image.coordinates[0] !== null) {
+      setTimeout(function() {
+        request({
+          url: image.self,
+          method: 'GET',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json;type=entry',
+            Authorization: auth
+          }
+        }, function(err, response, body) {
+          if (err) throw err;
+          var geo;
+          try {
+            geo = (JSON.parse(body)).geo.coordinates;
+            req.track.addCoordinates(geo.split(' '), index, function(err) {
+              if (err) throw err;
+            });
+          } catch (e) {
+            req.track.addCoordinates(null, index, function(err) {
+              if (err) throw err;
+            });
+            log.error(e);
+            console.log(e);
+          }
+        });
+      }, 5000);
+    }
   });
 };
 

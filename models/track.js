@@ -80,14 +80,27 @@ TrackSchema.methods = {
    * @param {Function} callback
    */
   addPhoto: function(obj, callback) {
-    this.images.push({links: obj.img, self: obj.links.self, param: obj.id});
+    this.images.push({
+      links: {
+        M: obj.img.M,
+        L: obj.img.L,
+        S: obj.img.S,
+        orig: obj.img.orig
+      },
+      self: obj.links.self,
+      param: obj.id
+    });
     this.save(callback);
   },
 
   addCoordinates: function(coord, index, callback) {
-    var x = parseFloat(coord[0]);
-    var y = parseFloat(coord[1]);
-    this.images[index].coordinates.push([x, y]);
+    if (coord !== null) {
+      var x = parseFloat(coord[0]);
+      var y = parseFloat(coord[1]);
+      this.images[index].coordinates.push([x, y]);
+    } else {
+      this.images[index].coordinates.push(null);
+    }
     this.save(callback);
   }
 
