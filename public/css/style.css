@@ -590,6 +590,7 @@ p{
 .list-information{
 	display: block;
 	margin: 5px 20px;
+	height: 24px;
 	padding: 12px 20px 7px;
 	border-radius: 5px;
 }
@@ -603,15 +604,14 @@ p{
 	border: 1px solid #79ABE6;
 }
 
-.list-information a{
+.list-information-name{
 	font-family: Verdana, sans-serif;
 	display: block;
 	float: left;
-	width: 500px;
 	color: #141CE0;
 }
 
-.list-information a:visited{
+ .list-information-name:visited{
 	color: #141CE0;
 }
 
@@ -621,7 +621,7 @@ p{
 
 .list-information form button{
 	position: relative;
-	top: -7px;
+	top: -9px;
 	font-size: 22pt;
 	padding: 0;
 	opacity: 0;
@@ -641,9 +641,7 @@ p{
     transform: rotate(90deg);
 }
 
-.list-information-btn{
-	position: relative;
-	top: -3px;
+.list-information-gallery{
 	opacity: 0;
 	transition: .1s;
 	background: white;
@@ -653,19 +651,20 @@ p{
 	border-radius: 4px;
 	cursor: pointer;
 	padding: 3px 10px;
-	margin-left: 40px;
+	margin-left: 59px;
 	outline: none;
 }
 
-.list-information:hover button{
+.list-information:hover button,
+.list-information:hover .list-information-gallery{
 	opacity: 1;
 }
 
-.list-information-btn:hover{
+.list-information-gallery:hover{
 	background: #E0EEFF;
 	border-color: #97ADDB;
 }
 
-.list-information-btn:active{
+.list-information-gallery:active{
 	color: #1331D3;
 }
