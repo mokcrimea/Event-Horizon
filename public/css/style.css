@@ -540,3 +540,42 @@ p{
 	color: #f00!important;
 }
 
+.trackMenu {
+	padding-left: 20px;
+/*	display: flex;
+	justify-content: flex-start;*/
+	/*background-color: #46D899;*/
+}
+
+.trackMenu li{
+	position: relative;
+	display: inline-block;
+	list-style-type: none;
+}
+.trackMenu a:hover {
+	background-color: #a6edc0;
+}
+.trackMenu li:active {
+	top: 2px;
+}
+.trackMenu > a:last-child {
+	float: right;
+	margin-right: 25px;
+}
+.trackMenu > a:last-child:hover {
+	background-color: #ff6363;
+}
+
+.trackMenu a{
+	padding: 4px 10px;
+	background-color: #f0f6f2;
+	margin-right: 10px;
+	border-radius: 25px;
+	display: inline-block;
+	height: 23px;
+	text-align: left;
+	color: #575757;
+	font-size: 14pt;
+	transition: .5s;
+	text-decoration: none;
+}

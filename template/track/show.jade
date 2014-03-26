@@ -2,11 +2,13 @@ extends ../layout/page
 
 block main
   h1= title
-  ul
-    li
-      a(href='/track/#{track.id}/yandex') Загрузить фотографии
-    li
-      a(href='/track/#{track.id}/galery') Галерея
+  ul.trackMenu
+    a(href='/track/#{track.id}/yandex')
+      li Загрузить фотографии
+    a(href='/track/#{track.id}/galery')
+      li Галерея
+    a(href='#')
+      li Удалить
 block content
   img#zoom-balloon-image
   #map.map
