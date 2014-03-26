@@ -6,7 +6,8 @@ html(lang='ru')
     .main
       include ../partials/topMenu
       .container
-        include ../partials/slideShow
+        - if (req.route.path == '/track/:tId/galery')
+          include ../partials/slideShow
         include ../partials/leftMenu
         .content
           include ../partials/message

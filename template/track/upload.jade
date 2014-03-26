@@ -14,7 +14,7 @@ block content
     var form = document.upload_track;
     form.submit.addEventListener('click', function(evt){
       var validExtensions = [".gpx"];
-      var reTitle = /(^[A-zА-я0-9\s.,_-]{3,200}$)/;
+      var reTitle = /(^[A-zА-я0-9\s.,_-]{3,50}$)/;
 
       if (!reTitle.test(form.title.value)) {
         alert('Оповещение о недопустимых символах');

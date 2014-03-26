@@ -555,14 +555,12 @@ p{
 .trackMenu a:hover {
 	background-color: #a6edc0;
 }
-.trackMenu li:active {
-	top: 2px;
-}
-.trackMenu > a:last-child {
+
+.trackMenu > a.remove {
 	float: right;
 	margin-right: 25px;
 }
-.trackMenu > a:last-child button {
+.trackMenu > a.remove button {
 	padding: 0 40px;
 	border-radius: 25px;
 	height: 28px;
@@ -574,7 +572,7 @@ p{
 	border: 0;
 }
 
-.trackMenu > a:last-child:hover {
+.trackMenu > a.remove:hover {
 	background-color: #ff6363;
 }
 
@@ -588,6 +586,31 @@ p{
 	text-align: left;
 	color: #575757;
 	font-size: 14pt;
-	transition: .5s;
+	transition: .3s;
 	text-decoration: none;
 }
+
+.backLink {
+	position: relative;
+	padding: 4px 25px;
+	background-color: #f0f6f2;
+	margin-right: 10px;
+	border-radius: 25px;
+	display: inline-block;
+	height: 23px;
+	text-align: left;
+	color: #575757;
+	font-size: 14pt;
+	transition: .3s;
+	text-decoration: none;
+	float: left;
+	left: 20px;
+}
+
+.backLink:hover {
+	background-color: #a6edc0;
+}
+/*.backLink:active {
+	color: #58B186;
+	transition: .1s;
+}*/
