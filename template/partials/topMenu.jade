@@ -1,18 +1,11 @@
 .header
   .headLogo Thinvilve
-  ul.ulMenuLine
+  .ulMenuLine
     - if (req.isAuthenticated())
-      li
-        a(href="/user/"+req.user._id title="Мой профиль") Профиль
-      li
-        a(href="/track/list" title="Главная") Мои треки
-    li
-      a(href="/upload" title="Загрузить") Загрузить
+      a(href="/user/"+req.user._id title="Мой профиль") Профиль
     - if (req.isAuthenticated())
-      li
-        a(href="/logout" title="Выйти") Выйти
+      a(href="/logout" title="Выйти") Выйти
     - else
-      li
-        a(href="/login" title="Войти")
-          b.first_letter В
-          b. ойти
+      a(href="/login" title="Войти")
+        b.first_letter В
+        b. ойти

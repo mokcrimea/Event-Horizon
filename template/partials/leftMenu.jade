@@ -1,18 +1,10 @@
 .leftMenu
-  .leftMenuHead Меню
-  ul.ulMenuColumn
-    - if (req.isAuthenticated())
-      li
+  .leftMenuContainer
+    .leftMenuHead М е н ю
+    .ulMenuColumn
+      - if (req.isAuthenticated())
         a(href="/user/"+req.user._id title="Мой профиль") Мой профиль
-      li
         a(href="/track/list" title="Мои треки") Мои треки
-      li
-        a(href="#" title="Фото") Фото
-      li
-        a(href="#" title="Карта") Карта
-    - else
-      li
+        a(href="/upload" title="Загрузить") Загрузить маршрут
+      - else
         a(href="/login" title="Войти") Войти
-      li
-        a(href="/signup" title="Регистрация") Регистрация
-

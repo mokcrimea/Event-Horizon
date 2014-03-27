@@ -4,6 +4,8 @@ block main
   include ../partials/slideShow
   h1= title
   a.backLink(href="/track/#{id}/") Трек
+  - if (req.track._creator == req.session.passport.user)
+    a.backLink(href="/track/#{id}/yandex") Загрузить фотографии
 
 block content
   - if (images.length)

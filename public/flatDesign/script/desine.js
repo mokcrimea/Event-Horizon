@@ -2,7 +2,7 @@ var heightHeader = 70; //Высота Header
 
 function changePositionMenu() {
   var positionScroll  = window.pageYOffset || document.documentElement.scrollTop,
-      menuElem = document.getElementsByClassName('leftMenu')[0];
+      menuElem = document.getElementsByClassName('leftMenuContainer')[0];
 
   if(typeof menuElem != "undefined" && menuElem){
     if (positionScroll < heightHeader) {
@@ -13,8 +13,4 @@ function changePositionMenu() {
   }
 }
 
-function setMenuPosition(){
-    window.addEventListener("scroll", changePositionMenu, false);
-}
-
-window.addEventListener("load", setMenuPosition, false);
+window.addEventListener("scroll", changePositionMenu, false);

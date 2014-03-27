@@ -3,8 +3,9 @@ extends ../layout/page
 block main
   h1= title
   ul.trackMenu
-    a(href='/track/#{track.id}/galery')
-      li Галерея
+    - if (req.track.images.length > 0)
+      a(href='/track/#{track.id}/galery')
+        li Галерея
     - if (req.track._creator == req.session.passport.user)
       a(href='/track/#{track.id}/yandex')
         li Загрузить фотографии
@@ -49,7 +50,7 @@ block content
                 hintContent: "Показать фотографию",
             }, {
                 iconImageHref: urlPicture,
-                iconImageSize: [15, 10],
+                iconImageSize: [20, 15],
                 iconImageOffset: [0, 0]
             });
 
