@@ -10,13 +10,14 @@
 }
 
 .leftMenu{
-	position: absolute;
+	position: relative;
 	width: 40px;
 	overflow: hidden;
 	background: #E6E6E6;
 	float: left;
 	min-height: 700px;
 	transition: .3s .1s;
+	z-index: 18;
 }
 
 .leftMenuHead{
