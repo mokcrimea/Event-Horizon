@@ -248,6 +248,7 @@ h2{
 .balloon-img{
 	margin: 0 auto;
 	display: block;
+	cursor: pointer;
 }
 
 #zoom-balloon-image{
@@ -264,7 +265,7 @@ h2{
 }
 
 
-.balloon-fullsize{
+/* .balloon-fullsize{
 	display: block;
 	float: right;
 	font-family: sans-serif;
@@ -273,7 +274,7 @@ h2{
 	text-decoration: underline;
 	color: #4967E9;
 	cursor: pointer;
-}
+} */
 /*-------------Form-------------*/
 .input-box{
 	float: left;

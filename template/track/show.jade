@@ -22,14 +22,13 @@ block content
   script.
     var myMap,
         arrayInputDataCoordImg = !{JSON.stringify(images)};
-
     ymaps.ready(init);
 
 
     function init () {
         myMap = new ymaps.Map('map', {
             center: #{coord.substr(1, 50).split(',', 2)},
-            zoom:12,
+            zoom:8,
             behaviors: ['default', 'scrollZoom']
         });
 
@@ -42,20 +41,26 @@ block content
 
         var originalImg = new Image(), pictureWidth, pictureHeight;
 
-        function setPhoto(coord, urlPicture,pictureWidth){
-        var myPlacemark = new ymaps.Placemark(coord, {
-                balloonContentBody:
-                    "<img class='balloon-img' src='"+urlPicture+"' width='"+pictureWidth+"'/>" +
-                    "<div class='balloon-fullsize' onclick='ballonImageZoom()'>Увеличить фотографию</div>",
-                hintContent: "Показать фотографию",
-            }, {
-                iconImageHref: urlPicture,
-                iconImageSize: [20, 15],
-                iconImageOffset: [0, 0]
-            });
+        var myGeoObjects = [];
+        var myClusterer = new ymaps.Clusterer();
 
-         myMap.geoObjects.add(myPlacemark);
-        };
+
+        function setPhoto(i, coord, urlPicture, pictureWidth) {
+          myGeoObjects[i] = new ymaps.GeoObject({
+            geometry: { type: 'Point', coordinates: coord },
+            properties: {
+              clusterCaption: arrayInputDataCoordImg[i][2],
+              balloonContentBody:
+                    "<img class='balloon-img' onclick='ballonImageZoom()' src='"+urlPicture+"' width='"+pictureWidth+"'/>"
+            }
+          });
+            myClusterer.add(myGeoObjects[i]);
+            if (i == arrayInputDataCoordImg.length-1) {
+              console.log(myGeoObjects);
+            }
+        }
+
+
 
 
         function determineImgBalloonSize(i){
@@ -63,17 +68,19 @@ block content
             originalImg.src = arrayInputDataCoordImg[i][1];
           } catch(e) {}
             originalImg.onload = function(){
-              pictureWidth = 480;
-              pictureHeight = 480 * originalImg.height / originalImg.width;
-              if (pictureHeight > 400){
-                pictureWidth = pictureWidth - ((pictureHeight - 400) * pictureWidth / pictureHeight);
+            // Ширина картинки под размер кластера
+              pictureWidth = 340;
+              pictureHeight = 340 * originalImg.height / originalImg.width;
+              if (pictureHeight > 195){
+                pictureWidth = pictureWidth - ((pictureHeight - 195) * pictureWidth / pictureHeight);
               }
-              setPhoto(arrayInputDataCoordImg[i][0], arrayInputDataCoordImg[i][1], pictureWidth);
+              setPhoto(i, arrayInputDataCoordImg[i][0], arrayInputDataCoordImg[i][1], pictureWidth);
               if (i < arrayInputDataCoordImg.length) determineImgBalloonSize(i+1);
             }
         };
 
         determineImgBalloonSize(0);
+        myMap.geoObjects.add(myClusterer);
 
 
             var myPolyline = new ymaps.Polyline(#{coord}, {
@@ -92,7 +99,10 @@ block content
               strokeOpacity: 0.8
             });
 
-          myMap.geoObjects.add(myPolyline);
+            myMap.geoObjects.add(myPolyline);
+
+
+
         };
 
 

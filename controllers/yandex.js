@@ -74,13 +74,14 @@ exports.createAndUpload = function(req, res, next) {
   var album_url;
   var maxSize = 20971520; // 20 мб.
   var title = new Date().toJSON().substr(0, 19);
+  var auth = 'OAuth ' + req.user.authToken;
   var options = {
     url: 'http://api-fotki.yandex.ru/api/users/' + req.user.username + '/albums/',
     method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json;type=entry',
-      Authorization: 'OAuth ' + req.user.authToken
+      Authorization: auth
     },
     body: ''
   };
@@ -183,8 +184,37 @@ exports.createAndUpload = function(req, res, next) {
           throw err;
         }
         log.info('Завершил загрузку фотографии: ' + file);
-        req.track.addPhoto(JSON.parse(body), function(err) {
-          if (err) throw err;
+        //Фотография загружаена на Яндекс.Фото
+        var imageParams = JSON.parse(body);
+        // console.log(imageParams);
+        req.track.addPhoto(imageParams, function(index) {
+          // console.log('THE INDEX IS:  ' + index);
+          setTimeout(function() {
+            request({
+              url: imageParams.links.self,
+              method: 'GET',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json;type=entry',
+                Authorization: auth
+              }
+            }, function(err, response, body) {
+              if (err) throw err;
+              var geo;
+              try {
+                geo = (JSON.parse(body)).geo.coordinates;
+                req.track.addCoordinates(geo.split(' '), index, function(err) {
+                  if (err) throw err;
+                });
+              } catch (e) {
+                req.track.addCoordinates(null, index, function(err) {
+                  if (err) throw err;
+                });
+                log.error(e);
+              }
+            });
+
+          }, 4000);
         });
         console.log(counter);
         counter--;

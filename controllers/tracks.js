@@ -8,6 +8,7 @@ var mongoose = require('mongoose'),
   HttpError = require('../error').HttpError,
   path = require('path'),
   createFolders = require('../lib/createUserFolder'),
+  formatDate = require('../lib/utils').formatDate,
   log = require('../lib/log')(module);
 
 /**
@@ -56,9 +57,9 @@ exports.show = function(req, res, next) {
   req.track.images.forEach(function(image) {
     if (image.coordinates[0]) {
       if (image.links.L.href) {
-        images.push([image.coordinates[0], image.links.L.href]);
+        images.push([image.coordinates[0], image.links.L.href, formatDate(image.created)]);
       } else {
-        images.push([image.coordinates[0], image.links.orig.href]);
+        images.push([image.coordinates[0], image.links.orig.href, formatDate(image.created)]);
       }
     }
   });

@@ -26,6 +26,7 @@ var TrackSchema = new Schema({
     param: String,
     self: String,
     coordinates: [],
+    created: Date,
     id: Schema.ObjectId
   }]
 });
@@ -83,6 +84,7 @@ TrackSchema.methods = {
    * @param {Function} callback
    */
   addPhoto: function(obj, callback) {
+    var that = this;
     this.images.push({
       links: {
         M: obj.img.M,
@@ -90,10 +92,14 @@ TrackSchema.methods = {
         S: obj.img.S,
         orig: obj.img.orig
       },
+      created: obj.created,
       self: obj.links.self,
       param: obj.id
     });
-    this.save(callback);
+    this.save(function(err, index) {
+      if (err) console.log(err);
+      callback(that.images.length - 1);
+    });
   },
 
   addCoordinates: function(coord, index, callback) {

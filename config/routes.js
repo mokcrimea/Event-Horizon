@@ -35,7 +35,7 @@ module.exports = function(app, passport) {
   app.delete('/track/:tId/:iId/remove', auth.requireLogin, auth.track, yandex.removePhoto);
   // app.get('/track/:tId/:iId/show', auth.requireLogin, auth.track, yandex.showInfo);
   app.get('/track/:tId/yandex', auth.requireLogin, yandex.new);
-  app.post('/track/:tId/yandex', auth.requireLogin, auth.track, yandex.createAndUpload, yandex.updateGeoTags);
+  app.post('/track/:tId/yandex', auth.requireLogin, auth.track, yandex.createAndUpload);
 
 
   //track routes
