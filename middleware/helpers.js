@@ -11,3 +11,8 @@ exports.transport = function(req, res, next) {
   next();
 
 };
+
+exports.csrf_cookie = function(req, res, next) {
+  res.cookie('X-CSRF-Token', req.csrfToken());
+  next();
+};

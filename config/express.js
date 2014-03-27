@@ -71,10 +71,9 @@ module.exports = function(app, config, passport, mongoose) {
         return token;
       }
     }));
-    app.use(function(req, res, next) {
-      res.cookie('X-CSRF-Token', req.csrfToken());
-      next();
-    });
+
+    app.use(require('../middleware/helpers').csrf_cookie);
+
 
     app.use(app.router);
 
