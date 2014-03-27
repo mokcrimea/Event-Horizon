@@ -16,7 +16,7 @@ module.exports = function(app, passport) {
   //user routes
   app.param('uId', users.load);
   app.get('/logout', users.logout);
-  app.get('/user/:uId', yandex.getAlbums, users.show);
+  app.get('/user/:uId', auth.requireLogin, auth.user, yandex.getAlbums, users.show);
   app.post('/login', passport.authenticate('local', {
     failureRedirect: '/login',
     failureFlash: 'Неправильное имя пользователя или пароль'

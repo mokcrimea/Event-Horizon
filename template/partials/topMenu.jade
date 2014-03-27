@@ -1,8 +1,11 @@
 .header
-  .headLogo Coordinates fixer
+  .headLogo Thinvilve
   ul.ulMenuLine
-    li
-      a(href="/" title="Главная") Главная
+    - if (req.isAuthenticated())
+      li
+        a(href="/user/"+req.user._id title="Мой профиль") Профиль
+      li
+        a(href="/track/list" title="Главная") Мои треки
     li
       a(href="/upload" title="Загрузить") Загрузить
     - if (req.isAuthenticated())

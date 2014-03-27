@@ -1,6 +1,7 @@
 extends ../layout/page
 
 block main
+  include ../partials/slideShow
   h1= title
   a.backLink(href="/track/#{id}/") Трек
 
@@ -9,7 +10,7 @@ block content
     .containerGallery
       - each image in images
         .imgContainerGallery
-          - if (req.track._creator == req.user.id)
+          - if (req.track._creator == req.session.passport.user)
             form(method="POST" action="/track/#{id}/#{image._id}/remove")
               input(type="hidden" name="_method" value="DELETE")
               button.gallery-close-btn(type="submit" onclick="return confirm('Вы уверены, что хотите удалить фотографию?')")
@@ -95,18 +96,18 @@ block content
             originalWidth = originalImg.width,
             differentSize;
 
-        if ((originalHeight > 750) || (originalWidth > 1100)){
+        if ((originalHeight > 750) || (originalWidth > 990)){
 
           if (originalHeight > originalWidth){
             slideImg.setAttribute('height', '750px');
           }
 
           if (originalWidth > originalHeight){
-            differentSize = 1100 * originalHeight / originalWidth;
+            differentSize = 990 * originalHeight / originalWidth;
             if (differentSize > 750){
               slideImg.setAttribute('height', '750px');
             } else{
-              slideImg.setAttribute('width', '1100px');
+              slideImg.setAttribute('width', '990px');
             }
           }
         }

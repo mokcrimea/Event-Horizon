@@ -100,7 +100,7 @@ UserSchema.statics = {
   list: function(id, callback) {
     this.findOne({
       _id: id
-    }).populate('tracks', 'name id').exec(callback);
+    }).populate('tracks', 'name id distance').exec(callback);
   }
 };
 

@@ -2,13 +2,10 @@ doctype html
 html(lang='ru')
   include ../partials/head
   body
-    .tempBack
     .main
       include ../partials/topMenu
       .container
-        - if (req.route.path == '/track/:tId/galery')
-          include ../partials/slideShow
-        include ../partials/leftMenu
+        //- include ../partials/leftMenu
         .content
           include ../partials/message
           block main

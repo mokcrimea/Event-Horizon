@@ -13,6 +13,7 @@ var TrackSchema = new Schema({
   name: { type: String, require: true},
   _creator: { type : Schema.ObjectId, ref : 'User'},
   created: { type: Date, default: Date.now},
+  distance: Number,
   album: {
     title: String,
     id: String,
@@ -40,14 +41,16 @@ TrackSchema.methods = {
    *
    * @param {String}   name Название трека
    * @param {Object}   user Создатель
+   * @param {Number}   distance Длина маршрута
    * @param {Function} callback
    */
 
-  create: function(name, user, callback) {
+  create: function(name, user, distance, callback) {
     var id = user._id;
     var that = this;
     this.name = name;
     this._creator = id;
+    this.distance = distance;
     this.save(function(err) {
       if (err) throw err;
       user.tracks.push(that.id);

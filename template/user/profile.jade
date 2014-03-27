@@ -1,0 +1,14 @@
+extends ../layout/page
+
+block main
+  h1= title
+
+block content
+  p Имя пользователя - #{user.username}
+  h2 Альбомы пользователя на Яндекс.Фото
+  br
+  br
+  - each album in user.albums
+    p
+      a(href='#{album.alternate}' title='Название альбома')=album.title
+      p количество изобажений - #{album.imageCount} <br>

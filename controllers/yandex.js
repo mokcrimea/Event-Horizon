@@ -283,7 +283,7 @@ exports.gallery = function(req, res, next) {
         // ..Добавить INFO блок
         return res.render('yandex/upload', {
           title: 'Загрузка фотографий в галерею',
-          success: 'У вас нет загруженый фотографий. Загрузить можно с помощью формы ниже'
+          success: 'У вас нет загруженых фотографий. Загрузить можно с помощью формы ниже'
         });
       }
       track.images.forEach(function(image, index) {

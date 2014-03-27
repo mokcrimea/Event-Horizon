@@ -78,7 +78,7 @@ block content
             var myPolyline = new ymaps.Polyline(#{coord}, {
               // Описываем свойства геообъекта.
               // Содержимое балуна.
-              //- balloonContent: "Ваш трек"
+              balloonContent: 'Протяженность маршрута: ' + #{track.distance} + ' км.'
             }, {
               // Задаем опции геообъекта.
               // Отключаем кнопку закрытия балуна.

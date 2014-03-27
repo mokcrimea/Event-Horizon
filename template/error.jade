@@ -1,9 +1,7 @@
 extends ./layout/page
 
 block main
-  h1= error.message
+  .messageBox.errorMessage Ошибка:
 
 block content
-  p Извините, произошла ошибка.
-  - error.message
-
+  .messageBox.errorMessage=error.message

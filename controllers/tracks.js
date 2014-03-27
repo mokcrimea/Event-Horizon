@@ -15,7 +15,7 @@ var mongoose = require('mongoose'),
  */
 
 exports.load = function(req, res, next, id) {
-  Track.findById(id, 'name _creator created images album', function(err, track) {
+  Track.findById(id, 'name _creator created images album distance', function(err, track) {
     if (err) return next(404, err);
     if (track) {
       req.track = track;
@@ -100,7 +100,7 @@ exports.create = function(req, res, next) {
         fs.readFile(files.upload.path, function(err, Data) {
           if (err) throw err;
 
-          parseTrack(Data, uploadDir, function(err) {
+          parseTrack(Data, uploadDir, function(err, distance) {
             // На случай если формат файла не правильный
             if (err) {
               fs.unlink(files.upload.path, function(err) {
@@ -116,7 +116,7 @@ exports.create = function(req, res, next) {
               if (err) throw err;
             });
 
-            track.create(fields.title, req.user, function(err) {
+            track.create(fields.title, req.user, distance, function(err) {
 
               if (err) throw err;
               log.info('Трек успешно создан');

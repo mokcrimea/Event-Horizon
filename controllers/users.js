@@ -41,14 +41,13 @@ exports.list = function(req, res) {
   User.list(req.user.id, function(err, user) {
     var tracks = user.tracks;
     if (tracks.length === 0) {
-      // ..Добавить INFO блок
       return res.render('track/upload', {
         title: 'Загрузка нового трека',
-        success: 'У вас нет загруженый треков. Можете загрузить новый с помощью формы ниже'
+        success: 'У вас нет загруженых треков. Можете загрузить новый с помощью формы ниже'
       });
     }
     res.render('track/list', {
-      title: 'Tracks',
+      title: 'Список загруженных треков',
       tracks: tracks
     });
   });
@@ -59,8 +58,8 @@ exports.list = function(req, res) {
  */
 
 exports.show = function(req, res, next) {
-  res.render('user/show', {
-    title: req.reqUser.name,
+  res.render('user/profile', {
+    title: 'Профиль пользователя ' + req.reqUser.name,
     user: req.reqUser
   });
 
