@@ -374,12 +374,6 @@ h2{
 	z-index: -100;
 }
 
-.main{
-	width: 1000px;
-	margin: auto;
-	font-family: GardensC, Tahoma, Helvetica;
-}
-
 .header{
 	text-decoration: underline;
 	display: block;
@@ -401,16 +395,8 @@ h2{
 }
 
 .ulMenuLine{
-	-webkit-padding-start: 0;
-	-webkit-margin-before: 0;
-	-webkit-margin-after: 0;
 	display: block;
-	float: right;
-}
-
-.ulMenuLine li{
-	list-style-type: none;
-	display: inline;
+	float:right;
 	transition: 0.2s;
 }
 
@@ -452,18 +438,12 @@ h2{
 	font-size: 14pt;
 	text-decoration: none;
 	padding: 5px 0 5px 25px;
-}
-
-.ulMenuColumn li{
-	list-style-type: none;
 	transition: .2s;
-}
-.ulMenuColumn li:hover{
-	background-color: #FFF;
 }
 
 .ulMenuColumn a:hover{
 	cursor: pointer;
+	background-color: #FFF;
 }
 
 .ulMenuColumn a:active{
