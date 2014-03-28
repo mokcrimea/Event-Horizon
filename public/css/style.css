@@ -169,10 +169,9 @@ h2{
 
 .imgContainerGallery{
 	height: 250px;
-	width: 300px;
+	width: 280px;
 	background: #1C1C1C;
 	float: left;
-	margin: 20px 0 0 20px;
 }
 
 .imgContainerGallery:hover .gallery-close-btn{
@@ -204,7 +203,7 @@ h2{
 	height: 30px;
 	border: 0;
 	width: 30px;
-	margin-left: 270px;
+	margin-left: 250px;
 	opacity: 0;
 	transition: .5s;
 	cursor: pointer;
