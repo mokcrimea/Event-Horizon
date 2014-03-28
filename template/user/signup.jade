@@ -1,26 +1,18 @@
 extends ../layout/page
 
 block main
-  h1= title
+  //- h1= title
 
 block content
-  form.loginWindow(action="/user", method="post", role="form" name="reg_form")
-    .form-group
-      label.form-label Имя
-        input.form-input(name="name" type="text" placeholder="Имя" value=user.name)
-    .form-group
-      label.form-label E-mail
-        input.form-input(name="email" type="email" placeholder="E-mail" value=user.email)
-    .form-group
-      label.form-label Username
-        input.form-input(name="username" type="text" placeholder="Username" value=user.username)
-    .form-group
-      label.form-label Пароль
-        input.form-input(name="password" type="password" placeholder="Пароль")
-    .form-group
-      .btn-right
-        button.btn-form(name="submit" type="submit") Отправить
-  script.
+  p.
+   Для загрузки и хранения фотографий мы используем сервис Яндекс.Фото.
+   Для того, чтобы воспользоваться  его услугами необходимо принять
+   пользовательское соглашение.
+  p
+    a(href="http://fotki.yandex.ru/oferta.xml?" target="_blank") Ссылка
+  p.
+    После принятия соглашения вы сможете загружать фотографии в нашу галерею.
+  //- script.
     var form = document.reg_form;
     form.submit.addEventListener('click', function(evt){
       var reName = /(^[A-zА-я0-9]{3,20}$)/;

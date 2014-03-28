@@ -22,10 +22,17 @@ exports.document = function(req, res, next) {
   var reUsername = /^\S[^\s]{3,20}/ig;
   request(set_Options(req, 'document'), function(err, responce, body) {
     if (err) console.log(err);
-    var username = reUsername.exec(JSON.parse(body).title)[0];
-    req.user.updateUsername(username, function(err) {
-      if (err) throw err;
-    });
+    try {
+      var username = reUsername.exec(JSON.parse(body).title)[0];
+      req.user.updateUsername(username, function(err) {
+        if (err) throw err;
+      });
+    } catch (e) {
+      log.debug('Необходимо принять соглашения яндекс фоток.');
+      req.session.become = 'to';
+      req.logout();
+      return res.redirect('/signup');
+    }
     next();
   });
 };
@@ -71,9 +78,9 @@ exports.createAndUpload = function(req, res, next) {
   var files = [];
   var album_url;
   var maxSize = 20971520; // 20 мб.
-
+  var count = 0;
   form.on('file', function(name, file) {
-    log.info('Загрузил фотографию ' + file.name +' на сервер.');
+    log.info('Загрузил фотографию ' + file.name + ' на сервер.');
     var type = file.type;
     /**
      * Валидация загружаемых файлов на стороне сервера.
@@ -112,12 +119,7 @@ exports.createAndUpload = function(req, res, next) {
           });
       } else {
         album_url = req.track.album.link;
-        async.series([
-            uploadPhotos
-          ],
-          function(err, results) {
-            if (err) throw err;
-          });
+        uploadPhotos();
       }
     }
   });
@@ -129,7 +131,6 @@ exports.createAndUpload = function(req, res, next) {
 
   function createAlbum(callback) {
     request(set_Options(req, 'create'), function(err, responce, body) {
-      console.log(body);
       if (err) {
         log.error(err);
         next(500);
@@ -157,66 +158,114 @@ exports.createAndUpload = function(req, res, next) {
   function uploadPhotos(callback) {
     var counter = files.length;
     log.info('Отправляю фоточки на сервер в: \n' + album_url);
-
     async.each(files, function(file) {
-      request(set_Options(req, 'upload', {
-        url: album_url,
-        file: file
-      }), function(err, responce, body) {
-        if (err) {
-          log.error(err);
-          next(500);
-          throw err;
-        }
-        log.info('Завершил загрузку фотографии: ' + file[1]);
-        var imageParams;
-        try {
-          imageParams = JSON.parse(body);
-        } catch(e) {
-          log.error(body);
-        }
-        imageParams.title = file[1];
-        req.track.addPhoto(imageParams, function(index) {
-          // console.log('THE INDEX IS:  ' + index);
-          setTimeout(function() {
-            request(set_Options(req, 'getGPS', {
-              url: imageParams.links.self
-            }), function(err, response, body) {
-              if (err) throw err;
-              var geo;
-              try {
-                geo = (JSON.parse(body)).geo.coordinates;
-                req.track.addCoordinates(geo.split(' '), index, function(err) {
+        fs.readFile(file[0], function(err, data) {
+          if (err) console.log(err);
+          request(set_Options(req, 'upload', {
+            url: album_url,
+            file: file,
+            data: data
+          }), function(err, responce, body) {
+            if (err) {
+              log.error(err);
+              next(500);
+              throw err;
+            }
+            log.info('Завершил загрузку фотографии: ' + file[1]);
+            var imageParams;
+            try {
+              imageParams = JSON.parse(body);
+            } catch (e) {
+              log.error(body);
+            }
+            imageParams.title = file[1];
+            req.track.addPhoto(imageParams, function(index) {
+              // console.log('THE INDEX IS:  ' + index);
+              setTimeout(function() {
+                request(set_Options(req, 'getGPS', {
+                  url: imageParams.links.self
+                }), function(err, response, body) {
                   if (err) throw err;
+                  var geo;
+                  count++;
+                  console.log('Проверяю координаты фотки: ' + count);
+                  try {
+                    geo = (JSON.parse(body)).geo.coordinates;
+                    req.track.addCoordinates(geo.split(' '), index, function(err) {
+                      if (err) throw err;
+                    });
+                  } catch (e) {
+                    req.track.addCoordinates(null, index, function(err) {
+                      if (err) throw err;
+                    });
+                    log.error(e);
+                  }
                 });
-              } catch (e) {
-                req.track.addCoordinates(null, index, function(err) {
-                  if (err) throw err;
-                });
-                log.error(e);
-              }
+
+              }, 4000);
             });
+            if (--counter === 0) {
+              next();
+              res.redirect('/track/' + req.track.id + '/galery');
+            }
+            fs.unlink(file[0], function(err) {
+              if (err) throw err;
+            });
+          });
 
-          }, 4000);
         });
-        if (--counter === 0) {
-          next();
-          res.redirect('/track/' + req.track.id + '/galery');
-        }
-        fs.unlink(file[0], function(err) {
-          if (err) throw err;
-        });
+
+
+      },
+
+      function(err) {
+        if (err) throw (err);
+        next(500);
       });
-
-    }, function(err) {
-      if (err) throw (err);
-      next(500);
-    });
     if (typeof(callback) == "function") {
       callback();
     }
   }
 };
+
+
+
+/*exports.updateGeoTags = function(req, res, next) {
+  var auth = 'OAuth ' + req.user.authToken;
+  req.track.images.forEach(function(image, index) {
+    if (image.coordinates[0] !== null) {
+      setTimeout(function() {
+        request({
+          url: image.self,
+          method: 'GET',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json;type=entry',
+            Authorization: auth
+          }
+        }, function(err, response, body) {
+          if (err) throw err;
+          var geo;
+          try {
+            geo = (JSON.parse(body)).geo.coordinates;
+            req.track.addCoordinates(geo.split(' '), index, function(err) {
+              if (err) throw err;
+            });
+          } catch (e) {
+            req.track.addCoordinates(null, index, function(err) {
+              if (err) throw err;
+            });
+            log.error(e);
+            console.log(e);
+          }
+        });
+      }, 5000);
+    }
+  });
+};*/
+
+
+
 
 exports.getAlbums = function(req, res, next) {
   request(set_Options(req, 'album'), function(err, response, body) {
