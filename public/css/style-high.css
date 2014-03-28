@@ -1,32 +1,36 @@
-.main {
-  width: 1200px;
-  margin: auto;
-  font-family: GardensC, Tahoma, Helvetica;
+.main{
+	width: 1200px;
+	margin: auto;
+	font-family: GardensC, Tahoma, Helvetica;
 }
-.leftMenu {
-  position: relative;
-  width: 200px;
-  overflow: hidden;
-  background: #E6E6E6;
-  float: left;
-  min-height: 700px;
+
+.leftMenu{
+	position: relative;
+	width: 200px;
+	overflow: hidden;
+	background: #E6E6E6;
+	float: left;
+	min-height: 700px;
 }
-.content {
-  float: right;
-  width: 1000px;
+
+.content{
+	float: right;
+	width: 1000px;
 }
-.leftMenuHead {
-  position: relative;
-  width: 90px;
-  margin: 15px auto 10px;
-  font-size: 17pt;
-  color: #3D3D3D;
+
+.leftMenuHead{
+	position: relative;
+	width: 90px;	
+	margin: 15px auto 10px;
+	font-size: 17pt;
+	color: #3D3D3D;
 }
-.ulMenuColumn {
-  position: relative;
-  left: 0px;
-  float: left;
-  display: block;
-  width: 100%;
-  margin-top: 10px;
+
+.ulMenuColumn{
+	position: relative;
+	left: 0px;
+	float: left;
+	display: block;
+	width: 100%;
+	margin-top: 10px;
 }

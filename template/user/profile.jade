@@ -4,11 +4,19 @@ block main
   h1= title
 
 block content
-  p Имя пользователя - #{user.username}
-  h2 Альбомы пользователя на Яндекс.Фото
-  br
-  br
-  - each album in user.albums
-    p
-      a(href='#{album.alternate}' title='Название альбома')=album.title
-      p количество изобажений - #{album.imageCount} <br>
+	.infoWindow
+		.form-group.first-line-group
+			.form-label
+				u Имя пользователя:
+			.form-label-component #{user.username}
+	
+		.form-group
+			.form-label
+				h2 Альбомы пользователя на 
+					a.yandex-url(href='http://fotki.yandex.ru/' title='Яндекс Фотки')
+							span.yandex-first-letter Я
+						ндекс.Фото:
+		- each album in user.albums
+			.form-group
+				a.form-url-name(href='#{album.alternate}' title='Название альбома')=album.title
+				.form-gallery-name количество изобажений - #{album.imageCount}
