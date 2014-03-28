@@ -5,8 +5,8 @@ body{
 
 @font-face {
     	font-family: GardensC;
-    	/*src: local(GardensC), url(../font/GardensC.otf);*/
-    	src: local(GardensC), url(../font/GardensC.otf);
+    	src: local(GardensC), url(../font/GardensC.otf),
+    		 url('../font/GardensC.eot');
 }
 
 h1{
