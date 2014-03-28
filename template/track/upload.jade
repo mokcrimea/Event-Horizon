@@ -4,12 +4,11 @@ block main
   h1= title
 
 block content
-  form(action="/upload" enctype="multipart/form-data" method="post" name="upload_track" align="center")
-    input(type="text" name="title")
-    br
-    input(type="file" name="upload")
-    br
-    button(name="submit" type="submit") Загрузить
+  form(class="form-input-load" action="/upload" enctype="multipart/form-data" method="post" name="upload_track" align="center")
+    .form-group
+      input(class="form-input-load-text" type="text" name="title" placeholder="Введите имя трека")
+      input(type="file" name="upload")
+      button(class="list-information-gallery" name="submit" type="submit") Загрузить
   script.
     var form = document.upload_track;
     form.submit.addEventListener('click', function(evt){

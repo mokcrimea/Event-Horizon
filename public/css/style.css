@@ -284,7 +284,7 @@ h2{
 	float: left;
 }
 
-.infoWindow:nth-child(2){
+.infoWindow{
 	margin: 40px auto;
 	width: 850px;
 	border: 1px solid #79ABE6;
@@ -319,7 +319,6 @@ h2{
 	color: #EE2424;
 }
 
-
 .form-url-name{
 	margin-left: 70px;
 	padding-top: 2px;
@@ -330,6 +329,32 @@ h2{
 	color: #007A13;
 }
 
+.form-input-load{
+	margin: 40px auto;
+	width: 550px;
+	border-radius: 8px;
+	border: 1px solid #79ABE6;
+	overflow: hidden;
+}
+
+.form-input-load .list-information-gallery{
+	opacity: 1;
+	float: left;
+	margin: 10px 0 0 282px;
+	background: #F0F0F0;
+}
+
+.form-input-load .form-group{
+	margin-top: 20px;
+}
+
+.form-input-load-text{
+	display: block;
+	float: left;
+	width: 200px;
+	margin-left: 50px;
+}
+
 .form-url-name:hover{
 	color: #00BD1D;
 }
@@ -337,7 +362,6 @@ h2{
 .form-url-name:active{
 	text-decoration: none;
 }
-
 
 .form-gallery-name{
 	margin-left: 70px;
@@ -361,6 +385,11 @@ h2{
 .form-group{
 	min-height: 50px;
 	margin-bottom: 25px;
+}
+
+.form-group:nth-child(2){
+	margin-top: 50px;
+	margin-bottom: 10px;
 }
 
 .form-input{
@@ -728,5 +757,5 @@ p{
 }
 
 .list-information-gallery:active{
-	color: #1331D3;
+	box-shadow: inset 0 2px 2px #ADD3FF;
 }
