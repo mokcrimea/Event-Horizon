@@ -63,7 +63,6 @@ exports.show = function(req, res, next) {
       }
     }
   });
-  console.log(images.length);
   var track = req.track;
 
   fs.readFile(trackPath, function(err, data) {

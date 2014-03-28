@@ -4,19 +4,19 @@ block main
   h1= title
 
 block content
-	.infoWindow
-		.form-group.first-line-group
-			.form-label
-				u Имя пользователя:
-			.form-label-component #{user.username}
-	
-		.form-group
-			.form-label
-				h2 Альбомы пользователя на 
-					a.yandex-url(href='http://fotki.yandex.ru/' title='Яндекс Фотки')
-							span.yandex-first-letter Я
-						ндекс.Фото:
-		- each album in user.albums
-			.form-group
-				a.form-url-name(href='#{album.alternate}' title='Название альбома')=album.title
-				.form-gallery-name количество изобажений - #{album.imageCount}
+  .infoWindow
+    .form-group.first-line-group
+      .form-label
+        u Имя пользователя:
+      .form-label-component #{user.username}
+
+    .form-group
+      .form-label
+        h2 Ваши альбомы на
+          a.yandex-url(href='http://fotki.yandex.ru/' title='Яндекс Фотки')
+            span.yandex-first-letter  Я
+            span ндекс.Фото:
+    - each album in user.albums
+      .form-group
+        a.form-url-name(href='#{album.alternate}' title='Название альбома')=album.title
+        .form-gallery-name количество изобажений - #{album.imageCount}
