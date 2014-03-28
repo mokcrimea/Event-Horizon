@@ -1,12 +1,12 @@
 /**
- * Module dependencies.
+ * Основные зависимости
  */
 
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
 /**
- * Track Schema
+ * Схема трека
  */
 
 var TrackSchema = new Schema({
@@ -32,7 +32,7 @@ var TrackSchema = new Schema({
 });
 
 /**
- * Methods
+ * Методы
  */
 
 TrackSchema.methods = {
@@ -102,6 +102,13 @@ TrackSchema.methods = {
     });
   },
 
+  /**
+   * Добавляет координаты изображения если они есть, в
+   * противном случае записыват null.
+   * @param {Array || null}   coord
+   * @param {Number}   index    Номер фотографии
+   * @param {Function} callback
+   */
   addCoordinates: function(coord, index, callback) {
     if (coord !== null) {
       var x = parseFloat(coord[0]);

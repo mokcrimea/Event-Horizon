@@ -15,7 +15,7 @@ module.exports = function(app, config, passport, mongoose) {
 
   app.use(express.compress({
     filter: function(req, res) {
-      return /json|text|css|javascript/.test(res.getHeader('Content-Type'));
+      return /json|text|css|javascript|image|otf/.test(res.getHeader('Content-Type'));
     },
     level: 9
   }));

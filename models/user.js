@@ -1,5 +1,5 @@
 /**
- * Module dependencies.
+ * Основные зависимости
  */
 
 var mongoose = require('mongoose'),
@@ -8,7 +8,7 @@ var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
 /**
- * User Schema
+ * Схема пользователя
  */
 
 var UserSchema = new Schema({
@@ -27,10 +27,6 @@ var UserSchema = new Schema({
  * Virtuals
  */
 
-UserSchema.virtual('showId').get(function() {
-  return this._id;
-});
-
 UserSchema.virtual('password')
   .set(function(password) {
     this._plainPassword = password;
@@ -42,7 +38,7 @@ UserSchema.virtual('password')
   });
 
 /**
- * Methods
+ * Mетоды
  */
 
 UserSchema.methods = {
