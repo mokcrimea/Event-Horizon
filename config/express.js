@@ -34,7 +34,9 @@ module.exports = function(app, config, passport, mongoose) {
   } else {
     app.use(express.logger('default'));
   }
-
+  app.on('error', function(err) {
+    console.error(err);
+  });
   app.configure(function() {
 
     app.use(express.cookieParser());

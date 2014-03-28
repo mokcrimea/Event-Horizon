@@ -9,6 +9,7 @@ var mongoose = require('mongoose'),
   fs = require("fs"),
   HttpError = require('../error').HttpError,
   async = require('async'),
+  set_Options = require('../lib/utils').set_Options,
   log = require('../lib/log')(module);
 
 /**
@@ -19,15 +20,7 @@ var mongoose = require('mongoose'),
 
 exports.document = function(req, res, next) {
   var reUsername = /^\S[^\s]{3,20}/ig;
-  request({
-    url: 'http://api-fotki.yandex.ru/api/me/',
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json;type=entry',
-      Authorization: 'OAuth ' + req.user.authToken
-    }
-  }, function(err, responce, body) {
+  request(set_Options(req, 'document'), function(err, responce, body) {
     if (err) console.log(err);
     var username = reUsername.exec(JSON.parse(body).title)[0];
     req.user.updateUsername(username, function(err) {
@@ -66,6 +59,11 @@ exports.new = function(req, res) {
   });
 };
 
+/**
+ * Создает альбом для трека если он отсутствует и
+ * загружает в него фотографии
+ */
+
 exports.createAndUpload = function(req, res, next) {
   var formidable = require('formidable');
   var form = new formidable.IncomingForm();
@@ -73,29 +71,20 @@ exports.createAndUpload = function(req, res, next) {
   var files = [];
   var album_url;
   var maxSize = 20971520; // 20 мб.
-  var title = new Date().toJSON().substr(0, 19);
-  var auth = 'OAuth ' + req.user.authToken;
-  var options = {
-    url: 'http://api-fotki.yandex.ru/api/users/' + req.user.username + '/albums/',
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json;type=entry',
-      Authorization: auth
-    },
-    body: ''
-  };
-  form.on('fileBegin', function(name, file) {
-    var type = file.type;
-    if (type != 'image/jpeg' && type != 'image/png' && type != 'image/gif' && type != 'image/bmp') {
-      return next(new HttpError(415, 'Неправильный формат файла'));
-    } else {
-      files.push(file.path);
-    }
-  });
+
   form.on('file', function(name, file) {
+    log.info('Загрузил фотографию ' + file.name +' на сервер.');
+    var type = file.type;
+    /**
+     * Валидация загружаемых файлов на стороне сервера.
+     * Проверяем размер фотографии и формат файла.
+     */
     if (file.size > maxSize) {
       return next(new HttpError(413, 'Допускаются файлы размером не более 20 Мб.'));
+    } else if (type != 'image/jpeg' && type != 'image/png' && type != 'image/gif' && type != 'image/bmp') {
+      return next(new HttpError(415, 'Неправильный формат файла'));
+    } else {
+      files.push([file.path, file.name, file.type]);
     }
   });
   form.on('error', function(message) {
@@ -104,9 +93,6 @@ exports.createAndUpload = function(req, res, next) {
   });
 
   form.on('end', function() {
-    options.body = JSON.stringify({
-      title: title
-    });
 
     /**
      * Делаем проверку на существование альбома для текущего трека.
@@ -142,14 +128,14 @@ exports.createAndUpload = function(req, res, next) {
    */
 
   function createAlbum(callback) {
-    request(options, function(err, responce, body) {
-
+    request(set_Options(req, 'create'), function(err, responce, body) {
+      console.log(body);
       if (err) {
         log.error(err);
         next(500);
         throw err;
       } else {
-        log.info('Альбом "' + title + '" успешно создан');
+        log.info('Альбом успешно создан');
       }
 
       album_url = JSON.parse(body).links.photos;
@@ -171,34 +157,31 @@ exports.createAndUpload = function(req, res, next) {
   function uploadPhotos(callback) {
     var counter = files.length;
     log.info('Отправляю фоточки на сервер в: \n' + album_url);
-    options.url = album_url;
-    options.headers['Content-Type'] = 'image/png';
 
     async.each(files, function(file) {
-      options.body = fs.readFileSync(file);
-
-      request(options, function(err, responce, body) {
+      request(set_Options(req, 'upload', {
+        url: album_url,
+        file: file
+      }), function(err, responce, body) {
         if (err) {
           log.error(err);
           next(500);
           throw err;
         }
-        log.info('Завершил загрузку фотографии: ' + file);
-        //Фотография загружаена на Яндекс.Фото
-        var imageParams = JSON.parse(body);
-        // console.log(imageParams);
+        log.info('Завершил загрузку фотографии: ' + file[1]);
+        var imageParams;
+        try {
+          imageParams = JSON.parse(body);
+        } catch(e) {
+          log.error(body);
+        }
+        imageParams.title = file[1];
         req.track.addPhoto(imageParams, function(index) {
           // console.log('THE INDEX IS:  ' + index);
           setTimeout(function() {
-            request({
-              url: imageParams.links.self,
-              method: 'GET',
-              headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json;type=entry',
-                Authorization: auth
-              }
-            }, function(err, response, body) {
+            request(set_Options(req, 'getGPS', {
+              url: imageParams.links.self
+            }), function(err, response, body) {
               if (err) throw err;
               var geo;
               try {
@@ -216,13 +199,11 @@ exports.createAndUpload = function(req, res, next) {
 
           }, 4000);
         });
-        console.log(counter);
-        counter--;
-        if (counter === 0) {
+        if (--counter === 0) {
           next();
           res.redirect('/track/' + req.track.id + '/galery');
         }
-        fs.unlink(file, function(err) {
+        fs.unlink(file[0], function(err) {
           if (err) throw err;
         });
       });
@@ -237,56 +218,10 @@ exports.createAndUpload = function(req, res, next) {
   }
 };
 
-
-exports.updateGeoTags = function(req, res, next) {
-  var auth = 'OAuth ' + req.user.authToken;
-  req.track.images.forEach(function(image, index) {
-    if (image.coordinates[0] !== null) {
-      setTimeout(function() {
-        request({
-          url: image.self,
-          method: 'GET',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json;type=entry',
-            Authorization: auth
-          }
-        }, function(err, response, body) {
-          if (err) throw err;
-          var geo;
-          try {
-            geo = (JSON.parse(body)).geo.coordinates;
-            req.track.addCoordinates(geo.split(' '), index, function(err) {
-              if (err) throw err;
-            });
-          } catch (e) {
-            req.track.addCoordinates(null, index, function(err) {
-              if (err) throw err;
-            });
-            log.error(e);
-            console.log(e);
-          }
-        });
-      }, 5000);
-    }
-  });
-};
-
-
 exports.getAlbums = function(req, res, next) {
-  var options = {
-    url: 'http://api-fotki.yandex.ru/api/users/' + req.user.username + '/albums/',
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json;type=entry',
-      Authorization: 'OAuth ' + req.user.authToken
-    }
-  };
-  request(options, function(err, response, body) {
+  request(set_Options(req, 'album'), function(err, response, body) {
     if (err) log.error(err);
     var albums = [];
-    // console.log(JSON.parse(body));
     JSON.parse(body).entries.forEach(function(album) {
       albums.push({
         alternate: album.links.alternate,
@@ -310,7 +245,6 @@ exports.gallery = function(req, res, next) {
     var images_links = [];
     if (track) {
       if (track.images.length === 0) {
-        // ..Добавить INFO блок
         return res.render('yandex/upload', {
           title: 'Загрузка фотографий в галерею',
           success: 'У вас нет загруженых фотографий. Загрузить можно с помощью формы ниже'
@@ -391,26 +325,3 @@ exports.removeAlbum = function(req, res, next) {
     res.redirect('/track/list');
   }
 };
-
-/*exports.showInfo = function(req, res) {
-  var auth = 'OAuth ' + req.user.authToken;
-  req.track.images.forEach(function(image) {
-    console.log(image._id);
-    if (image._id == req.params.iId) {
-      request({
-        url: image.self,
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json;type=entry',
-          Authorization: auth
-        }
-      }, function(err, response, body) {
-        if (err) throw err;
-        console.log(JSON.parse(body).geo.coordinates);
-      });
-    }
-  });
-  res.redirect('/track/' + req.track.id + '/galery');
-};
-*/

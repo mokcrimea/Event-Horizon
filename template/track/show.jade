@@ -21,7 +21,8 @@ block content
   script(src="http://api-maps.yandex.ru/2.0/?load=package.full&lang=ru-RU")
   script(type="text/javascript" src="/js/trackYandex.js")
   script.
+    arrayInputDataCoordImg = !{JSON.stringify(images)};
+    console.log(!{JSON.stringify(images)}.length);
+    distance = #{track.distance};
     center = #{coord.substr(1, 50).split(',', 2)};
     coord = #{coord};
-    arrayInputDataCoordImg = !{JSON.stringify(images)};
-    distance = #{track.distance};

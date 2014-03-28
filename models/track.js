@@ -25,6 +25,7 @@ var TrackSchema = new Schema({
     links : {},
     param: String,
     self: String,
+    title: String,
     coordinates: [],
     created: Date,
     id: Schema.ObjectId
@@ -92,6 +93,7 @@ TrackSchema.methods = {
         S: obj.img.S,
         orig: obj.img.orig
       },
+      title: obj.title,
       created: obj.created,
       self: obj.links.self,
       param: obj.id
