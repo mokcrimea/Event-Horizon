@@ -4,10 +4,10 @@ block main
   h1= title
 
 block content
-  form(action="/track/#{req.track.id}/yandex" enctype="multipart/form-data" method="post" name="upload_images")
-    input(type="file" name="images" required multiple)
-    br
-    button(name="submit" type="submit") Загрузить
+  form(class="form-input-load form-input-load-img" action="/track/#{req.track.id}/yandex" enctype="multipart/form-data" method="post" name="upload_images")
+    .form-group
+      input(class="list-information-load-img" type="file" name="images" required multiple)
+      button(class="list-information-gallery btn-load-img-indent" name="submit" type="submit") Загрузить
   script.
     var form = document.upload_images;
 

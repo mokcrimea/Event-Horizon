@@ -114,6 +114,7 @@ h2{
 	position: absolute;
 	background: url(../img/load-img.png);
 	margin: 338px 0 0 512px;
+	opacity: 1;
 	width: 75px;
 	height: 74px;
 	transition: .2s;
@@ -329,17 +330,31 @@ h2{
 
 .form-input-load{
 	margin: 40px auto;
-	width: 550px;
 	border-radius: 8px;
 	border: 1px solid #79ABE6;
 	overflow: hidden;
 }
 
+.form-input-load-track{
+	width: 550px;
+}
+
+.form-input-load-img{
+	width: 450px;
+}
+
 .form-input-load .list-information-gallery{
 	opacity: 1;
 	float: left;
-	margin: 10px 0 0 282px;
 	background: #F0F0F0;
+}
+
+.list-information-load-track-left{
+	margin: 10px 0 0 282px;
+}
+
+.btn-load-img-indent{
+	margin: 10px 0 20px 140px;
 }
 
 .form-input-load .form-group{
@@ -694,6 +709,13 @@ p{
 	border: 1px solid #79ABE6;
 }
 
+.list-information-load-img{
+	display: block;
+	margin: 0 auto;
+	width: 230px;
+}
+
+
 .content h1 + .list-information{
 	margin-top: 40px;
 }
@@ -753,9 +775,12 @@ p{
 	border-radius: 4px;
 	cursor: pointer;
 	padding: 3px 10px;
-	margin-left: 30px;
 	outline: none;
 	text-decoration: none;
+}
+
+.list-information-gallery-track-left{
+	margin-left: 30px;
 }
 
 .list-information:hover button,
