@@ -8,8 +8,8 @@ block content
     - each track in tracks
       .list-information
         a.list-information-name(href="/track/"+track.id)= track.name
+        .list-information-inf (#{track.distance} км)
         a.list-information-gallery(href="/track/#{track.id}/galery") Галерея
-        p.list-information-inf #{track.distance} км.
         form(method="POST" id='remove_track' action="/track/#{track.id}")
           input(type="hidden" name="_method" value="DELETE")
           button(type="submit" onclick="return confirm('Вы уверены, что хотите удалить трек? Связанный альбом на Я.Фото так же будет удален!')") &#xD7;

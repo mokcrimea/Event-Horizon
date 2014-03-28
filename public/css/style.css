@@ -672,15 +672,11 @@ p{
 	height: 24px;
 	padding: 12px 20px 7px;
 	border-radius: 5px;
+	border: 1px solid #79ABE6;
 }
 
 .content h1 + .list-information{
 	margin-top: 40px;
-}
-
-.list-information:hover{
-	padding: 11px 19px 6px;
-	border: 1px solid #79ABE6;
 }
 
 .list-information-name{
@@ -688,6 +684,15 @@ p{
 	display: block;
 	float: left;
 	color: #141CE0;
+}
+
+.list-information-inf{
+	font-family: Verdana, sans-serif;
+	color: #4E4E4E;
+	margin-left: 15px;
+	display: inline-block;
+	padding: 0 4px;
+	height: 23px;
 }
 
  .list-information-name:visited{
@@ -728,31 +733,13 @@ p{
 	border-radius: 4px;
 	cursor: pointer;
 	padding: 3px 10px;
-	margin-left: 59px;
+	margin-left: 30px;
 	outline: none;
 	text-decoration: none;
-}
-
-.list-information-inf{
-	opacity: 0;
-	background: #F5F5F5;
-	color: #1F2C21;
-	border-radius: 4px;
-	margin: 0 0 0 10px;
-	outline: none;
-	text-decoration: none;
-	display: inline-block;
-	padding: 0 4px;
-	height: 23px;
-}
-.list-information-inf:hover{
-	background: #E0EEFF;
-	border-color: #97ADDB;
 }
 
 .list-information:hover button,
-.list-information:hover .list-information-gallery,
-.list-information:hover .list-information-inf {
+.list-information:hover .list-information-gallery{
 	opacity: 1;
 }
 
