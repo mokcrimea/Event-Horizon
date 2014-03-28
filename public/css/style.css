@@ -315,6 +315,11 @@ h2{
 	text-decoration: underline;
 }
 
+.yandex-first-letter{
+	color: #EE2424;
+}
+
+
 .form-url-name{
 	margin-left: 70px;
 	padding-top: 2px;
