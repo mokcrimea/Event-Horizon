@@ -567,6 +567,26 @@ p{
 	min-width: 500px;
 }
 
+.error {
+	background: url(../img/error.png);
+	margin: auto;
+	height: 135px;
+	width: 340px;
+}
+
+.yandex-icon {
+	background: url(../img/yandex.png);
+	width: 128px;
+	height: 128px;
+}
+
+.errMessage {
+	padding: 5px 30px;
+	text-align: center;
+	font-size: 25pt;
+	min-width: 500px;
+}
+
 .errorMessage{
 	background: #EBB7B7;
 	color: #580404;
@@ -750,4 +770,9 @@ p{
 
 .list-information-gallery:active{
 	box-shadow: inset 0 2px 2px #ADD3FF;
+}
+
+.signup_info {
+	padding: 40px 30px;
+	font-size: 16pt;
 }
