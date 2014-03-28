@@ -284,9 +284,9 @@ h2{
 	float: left;
 }
 
-.loginWindow{
+.infoWindow{
 	margin: 40px auto;
-	width: 400px;
+	width: 850px;
 	border: 1px solid #79ABE6;
 	border-radius: 8px;
 }
@@ -301,11 +301,61 @@ h2{
 	padding-top: 2px;
 	display: block;
 	font-size: 14pt;
-	float: left; /*Убрать!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+	float: left;
+}
+
+.yandex-url{
+	font-family: Tahoma;
+	font-size: 14pt;
+	text-decoration: none;
+	color: #424242;
+}
+
+.yandex-url:hover{
+	text-decoration: underline;
+}
+
+.form-url-name{
+	margin-left: 70px;
+	padding-top: 2px;
+	font-size: 13pt;
+	width: 100%;
+	font-family: Verdana;
+	float: left;
+	color: #007A13;
+}
+
+.form-url-name:hover{
+	color: #00BD1D;
+}
+
+.form-url-name:active{
+	text-decoration: none;
+}
+
+
+.form-gallery-name{
+	margin-left: 70px;
+	padding-top: 4px;
+	font-size: 11pt;
+	color: #494949;
+	font-family:  Verdana;
+	float: left;
+}
+
+.form-label-component{
+	margin-left: 20px;
+	display: block;
+	padding-top: 0px;
+	letter-spacing: 1pt;
+	font-size: 17pt;
+	float: left;
+	color: #245DD3;
 }
 
 .form-group{
-	height: 50px;
+	min-height: 50px;
+	margin-bottom: 25px;
 }
 
 .form-input{
@@ -316,7 +366,7 @@ h2{
 }
 
 .first-line-group{
-	margin-top: 30px;
+	margin: 30px 0 5px 0;
 }
 
 .btn-form{
@@ -533,8 +583,6 @@ p{
 }
 .trackMenu > a.remove:hover {
 	background-color: #da4453;
-}
-.trackMenu > a:last-child > li:hover {
 	color: #fff;
 }
 

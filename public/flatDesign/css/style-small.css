@@ -32,7 +32,7 @@
 
 
 .leftMenu:hover{
-	width: 200px;
+	width: 250px;
 }
 
 .leftMenu:hover .leftMenuHead{
@@ -52,4 +52,3 @@
 	width: 200px;
 	margin-top: 10px;
 }
-
