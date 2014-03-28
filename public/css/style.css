@@ -114,7 +114,6 @@ h2{
 	position: absolute;
 	background: url(../img/load-img.png);
 	margin: 338px 0 0 512px;
-	opacity: 1;
 	width: 75px;
 	height: 74px;
 	transition: .2s;

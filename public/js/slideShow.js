@@ -42,7 +42,7 @@ window.onload = function(){
     }
 
     mainWindowSlide.style.display = 'block'; // Отображаем окно обозревателя фото
-
+    slideLoadImg.style.display = 'block';
     //Центрируем обозреватель фото по высоте и ширине
     if (getClientHeight() > 730) mainWindowSlide.style.top = (getClientHeight() - 730) / 2 + 'px';
     if (mainBlockWidthSize >= 1200){
