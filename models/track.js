@@ -68,7 +68,7 @@ TrackSchema.methods = {
    * @param  {Object}   obj      данные альбома
    * @param  {Function} callback
    */
-  createAlbum: function(obj, callback) {
+  addAlbum: function(obj, callback) {
     this.album = {
       title: obj.title,
       id: obj.id,
@@ -125,13 +125,19 @@ TrackSchema.methods = {
 
 };
 
-/**
- * Statics
- */
-
 TrackSchema.statics = {
 
-};
+  /**
+   * Находит треки созданные пользователем
+   * @param  {ObjectId}   id
+   * @param  {Function} callback
+   */
 
+  list: function(id, callback) {
+    this.findOne({
+      _id: id
+    }).populate('_creator', 'name id distance').exec(callback);
+  }
+};
 
 mongoose.model('Track', TrackSchema);

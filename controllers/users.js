@@ -24,7 +24,7 @@ exports.load = function(req, res, next, id) {
 };
 
 exports.signup = function(req, res, next) {
-  if (req.session.become == 'to') {
+  if (req.session.become == 'yandex-terms') {
     delete req.session.become;
     res.render('user/signup', {
       title: 'Необходимо принять пользовательское соглашение'

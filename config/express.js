@@ -6,7 +6,6 @@ var express = require('express'),
   MongoStore = require('connect-mongo')(express),
   log = require('../lib/log')(module),
   path = require('path'),
-  helpers = require('view-helpers'),
   flash = require('connect-flash'),
   HttpError = require('../error').HttpError;
 

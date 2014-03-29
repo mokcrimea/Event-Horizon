@@ -1,5 +1,5 @@
 /**
- * General require login middleware
+ * Основная проверка авторизации
  */
 
 exports.requireLogin = function(req, res, next) {
@@ -9,19 +9,19 @@ exports.requireLogin = function(req, res, next) {
 };
 
 /**
- * Authorization for profile manipulate
+ * Авторизация для просмотра профиля пользователя
  */
 
 exports.user = function(req, res, next) {
   if (req.user.id != req.reqUser.id) {
     req.flash('error', 'Извините, вы не авторизованы для совершения этого действия');
-    return res.redirect('/user/' + req.params.id);
+    return res.redirect('/');
   }
   next();
 };
 
 /**
- * Authorization for track manipulate
+ * Авторизация для манипуляции треком и галереей.
  */
 
 exports.track = function(req, res, next) {
