@@ -352,7 +352,7 @@ h2{
 }
 
 .btn-load-img-indent{
-	margin: 10px 0 20px 140px;
+	margin: 10px 0 20px 170px;
 }
 
 .form-input-load .form-group{
@@ -698,7 +698,7 @@ p{
 
 .list-information-load-img{
 	display: block;
-	margin: 0 auto;
+	margin: 0 170px;
 	width: 230px;
 }
 
@@ -794,4 +794,80 @@ p{
 	margin-left: 380px;
 	opacity: 1;
 	font-size: 14pt;
+}
+
+.load-file-indicator{
+	font-size: 15pt;
+	font-family: cursive, Tahoma, sans-serif;
+	color: #1A9E65;
+	position: absolute;
+	display: none;
+	padding: 0 15px 3px 20px;
+}
+
+.load-file-indicator span{
+	font-size: 22pt;
+	margin-left: -2px;
+}
+
+.load-file-indicator-indent-1{
+	margin: 78px 0 0 340px;
+}
+
+.load-file-indicator-indent-2{
+	margin: 92px 0 0 290px;
+}
+
+.load-file-anim-1{
+	-webkit-animation: load-file-animation 2.5s infinite linear;
+	-moz-animation: load-file-animation 2.5s infinite linear;
+	-ms-animation: load-file-animation 2.5s infinite linear;
+    -o-animation: load-file-animation 2.5s infinite linear;
+    animation: load-file-animation 2.5s infinite linear;
+}
+
+.load-file-anim-2{
+	-webkit-animation: load-file-animation 2.5s infinite linear .33s;
+	-moz-animation: load-file-animation 2.5s infinite linear .33s;
+	-ms-animation: load-file-animation 2.5s infinite linear .33s;
+    -o-animation: load-file-animation 2.5s infinite linear .33s;
+    animation: load-file-animation 2.5s infinite linear .33s;
+}
+
+.load-file-anim-3{
+	-webkit-animation: load-file-animation 2.5s infinite linear .63s;
+	-moz-animation: load-file-animation 2.5s infinite linear .63s;
+	-ms-animation: load-file-animation 2.5s infinite linear .63s;
+    -o-animation: load-file-animation 2.5s infinite linear .63s;
+    animation: load-file-animation 2.5s infinite linear .63s;
+}
+
+@-webkit-keyframes load-file-animation {
+    0% {opacity: 1}
+    30% {opacity: 0}
+    100% {opacity: 1}
+}
+
+@-moz-keyframes load-file-animation {
+    0% {opacity: 1}
+    50% {opacity: 0}
+    100% {opacity: 1}
+}
+
+@-ms-keyframes load-file-animation {
+    0% {opacity: 1}
+    50% {opacity: 0}
+    100% {opacity: 1}
+}
+
+@-o-keyframes load-file-animation {
+    0% {opacity: 1}
+    50% {opacity: 0}
+    100% {opacity: 1}
+}
+
+@keyframes load-file-animation {
+    0% {opacity: 1}
+    50% {opacity: 0}
+    100% {opacity: 1}
 }

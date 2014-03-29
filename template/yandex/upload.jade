@@ -4,6 +4,11 @@ block main
   h1= title
 
 block content
+  .load-file-indicator.load-file-indicator-indent-2
+    Загрузка
+    span.load-file-anim.load-file-anim-1 .
+    span.load-file-anim.load-file-anim-2 .
+    span.load-file-anim.load-file-anim-3 .
   form(class="form-input-load form-input-load-img" action="/track/#{req.track.id}/yandex" enctype="multipart/form-data" method="post" name="upload_images")
     .form-group
       input(class="list-information-load-img" type="file" name="images" required multiple)
@@ -32,5 +37,5 @@ block content
           }
 
         }
-
+        document.getElementsByClassName('load-file-indicator')[0].style.display = "block";
     });

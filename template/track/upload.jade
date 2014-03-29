@@ -4,6 +4,11 @@ block main
   h1= title
 
 block content
+  .load-file-indicator.load-file-indicator-indent-1
+    Загрузка
+    span.load-file-anim.load-file-anim-1 .
+    span.load-file-anim.load-file-anim-2 .
+    span.load-file-anim.load-file-anim-3 .
   form(class="form-input-load form-input-load-track" action="/upload" enctype="multipart/form-data" method="post" name="upload_track" align="center")
     .form-group
       input(class="form-input-load-text" type="text" name="title" placeholder="Введите имя трека")
@@ -31,4 +36,5 @@ block content
           }
         }
       }
+      document.getElementsByClassName('load-file-indicator')[0].style.display = "block";
     });
