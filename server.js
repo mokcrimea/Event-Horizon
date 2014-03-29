@@ -4,7 +4,7 @@
  */
 
 /**
- * Module dependencies.
+ * Основные зависимости
  */
 
 var express = require('express'),
@@ -12,7 +12,7 @@ var express = require('express'),
   passport = require('passport');
 
 /**
- * Load configuration
+ * Загрузка конфигурации
  */
 
 var config = require('./config'),
@@ -20,17 +20,23 @@ var config = require('./config'),
   log = require('./lib/log')(module);
 
 
-// passport config
+// конфиг passport.js
 require('./config/passport')(passport, config);
 
 var app = express();
-//express setting
+//настройки express
 require('./config/express')(app, config, passport, mongoose);
 
-//routes
+//роуты
 require('./config/routes')(app, passport);
 
-//start the app
+//обработка неперехваченной ошибки
+process.on('uncaughtException', function(err) {
+  log.error(err.stack);
+});
+
+
+//запуск приложения
 port = config.get('port');
 app.listen(port);
 log.info('Express app started on port ' + port);

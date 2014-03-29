@@ -1,11 +1,12 @@
 .header
   .headLogo Thinvilve
   .ulMenuLine
+    a(href="/" title="Главная") Главная
     - if (req.isAuthenticated())
       a(href="/user/"+req.user._id title="Мой профиль") Профиль
     - if (req.isAuthenticated())
       a(href="/logout" title="Выйти") Выйти
     - else
       a(href="/login" title="Войти")
-        b.first_letter В
-        b. ойти
+        span.yandex-first-letter В
+        span. ойти

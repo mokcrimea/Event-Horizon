@@ -110,7 +110,7 @@ exports.create = function(req, res, next) {
               fs.rmdir('/tmp/' + trackId + '/', function(err) {
                 if (err) log.error(err);
               });
-              return next(new HttpError(err, 'Неправильный формат загружаемого файла'));
+              return next(new HttpError(415, 'Неправильный формат загружаемого файла'));
             }
 
             fs.unlink(files.upload.path, function(err) {

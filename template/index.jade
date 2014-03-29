@@ -1,11 +1,22 @@
 extends ./layout/page
 
 block main
+  include ./partials/slideShow
   h1= title
 
 block content
   p.
-    Задача организации, в особенности же новая модель организационной деятельности влечет за собой процесс внедрения и модернизации существенных финансовых и административных условий. Значимость этих проблем настолько очевидна, что консультация с широким активом позволяет выполнять важные задания по разработке новых предложений. Разнообразный и богатый опыт начало повседневной работы по формированию позиции позволяет выполнять важные задания по разработке системы обучения кадров, соответствует насущным потребностям. Товарищи! начало повседневной работы по формированию позиции представляет собой интересный эксперимент проверки модели развития. Значимость этих проблем настолько очевидна, что консультация с широким активом требуют от нас анализа систем массового участия. Повседневная практика показывает, что начало повседневной работы по формированию позиции в значительной степени обуславливает создание соответствующий условий активизации.
-  #map.map
-  p.
-    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui.
+    "Название сервиса" - это сервис, позволяющий воссоздать картину поездки, туристического похода, просто прогулки, если у вас шла запись gps-маршрута. Вы можете загрузить gps-трек (в формате .gpx), и сайт прогрузит его на карту Яндекс. Добавив фотографии к этому треку - создастся галерея этого маршрута. В добавок, если у фотографий есть геометки, то они отображатся на карте в правильных местах.
+  .backgroundSpace
+  .containerGallery
+    .imgContainerGallery
+      .gallery-zoom-btn
+      .gallery-cont-for-img
+        img(src="/img/screen/1/_s" alt="" width="400px")
+  .containerGallery
+    .imgContainerGallery
+      .gallery-zoom-btn
+      .gallery-cont-for-img
+        img(src="/img/screen/2/_s" alt="" width="400px")
+  script(type="text/javascript" src="/js/slideShow.js")
+  script inputDataObject = {links: {href: 'http://node.mokcrimea.ru/img/screen/1/_s'}, links: {href: 'http://node.mokcrimea.ru/img/screen/2/_s'}}

@@ -346,7 +346,7 @@ h2{
 .form-input-load .list-information-gallery{
 	opacity: 1;
 	float: left;
-	background: #F0F0F0;
+	border-color: #979797;
 }
 
 .list-information-load-track-left{
@@ -589,12 +589,6 @@ p{
 	width: 340px;
 }
 
-.yandex-icon {
-	background: url(../img/yandex.png);
-	width: 128px;
-	height: 128px;
-}
-
 .errMessage {
 	padding: 5px 30px;
 	text-align: center;
@@ -611,10 +605,6 @@ p{
 .profitMessage{
 	background: rgba(140, 193, 74, 0.56);
 	color: #07500D;
-}
-
-.first_letter {
-	color: #f00!important;
 }
 
 .galleryMenu {

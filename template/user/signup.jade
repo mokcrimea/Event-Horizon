@@ -1,7 +1,7 @@
 extends ../layout/page
 
 block main
-  //- h1= title
+  h1= title
 
 block content
   p.signup_info
@@ -9,8 +9,7 @@ block content
     |Для того, чтобы воспользоваться  его услугами необходимо принять
     |пользовательское соглашение.
     |  После принятия соглашения вы сможете загружать фотографии.
-  a(href="http://fotki.yandex.ru/oferta.xml?" target="_blank" title="Соглашение")
-    .yandex-icon
+  a(href="http://fotki.yandex.ru/oferta.xml?" target="_blank" title="Соглашение") Соглашение
   //- script.
     var form = document.reg_form;
     form.submit.addEventListener('click', function(evt){

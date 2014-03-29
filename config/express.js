@@ -43,7 +43,6 @@ module.exports = function(app, config, passport, mongoose) {
 
     app.use(require('../middleware/sendHttpError'));
 
-
     app.use(express.urlencoded());
     app.use(express.json());
     app.use(express.methodOverride());
@@ -79,6 +78,10 @@ module.exports = function(app, config, passport, mongoose) {
 
     app.use(app.router);
 
+    process.on('uncaughtException', function(err) {
+      console.log('Caught exception: ' + err);
+    });
+
     // обрабокта ошибок
     app.use(function(err, req, res, next) {
       if (typeof err == 'number') { // next(404);
@@ -93,7 +96,7 @@ module.exports = function(app, config, passport, mongoose) {
         } else {
           log.error(err);
           err = new HttpError(500);
-          res.sendHttpError(err);
+          sendHttpError(err);
         }
       }
     });
