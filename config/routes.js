@@ -17,10 +17,6 @@ module.exports = function(app, passport) {
   app.param('uId', users.load);
   app.get('/logout', users.logout);
   app.get('/user/:uId', auth.requireLogin, auth.user, yandex.getAlbums, users.show);
-  app.post('/login', passport.authenticate('local', {
-    failureRedirect: '/login',
-    failureFlash: 'Неправильное имя пользователя или пароль'
-  }), users.session);
   app.get('/login', passport.authenticate('yandex', {
     failureRedirect: '/login'
   }));
@@ -29,27 +25,24 @@ module.exports = function(app, passport) {
   }), yandex.document, users.session);
   app.get('/signup', users.signup);
   app.get('/confirmed/yandex-terms/', yandex.document, users.session);
+  app.get('/track/list', auth.requireLogin, users.list);
 
-  // yandex fotki
-  // app.get('/yandex/create', auth.requireLogin, yandex.createAlbum);
-  // app.get('/yandex/albums', auth.requireLogin, yandex.getAlbums);
-  app.get('/track/:tId/galery', yandex.gallery);
-  app.delete('/track/:tId/:iId/remove', auth.requireLogin, auth.track, yandex.removePhoto);
-  // app.get('/track/:tId/:iId/show', auth.requireLogin, auth.track, yandex.showInfo);
-  app.get('/track/:tId/yandex', auth.requireLogin, yandex.new);
-  app.post('/track/:tId/yandex', auth.requireLogin, auth.track, yandex.createAndUpload);
 
 
   //track routes
   app.param('tId', tracks.load);
   app.get('/upload', auth.requireLogin, tracks.new);
   app.post('/upload', auth.requireLogin, tracks.create);
-  app.get('/track/list', auth.requireLogin, users.list);
   app.get('/track/:tId', tracks.show);
   app.delete('/track/:tId', auth.requireLogin, auth.track, tracks.delete, yandex.removeAlbum);
 
+  // gallery routes
+  app.get('/track/:tId/galery', yandex.gallery);
+  app.delete('/track/:tId/:iId/remove', auth.requireLogin, auth.track, yandex.removePhoto);
+  app.get('/track/:tId/yandex', auth.requireLogin, yandex.new);
+  app.post('/track/:tId/yandex', auth.requireLogin, auth.track, yandex.upload);
 
-  //не существующие маршруты
+  //все не существующие маршруты отправляем на 404
   app.get(/.*/, function(req, res, next) {
     return next(404);
   });

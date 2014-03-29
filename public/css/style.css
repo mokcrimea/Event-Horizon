@@ -245,6 +245,7 @@ h2{
 
 /*------------------------------*/
 .balloon-img{
+	cursor: pointer;
 	margin: 0 auto;
 	display: block;
 }

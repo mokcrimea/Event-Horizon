@@ -9,8 +9,15 @@ var mongoose = require('mongoose'),
   fs = require("fs"),
   HttpError = require('../error').HttpError,
   async = require('async'),
-  set_Options = require('../lib/utils').set_Options,
+  createAlbum = require('../lib/utils').createAlbum,
   log = require('../lib/log')(module);
+
+/**
+ * Генерирует объект, в котором указаны параметры
+ * запроса для request.
+ */
+var Options = require('../lib/utils').Options,
+  options = new Options();
 
 /**
  * Загружает сервисный документ в котором ищет имя пользователя.
@@ -20,7 +27,7 @@ var mongoose = require('mongoose'),
 
 exports.document = function(req, res, next) {
   var reUsername = /^\S[^\s]{3,20}/ig;
-  request(set_Options(req, 'document'), function(err, responce, body) {
+  request(options.getDocument(), function(err, responce, body) {
     if (err) console.log(err);
     try {
       var username = reUsername.exec(JSON.parse(body).title)[0];
@@ -29,7 +36,7 @@ exports.document = function(req, res, next) {
       });
     } catch (e) {
       log.debug('Необходимо принять соглашения яндекс фоток.');
-      req.session.become = 'to';
+      req.session.become = 'yandex-terms';
       req.logout();
       return res.redirect('/signup');
     }
@@ -37,238 +44,160 @@ exports.document = function(req, res, next) {
   });
 };
 
-/*exports.createAlbum = function(req, res, next) {
-  var title = 'Test';
-  var options = {
-    url: 'http://api-fotki.yandex.ru/api/users/' + req.user.username + '/albums/',
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json;type=entry',
-      Authorization: 'OAuth ' + req.user.authToken
-    },
-    body: JSON.stringify({
-      title: title
-    })
-  };
-  request(options, function(err, responce, body) {
-    if (err) console.log(err);
-    req.user.createAlbum(JSON.parse(body), function(err) {
-      if (err) throw err;
-    });
-    next(404);
-  });
-};*/
-
 exports.new = function(req, res) {
+  //Если альбом не существует - создаем
+  if (!req.track.album.link) {
+    createAlbum(req);
+  }
   res.render('yandex/upload', {
     title: 'Загрузка фотографий в галерею',
   });
+
 };
 
+
+
 /**
- * Создает альбом для трека если он отсутствует и
- * загружает в него фотографии
+ * Загружает фотографии в созданный ранее альбом
+ * на Яндекс.Фото
  */
 
-exports.createAndUpload = function(req, res, next) {
+exports.upload = function(req, res, next) {
   var formidable = require('formidable');
   var form = new formidable.IncomingForm();
+  // var options = new Options();
   form.multiples = true;
   var files = [];
+  var file;
   var album_url;
   var maxSize = 20971520; // 20 мб.
   var count = 0;
   form.on('file', function(name, file) {
     log.info('Загрузил фотографию ' + file.name + ' на сервер.');
     var type = file.type;
+
     /**
      * Валидация загружаемых файлов на стороне сервера.
      * Проверяем размер фотографии и формат файла.
      */
+
     if (file.size > maxSize) {
       return next(new HttpError(413, 'Допускаются файлы размером не более 20 Мб.'));
     } else if (type != 'image/jpeg' && type != 'image/png' && type != 'image/gif' && type != 'image/bmp') {
       return next(new HttpError(415, 'Неправильный формат файла'));
     } else {
-      files.push([file.path, file.name, file.type]);
+      /**
+       * Счетчик, для отслеживания загрузки всех фотографий на Яндекс.Фото.
+       */
+      count++;
+      file = [file.path, file.name, file.type];
+      album_url = req.track.album.link;
+      uploadPhotos(file);
     }
   });
+
   form.on('error', function(message) {
     log.debug(message);
     return next(400, message);
   });
 
-  form.on('end', function() {
-
-    /**
-     * Делаем проверку на существование альбома для текущего трека.
-     *  Если существует, то загружаем в него, иначе  -
-     *  создаем новый альбом.
-     */
-    // Проверяем если длина массива с файлами 0,
-    // значит ранее произошла ошибка 415
-    if (files.length !== 0) {
-      if (!req.track.album.title) {
-        async.series([
-            createAlbum,
-            uploadPhotos
-          ],
-          function(err, results) {
-            if (err) throw err;
-          });
-      } else {
-        album_url = req.track.album.link;
-        uploadPhotos();
-      }
-    }
-  });
+  /*  form.on('end', function() {
+    // res.redirect('/track/' + req.track.id + '/galery');
+  });*/
   form.parse(req);
-  /**
-   * Создает альбом с названием в виде: "2014-03-22T14:08:20"
-   * @param  {Function} callback
-   */
 
-  function createAlbum(callback) {
-    request(set_Options(req, 'create'), function(err, responce, body) {
-      if (err) {
-        log.error(err);
-        next(500);
-        throw err;
-      } else {
-        log.info('Альбом успешно создан');
-      }
 
-      album_url = JSON.parse(body).links.photos;
-
-      req.track.createAlbum(JSON.parse(body), function(err) {
-        if (err) throw err;
-      });
-      callback();
-    });
-  }
 
   /**
    * Загружает фотографии используя модуль node-formidable.
    * Сначала фотографии загружаеются на сервер, парсятся и отправляются на
    * Яндекс.Фото.
+   * В дальнейшей планируется по приложенному маршруту просчитывать
+   *  где были сделаны фотографии(по time create) и на этапе парсинга записывать
+   *  в EXIF координаты фото.
+   * @param  {Array}  ['путь к фото', 'название фото', 'тип фото']
    * @param  {Function} callback
    */
 
-  function uploadPhotos(callback) {
-    var counter = files.length;
-    log.info('Отправляю фоточки на сервер в: \n' + album_url);
-    async.each(files, function(file) {
-        fs.readFile(file[0], function(err, data) {
-          if (err) console.log(err);
-          request(set_Options(req, 'upload', {
-            url: album_url,
-            file: file,
-            data: data
-          }), function(err, responce, body) {
-            if (err) {
-              log.error(err);
-              next(500);
-              throw err;
-            }
-            log.info('Завершил загрузку фотографии: ' + file[1]);
-            var imageParams;
-            try {
-              imageParams = JSON.parse(body);
-            } catch (e) {
-              log.error(body);
-            }
-            imageParams.title = file[1];
-            req.track.addPhoto(imageParams, function(index) {
-              // console.log('THE INDEX IS:  ' + index);
-              setTimeout(function() {
-                request(set_Options(req, 'getGPS', {
-                  url: imageParams.links.self
-                }), function(err, response, body) {
-                  if (err) throw err;
-                  var geo;
-                  count++;
-                  console.log('Проверяю координаты фотки: ' + count);
-                  try {
-                    geo = (JSON.parse(body)).geo.coordinates;
-                    req.track.addCoordinates(geo.split(' '), index, function(err) {
-                      if (err) throw err;
-                    });
-                  } catch (e) {
-                    req.track.addCoordinates(null, index, function(err) {
-                      if (err) throw err;
-                    });
-                    log.error(e);
-                  }
-                });
+  function uploadPhotos(file, callback) {
+    fs.readFile(file[0], function(err, data) {
+      if (err) console.log(err);
+      options.setParams(req, {
+        url: album_url,
+        file: file,
+        data: data
+      });
+      // загрузка фотографии на Яндекс.Фото 'POST' запросом.
+      request(options.getUpload(), function(err, responce, body) {
+        if (err) {
+          log.error(err);
+          next(500);
+          throw err;
+        }
+        // После завершения загрузки всех фотографий редиректим на страницу
+        // с галерей
+        if (--count === 0) {
+          res.redirect('/track/' + req.track.id + '/galery');
+        }
 
-              }, 4000);
-            });
-            if (--counter === 0) {
-              next();
-              res.redirect('/track/' + req.track.id + '/galery');
-            }
-            fs.unlink(file[0], function(err) {
-              if (err) throw err;
-            });
+        log.info('Завершил загрузку фотографии: ' + file[1]);
+
+        var imageParams;
+        try {
+          imageParams = JSON.parse(body);
+        } catch (e) {
+          log.error(body);
+        }
+        imageParams.title = file[1];
+        req.track.addPhoto(imageParams, function(index) {
+          options.setParams(req, {
+            url: imageParams.links.self
           });
+          setTimeout(function() {
+            request(options.getGPS(), function(err, response, body) {
+              if (err) throw err;
+              var geo;
+              try {
+                geo = (JSON.parse(body)).geo.coordinates;
+                req.track.addCoordinates(geo.split(' '), index, function(err) {
+                  if (err) throw err;
+                });
+              } catch (e) {
+                req.track.addCoordinates(null, index, function(err) {
+                  if (err) throw err;
+                });
+                log.error(e);
+              }
+            });
 
+          }, 4000);
         });
 
 
-      },
-
-      function(err) {
-        if (err) throw (err);
-        next(500);
+        // После загрузки фото удаляет его.
+        // Можно и не делать, так как удаление файлов в папке /tmp/ происходит
+        // автоматически. Периодичность зависит от настроек системы.
+        fs.unlink(file[0], function(err) {
+          if (err) log.error(err);
+        });
       });
+    });
+
+
     if (typeof(callback) == "function") {
       callback();
     }
   }
 };
 
-
-
-/*exports.updateGeoTags = function(req, res, next) {
-  var auth = 'OAuth ' + req.user.authToken;
-  req.track.images.forEach(function(image, index) {
-    if (image.coordinates[0] !== null) {
-      setTimeout(function() {
-        request({
-          url: image.self,
-          method: 'GET',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json;type=entry',
-            Authorization: auth
-          }
-        }, function(err, response, body) {
-          if (err) throw err;
-          var geo;
-          try {
-            geo = (JSON.parse(body)).geo.coordinates;
-            req.track.addCoordinates(geo.split(' '), index, function(err) {
-              if (err) throw err;
-            });
-          } catch (e) {
-            req.track.addCoordinates(null, index, function(err) {
-              if (err) throw err;
-            });
-            log.error(e);
-            console.log(e);
-          }
-        });
-      }, 5000);
-    }
-  });
-};*/
-
-
-
+/**
+ * Выводит список альбомов пользователя на сервисе Яндекс.Фото
+ */
 
 exports.getAlbums = function(req, res, next) {
-  request(set_Options(req, 'album'), function(err, response, body) {
+  // var options = new Options();
+  options.setParams(req);
+  request(options.getAlbum(), function(err, response, body) {
     if (err) log.error(err);
     var albums = [];
     JSON.parse(body).entries.forEach(function(album) {
@@ -296,7 +225,7 @@ exports.gallery = function(req, res, next) {
       if (track.images.length === 0) {
         return res.render('yandex/upload', {
           title: 'Загрузка фотографий в галерею',
-          success: 'У вас нет загруженых фотографий. Загрузить можно с помощью формы ниже'
+          success: 'У вас нет загруженых фотографий. Воспользуйтесь формой ниже для загрузки фотографий в галерею.'
         });
       }
       track.images.forEach(function(image, index) {
@@ -331,40 +260,34 @@ exports.removePhoto = function(req, res) {
         track.save(function(err) {
           if (err) throw err;
         });
-        request({
-          url: removeLink,
-          method: 'DELETE',
-          headers: {
-            Authorization: 'OAuth ' + req.user.authToken
-          }
-        }, function(err, response, body) {
+        options.setParams(req, {
+          url: removeLink
+        });
+        request(options.getRemove(), function(err, response, body) {
           log.info('Фотография удалена успешно');
         });
       } catch (e) {
-        log.error('Фотография уже удалена, ' + e);
+        log.info('Фотография уже удалена, ' + e);
       }
       res.render('yandex/gallery', {
         title: 'Галерея',
         images: track.images,
         id: req.track.id,
-        // images: images_links
       });
     }
   });
-  //!!!Проверить как будет лучше!!!
-  // req.flash('success', 'Фотография успешно удалена');
-  // res.redirect('/track/' + req.track.id + '/galery');
 };
+
+/**
+ * Удаляет альбом на Яндекс.Фото
+ */
 
 exports.removeAlbum = function(req, res, next) {
   if (req.track.album.self) {
-    request({
-      url: req.track.album.self,
-      method: 'DELETE',
-      headers: {
-        Authorization: 'OAuth ' + req.user.authToken
-      }
-    }, function(err, response, body) {
+    options.setParams(req, {
+      url: req.track.album.self
+    });
+    request(options.getRemove(), function(err, response, body) {
       log.info('Альбом успешно удален');
     });
     req.flash('success', 'Альбом успешно удален');
