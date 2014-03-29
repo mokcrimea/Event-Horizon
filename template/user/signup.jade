@@ -5,11 +5,13 @@ block main
 
 block content
   p.signup_info
-    |Для загрузки и хранения фотографий мы используем сервис Яндекс.Фото.
+    |Для загрузки и хранения фотографий мы используем сервис 
+    span.yandex-first-letter Я
+    |ндекс.Фото.
     |Для того, чтобы воспользоваться  его услугами необходимо принять
     |пользовательское соглашение.
-    |  После принятия соглашения вы сможете загружать фотографии.
-  a(href="http://fotki.yandex.ru/oferta.xml?" target="_blank" title="Соглашение") Соглашение
+    |После принятия соглашения вы сможете загружать фотографии.
+  a(class="list-information-gallery signup_info_accept" href="http://fotki.yandex.ru/oferta.xml?" target="_blank" title="Соглашение") Принять соглашение
   //- script.
     var form = document.reg_form;
     form.submit.addEventListener('click', function(evt){

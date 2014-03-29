@@ -12,7 +12,7 @@ body{
 h1{
 	margin: 10px auto;
 	padding: 4px 25px;
-	width: 500px;
+	width: 800px;
 	display: block;
 	color: #4A4A4A;
 	font-size: 19pt;
@@ -322,9 +322,7 @@ h2{
 	margin-left: 70px;
 	padding-top: 2px;
 	font-size: 13pt;
-	width: 100%;
 	font-family: Verdana;
-	float: left;
 	color: #007A13;
 }
 
@@ -382,7 +380,6 @@ h2{
 	font-size: 11pt;
 	color: #494949;
 	font-family:  Verdana;
-	float: left;
 }
 
 .form-label-component{
@@ -787,7 +784,14 @@ p{
 	box-shadow: inset 0 2px 2px #ADD3FF;
 }
 
-.signup_info {
-	padding: 40px 30px;
-	font-size: 16pt;
+.signup_info{
+	padding: 30px 30px;
+	font-size: 13pt;
+	text-indent: 30px;
+}
+
+.signup_info_accept{
+	margin-left: 380px;
+	opacity: 1;
+	font-size: 14pt;
 }
