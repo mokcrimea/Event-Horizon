@@ -175,7 +175,7 @@ exports.upload = function(req, res, next) {
               }
             });
 
-          }, 4000);
+          }, 4200);
         });
 
 
@@ -183,7 +183,7 @@ exports.upload = function(req, res, next) {
         // Можно и не делать, так как удаление файлов в папке /tmp/ происходит
         // автоматически. Периодичность зависит от настроек системы.
         fs.unlink(file[0], function(err) {
-          if (err) log.error(err);
+          if (err) log.debug(err);
         });
       });
     });
@@ -238,6 +238,14 @@ exports.gallery = function(req, res, next) {
         });
       }
       track.images.forEach(function(image, index) {
+        if (!image.links.M) {
+          try {
+            image.links.M = image.links.S;
+          } catch (e) {
+            log.debug('Картинка очень маленького размера');
+            image.links.M = image.links.orig;
+          }
+        }
         images_links.push({
           links: image.links,
           _id: image._id
@@ -273,18 +281,20 @@ exports.removePhoto = function(req, res) {
           url: removeLink
         });
         request(options.getRemove(), function(err, response, body) {
-          log.info('Фотография удалена успешно');
+          log.debug('Фотография успешно удалена');
         });
       } catch (e) {
-        log.info('Фотография уже удалена, ' + e);
+        log.debug('Фотография уже удалена, ' + e);
       }
-      res.render('yandex/gallery', {
+      /*      res.render('yandex/gallery', {
         title: 'Галерея',
         images: track.images,
         id: req.track.id,
-      });
+      });*/
     }
   });
+  req.flash('success', 'Фотография успешно удалена');
+  res.redirect('/track/' + req.track.id + '/galery');
 };
 
 /**

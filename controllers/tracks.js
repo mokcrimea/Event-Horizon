@@ -15,7 +15,7 @@ var mongoose = require('mongoose'),
  */
 
 exports.load = function(req, res, next, id) {
-  Track.findById(id, 'name _creator created images album distance', function(err, track) {
+  Track.findById(id, 'name _creator created images album inform', function(err, track) {
     if (err) return next(404, err);
     if (track) {
       req.track = track;
@@ -54,19 +54,29 @@ exports.show = function(req, res, next) {
   var images = [];
 
   req.track.images.forEach(function(image) {
+
+    /**
+     * Передаем в track/show только те картинки которые имеют GPS кординаты
+     * и их размер минимум M (300px)
+     */
+
     if (image.coordinates[0]) {
-      if (image.links.L.href) {
-        images.push([image.coordinates[0], image.links.L.href, image.title]);
+      if (!image.links.L) {
+        try {
+          images.push([image.coordinates[0], image.links.M.href, image.title]);
+        } catch (e) {
+          log.debug('Картинка очень маленького размера');
+        }
       } else {
-        images.push([image.coordinates[0], image.links.orig.href, image.title]);
+        images.push([image.coordinates[0], image.links.L.href, image.title]);
       }
     }
   });
+
   var track = req.track;
 
   fs.readFile(tracksPath + req.track.id + '/track', function(err, data) {
     if (err) return next(404, err);
-
     res.render('track/show', {
       title: track.name,
       coord: data.toString(),
@@ -97,7 +107,7 @@ exports.create = function(req, res, next) {
         fs.readFile(files.upload.path, function(err, Data) {
           if (err) throw err;
 
-          parseTrack(Data, tracksPath + trackId, function(err, distance) {
+          parseTrack(Data, tracksPath + trackId, function(err, inform) {
             // На случай если формат файла не правильный
             if (err) {
               fs.unlink(files.upload.path, function(err) {
@@ -113,7 +123,7 @@ exports.create = function(req, res, next) {
               if (err) log.error(err);
             });
 
-            track.create(fields.title, req.user, distance, function(err) {
+            track.create(fields.title, req.user, inform, function(err) {
               if (err) throw err;
 
               log.info('Трек успешно создан');
@@ -144,7 +154,6 @@ exports.delete = function(req, res, next) {
   fs.unlink(tracksPath + req.track.id + '/track', function(err) {
     if (err) log.error(err);
     fs.unlink(tracksPath + req.track.id + '/full', function(err) {
-      if (err) log.error(err);
       fs.rmdir(tracksPath + req.track.id + '/', function(err) {
         if (err) log.error(err);
       });

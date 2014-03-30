@@ -8,7 +8,9 @@ block content
     - each track in tracks
       .list-information
         a.list-information-name(href="/track/"+track.id)= track.name
-        .list-information-inf (#{track.distance} км)
+        .list-information-inf #{track.inform.distance} км
+        - if (track.inform.time)
+          .list-information-inf(title='Продолжительность') #{track.inform.time} ч.
         a.list-information-gallery.list-information-gallery-track-left(href="/track/#{track.id}/galery") Галерея
         form(method="POST" id='remove_track' action="/track/#{track.id}")
           input(type="hidden" name="_method" value="DELETE")
