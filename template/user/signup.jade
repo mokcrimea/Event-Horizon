@@ -5,31 +5,15 @@ block main
 
 block content
   p.signup_info
-    |Для загрузки и хранения фотографий мы используем сервис
+    |Для загрузки и хранения фотографий мы используем сервис 
     span.yandex-first-letter Я
     |ндекс.Фото.
     |Для того, чтобы воспользоваться  его услугами необходимо принять
     |пользовательское соглашение.
     |После принятия соглашения вы сможете загружать фотографии.
   a(class="list-information-gallery signup_info_accept" href="http://fotki.yandex.ru/oferta.xml?" target="_blank" title="Соглашение") Принять соглашение
-  //- script.
-    var form = document.reg_form;
-    form.submit.addEventListener('click', function(evt){
-      var reName = /(^[A-zА-я0-9]{3,20}$)/;
-      var reEmail = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-      var reUsername = /(^[A-zА-я0-9_]{3,20}$)/;
-      var rePassword = /(^[A-zА-я0-9!@#$%^&*()_]{6,20}$)/;
-
-      if (!reName.test(form.name.value)) {
-        return evt.preventDefault();
-      }
-      if (!reEmail.test(form.email.value)) {
-        return evt.preventDefault();
-      }
-      if (!reUsername.test(form.username.value)) {
-        return evt.preventDefault();
-      }
-      if (!rePassword.test(form.password.value)) {
-        return evt.preventDefault();
-      }
+  - script.
+    document.getElementsByClassName('signup_info_accept')[0].addEventListener('click', function(e){
+      e.target.innerHTML = "Войти";
+      e.target.href = "/login";
     });
