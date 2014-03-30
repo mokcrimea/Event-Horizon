@@ -6,6 +6,7 @@ window.onload = function(){
        slideImagePlace = document.getElementById('slide-img'), //img Обозревателя фото
        slideLoadImg = document.getElementsByClassName('slide-load-img')[0], //Индикатор загрузки фото
        slideNextButton = document.getElementsByClassName('slide-next-btn')[0], // Кнопка "следующий слайд"
+       slidePrevButton = document.getElementsByClassName('slide-prev-btn')[0],
        slideCloseButton = document.getElementsByClassName('slide-close-btn')[0], // Кнопка "закрыть"
        slideImageContent = document.getElementsByClassName('slide-img-content')[0], // Блок загрузки фото
        mainBackgroundSpace = document.getElementsByClassName('backgroundSpace')[0]; // Тёмный фон при открытии обозревателя фото
@@ -35,7 +36,8 @@ window.onload = function(){
   function openSlideShow(imgContainerGallery){
 
     var thisImgSrc = imgContainerGallery.getElementsByTagName('img')[0].src, //Адрес фото, открытой из галереи
-        mainBlockWidthSize = document.getElementsByClassName('main')[0].offsetWidth; // Получает ширину страницы
+        mainBlockWidthSize = document.getElementsByClassName('main')[0].offsetWidth, // Получает ширину страницы
+        positionPhoto;
 
     for (var i = 0; i < inputDataObject.length; i++){ // Записываем адреса фото на странице в массив
       arraySrcSlideList[i] = inputDataObject[i].links.orig.href;
@@ -66,7 +68,8 @@ window.onload = function(){
 
     mainWindowSlide.style.width = slideWidthSize + 'px';
     thisImgSrc = thisImgSrc.substring(0, thisImgSrc.length-1)+'orig';
-    setPhotoToSlide(thisImgSrc);
+    positionPhoto = findPosition(arraySrcSlideList, thisImgSrc);
+    setPhotoToSlide(thisImgSrc, positionPhoto);
 
     document.addEventListener('keydown', setSlideKeyNavigate);
   }
@@ -91,7 +94,7 @@ window.onload = function(){
 
 
   // Функция открывает фотографию в слайд-обозревателе
-  function setPhotoToSlide(inputPhoto){
+  function setPhotoToSlide(inputPhoto, positionPhoto){
     var originalImg = new Image();
 
     // Сбрасываем атрибуты фото в обозревателе, и заливаем новую фото
@@ -99,6 +102,16 @@ window.onload = function(){
     slideImagePlace.removeAttribute('height');
     slideImagePlace.src = inputPhoto;
     originalImg.src = inputPhoto;
+
+    //Скрываем кнопки листания на последней фотографии в списке
+    slideNextButton.style.display = "block";
+    slidePrevButton.style.display = "block";
+    if (positionPhoto + 1 == arraySrcSlideList.length){
+      slideNextButton.style.display = "none";
+    }
+    if (positionPhoto - 1 == -1){
+      slidePrevButton.style.display = "none";
+    }
 
     //В зависимости от разрешения фото - подгоняем её под окно обозревателя
     originalImg.onload = function(){
@@ -128,29 +141,30 @@ window.onload = function(){
   }
 
 
+  //функция определения позиции в массиве текущей отображённой фото
+  function findPosition(array, value) {
+    for(var i = 0; i < array.length; i++) {
+      if (array[i] == value) return i;
+    }
+    return -1;
+  }
+
+
   // Функция определяет следующую необходимую фотографию
   function changePhotoSlide(bool){
 
-    //функция определения позиции в массиве текущей отображённой фото
-    function find(array, value) {
-      for(var i = 0; i < array.length; i++) {
-        if (array[i] == value) return i;
-      }
-      return -1;
-    }
-
-    positionPhoto = find(arraySrcSlideList, slideImagePlace.src);
+    positionPhoto = findPosition(arraySrcSlideList, slideImagePlace.src);
     if (bool){
       if (positionPhoto != arraySrcSlideList.length - 1){
         slideImagePlace.style.opacity = '0';
         slideLoadImg.style.display = 'block';
-        setPhotoToSlide(arraySrcSlideList[positionPhoto + 1]);
+        setPhotoToSlide(arraySrcSlideList[positionPhoto + 1], positionPhoto + 1);
       }
     } else {
       if (positionPhoto != 0){
         slideImagePlace.style.opacity = '0';
         slideLoadImg.style.display = 'block';
-        setPhotoToSlide(arraySrcSlideList[positionPhoto - 1]);
+        setPhotoToSlide(arraySrcSlideList[positionPhoto - 1], positionPhoto - 1);
       }
     }
   }
