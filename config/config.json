@@ -21,7 +21,7 @@
   },
   "yandex": {
     "clientID": "02c1d91275eb4268aef24aa2288b08d7",
-    "clientSecret": "2c4e86c279b34fa7a7f2353310055816",
+    "clientSecret": "80685bc97ced409ca2673c61be4001a9",
     "callbackURL": "http://node.mokcrimea.ru/auth/yandex/callback"
   }
 }

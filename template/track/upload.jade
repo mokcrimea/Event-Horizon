@@ -5,24 +5,24 @@ block main
 
 block content
   .load-file-indicator.load-file-indicator-indent-1
-    Загрузка
+    |Загрузка
     span.load-file-anim.load-file-anim-1 .
     span.load-file-anim.load-file-anim-2 .
     span.load-file-anim.load-file-anim-3 .
   form(class="form-input-load form-input-load-track" action="/upload" enctype="multipart/form-data" method="post" name="upload_track" align="center")
     .form-group
-      input(class="form-input-load-text" type="text" name="title" placeholder="Введите имя трека")
+      input(class="form-input-load-text" type="text" name="title" placeholder="Введите название трека")
       input(type="file" name="upload")
       button(class="list-information-gallery list-information-load-track-left" name="submit" type="submit") Загрузить
   script.
     var form = document.upload_track;
-    form.submit.addEventListener('click', function(evt){
+    form.submit.addEventListener('click', function(e){
       var validExtensions = [".gpx"];
       var reTitle = /(^[A-zА-я0-9\s.,_-]{3,50}$)/;
 
       if (!reTitle.test(form.title.value)) {
         alert('Оповещение о недопустимых символах');
-        return evt.preventDefault();
+        return e.preventDefault();
       }
 
       var arrayOfFiles = form.upload;
@@ -32,10 +32,14 @@ block content
           var re = new RegExp(validExtensions[i] + '$', 'i');
           if (!re.test(arrayOfFiles.value)) {
             alert('Оповещение о неправильном формате файла');
-            return evt.preventDefault();
+            return e.preventDefault();
           }
         }
       }
       document.getElementsByClassName('load-file-indicator')[0].style.display = "block";
-      8feb21ace43db76681d533dab0bc7b6008a25e45
+    });
+    document.addEventListener('keyup', function(e) {
+      if (e.keyCode == 27) {
+        document.getElementsByClassName('load-file-indicator')[0].style.display = "none";
+      }
     });

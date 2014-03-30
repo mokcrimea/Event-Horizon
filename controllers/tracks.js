@@ -6,9 +6,8 @@ var mongoose = require('mongoose'),
   Track = mongoose.model('Track'),
   fs = require("fs"),
   HttpError = require('../error').HttpError,
-  path = require('path'),
-  createFolders = require('../lib/createUserFolder'),
-  formatDate = require('../lib/utils').formatDate,
+  createFolders = require('../lib/utils').createFolders,
+  tracksPath = require('../lib/utils').getTracksPath(),
   log = require('../lib/log')(module);
 
 /**
@@ -52,8 +51,8 @@ exports.new = function(req, res) {
  */
 
 exports.show = function(req, res, next) {
-  var trackPath = '/tmp/' + req.track.id + '/track';
   var images = [];
+
   req.track.images.forEach(function(image) {
     if (image.coordinates[0]) {
       if (image.links.L.href) {
@@ -65,8 +64,9 @@ exports.show = function(req, res, next) {
   });
   var track = req.track;
 
-  fs.readFile(trackPath, function(err, data) {
+  fs.readFile(tracksPath + req.track.id + '/track', function(err, data) {
     if (err) return next(404, err);
+
     res.render('track/show', {
       title: track.name,
       coord: data.toString(),
@@ -81,59 +81,54 @@ exports.show = function(req, res, next) {
  */
 
 exports.create = function(req, res, next) {
-  var formidable = require('formidable');
-  var parseTrack = require('../lib/parseTrack');
-  var track = new Track({});
-  var username = req.user.username;
-  var trackId = track.id;
-  var uploadDir = '/tmp/' + trackId;
-  var form = new formidable.IncomingForm();
-  // form.uploadDir = uploadDir;
+  // Библиотеки для загрузки файла и для парсинга .gpx
+  var formidable = require('formidable'),
+    parseTrack = require('../lib/parseTrack');
+
+  var track = new Track({}),
+    form = new formidable.IncomingForm(),
+    trackId = track.id;
+
   createFolders(trackId, function(err) {
     if (err) throw err;
-    /*    form.on('aborted', function() {
-      req.flash('error', 'Прозошла ошибка при загрузке файла');
-      res.redirect('/upload');
-    });*/
 
     form.parse(req, function(error, fields, files) {
       try {
         fs.readFile(files.upload.path, function(err, Data) {
           if (err) throw err;
 
-          parseTrack(Data, uploadDir, function(err, distance) {
+          parseTrack(Data, tracksPath + trackId, function(err, distance) {
             // На случай если формат файла не правильный
             if (err) {
               fs.unlink(files.upload.path, function(err) {
-                if (err) throw err;
+                if (err) log.error(err);
               });
-              fs.rmdir('/tmp/' + trackId + '/', function(err) {
+              fs.rmdir(tracksPath + trackId + '/', function(err) {
                 if (err) log.error(err);
               });
               return next(new HttpError(415, 'Неправильный формат загружаемого файла'));
             }
-
+            // Удаляем загруженный в /tmp/ файл потому что его уже распарсили
             fs.unlink(files.upload.path, function(err) {
-              if (err) throw err;
+              if (err) log.error(err);
             });
 
             track.create(fields.title, req.user, distance, function(err) {
-
               if (err) throw err;
+
               log.info('Трек успешно создан');
               req.flash('success', 'Трек успешно создан');
               res.redirect('/track/' + track.id);
+
             });
           });
         });
       } catch (e) {
-        log.debug(e);
+        log.error(e);
         res.redirect('/upload');
       }
     });
-
   });
-
 };
 
 /**
@@ -145,14 +140,16 @@ exports.delete = function(req, res, next) {
     if (err) return next(404, err);
     log.info('Трек успешно удален из базы');
   });
-  fs.unlink('/tmp/' + req.track.id + '/track', function(err) {
+
+  fs.unlink(tracksPath + req.track.id + '/track', function(err) {
     if (err) log.error(err);
-    fs.unlink('/tmp/' + req.track.id + '/full', function(err) {
+    fs.unlink(tracksPath + req.track.id + '/full', function(err) {
       if (err) log.error(err);
-      fs.rmdir('/tmp/' + req.track.id + '/', function(err) {
+      fs.rmdir(tracksPath + req.track.id + '/', function(err) {
         if (err) log.error(err);
       });
     });
   });
+
   next();
 };
