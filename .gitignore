@@ -1,6 +1,5 @@
 node_modules
 tmp
-tracks/*
 .tern-project
 *.log
 nodemon.json

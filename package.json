@@ -1,5 +1,5 @@
 {
-  "name": "Thinvilve",
+  "name": "Event Horizon",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -7,18 +7,18 @@
   },
   "dependencies": {
     "express": "3.5",
-    "jade": "latest",
-    "nconf": "*",
+    "jade": "1.3.*",
+    "nconf": "0.6.*",
     "winston": "0.7.*",
-    "formidable": "1.*",
-    "mongodb": "latest",
-    "mongoose": "latest",
+    "formidable": "1.0.*",
+    "mongodb": "1.3.*",
+    "mongoose": "3.8.*",
     "connect-mongo": "0.4.*",
     "connect-flash": "latest",
     "async": "0.2.*",
     "libxmljs": "0.8.*",
-    "passport": "latest",
+    "passport": "0.2.*",
     "passport-yandex": "latest",
-    "request": "latest"
+    "request": "2.34.*"
   }
 }
