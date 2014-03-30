@@ -61,7 +61,6 @@ TrackSchema.methods = {
       distance: inform.distance,
       time: inform.time || undefined
     };
-    console.log(this.inform);
     this.save(function(err) {
       if (err) throw err;
       user.tracks.push(that.id);

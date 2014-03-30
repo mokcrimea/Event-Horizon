@@ -7,7 +7,7 @@ var express = require('express'),
   log = require('../lib/log')(module),
   path = require('path'),
   flash = require('connect-flash'),
-  HttpError = require('../error').HttpError;
+  HttpError = require('../lib/error').HttpError;
 
 
 module.exports = function(app, config, passport, mongoose) {

@@ -4,9 +4,10 @@
 
 var users = require('../controllers/users'),
   tracks = require('../controllers/tracks'),
-  yandex = require('../controllers/yandex'),
+  ya_photo = require('../controllers/yandex-photo'),
   auth = require('../middleware/authorization');
 
+var trackOwner = [auth.requireLogin, auth.track];
 
 module.exports = function(app, passport) {
 
@@ -16,13 +17,13 @@ module.exports = function(app, passport) {
   //user routes
   app.param('uId', users.load);
   app.get('/logout', users.logout);
-  app.get('/user/:uId', auth.requireLogin, auth.user, yandex.getAlbums, users.show);
+  app.get('/user/:uId', auth.requireLogin, auth.user, ya_photo.getAlbums, users.show);
   app.get('/login', passport.authenticate('yandex', {
     failureRedirect: '/login'
   }));
   app.get('/auth/yandex/callback', passport.authenticate('yandex', {
     failureRedirect: '/login'
-  }), yandex.document, users.redirect);
+  }), ya_photo.document, users.redirect);
   app.get('/signup', users.signup);
   app.get('/track/list', auth.requireLogin, users.list);
 
@@ -33,13 +34,13 @@ module.exports = function(app, passport) {
   app.get('/upload', auth.requireLogin, tracks.new);
   app.post('/upload', auth.requireLogin, tracks.create);
   app.get('/track/:tId', tracks.show);
-  app.delete('/track/:tId', auth.requireLogin, auth.track, tracks.delete, yandex.removeAlbum);
+  app.delete('/track/:tId', trackOwner, tracks.delete, ya_photo.removeAlbum);
 
   // gallery routes
-  app.get('/track/:tId/galery', yandex.gallery);
-  app.delete('/track/:tId/:iId/remove', auth.requireLogin, auth.track, yandex.removePhoto);
-  app.get('/track/:tId/yandex', auth.requireLogin, yandex.new);
-  app.post('/track/:tId/yandex', auth.requireLogin, auth.track, yandex.upload);
+  app.get('/track/:tId/galery', ya_photo.gallery);
+  app.delete('/track/:tId/:iId/remove', trackOwner, ya_photo.removePhoto);
+  app.get('/track/:tId/yandex', auth.requireLogin, ya_photo.new);
+  app.post('/track/:tId/yandex', trackOwner, ya_photo.upload);
 
   //все не существующие маршруты отправляем на 404
   app.get(/.*/, function(req, res, next) {

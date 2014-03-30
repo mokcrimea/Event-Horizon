@@ -5,7 +5,7 @@
 var mongoose = require('mongoose'),
   Track = mongoose.model('Track'),
   fs = require("fs"),
-  HttpError = require('../error').HttpError,
+  HttpError = require('../lib/error').HttpError,
   createFolders = require('../lib/utils').createFolders,
   tracksPath = require('../lib/utils').getTracksPath(),
   log = require('../lib/log')(module);
@@ -126,7 +126,7 @@ exports.create = function(req, res, next) {
             track.create(fields.title, req.user, inform, function(err) {
               if (err) throw err;
 
-              log.info('Трек успешно создан');
+              log.debug('Трек успешно создан');
               req.flash('success', 'Трек успешно создан');
               res.redirect('/track/' + track.id);
 

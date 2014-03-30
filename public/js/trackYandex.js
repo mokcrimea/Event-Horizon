@@ -14,7 +14,7 @@ function init() {
     top: 5
   });
   myMap.controls.add(new ymaps.control.TypeSelector(['yandex#map', 'yandex#publicMap', 'yandex#publicMap', 'yandex#satellite', 'yandex#hybrid']));
-  myMap.controls.add('miniMap');
+  // myMap.controls.add('miniMap');
 
   var originalImg = new Image(),
     pictureWidth, pictureHeight,

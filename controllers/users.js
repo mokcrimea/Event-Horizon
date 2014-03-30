@@ -5,7 +5,7 @@
 var mongoose = require('mongoose'),
   User = mongoose.model('User'),
   log = require('../lib/log')(module),
-  HttpError = require('../error').HttpError;
+  HttpError = require('../lib/error').HttpError;
 
 /**
  * Загружает информацию о пользователе в req.reqUser

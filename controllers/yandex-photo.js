@@ -3,12 +3,10 @@
  */
 
 var mongoose = require('mongoose'),
-  User = mongoose.model('User'),
   Track = mongoose.model('Track'),
   request = require('request'),
   fs = require("fs"),
-  HttpError = require('../error').HttpError,
-  async = require('async'),
+  HttpError = require('../lib/error').HttpError,
   createAlbum = require('../lib/utils').createAlbum,
   log = require('../lib/log')(module);
 
@@ -37,7 +35,7 @@ exports.document = function(req, res, next) {
       });
     } catch (e) {
       log.error(e);
-      log.error('Необходимо принять соглашения яндекс фоток.');
+      log.debug('Необходимо принять соглашения яндекс фоток.');
       req.session.become = 'yandex-terms';
       req.logout();
       return res.redirect('/signup');
@@ -77,7 +75,7 @@ exports.upload = function(req, res, next) {
   var maxSize = 20971520; // 20 мб.
   var count = 0;
   form.on('file', function(name, file) {
-    log.info('Загрузил фотографию ' + file.name + ' на сервер.');
+    log.debug('Загрузил фотографию ' + file.name + ' на сервер.');
     var type = file.type;
 
     /**
@@ -144,7 +142,7 @@ exports.upload = function(req, res, next) {
           res.redirect('/track/' + req.track.id + '/galery');
         }
 
-        log.info('Завершил загрузку фотографии: ' + file[1]);
+        log.debug('Завершил загрузку фотографии: ' + file[1]);
 
         var imageParams;
         try {
@@ -171,7 +169,6 @@ exports.upload = function(req, res, next) {
                 req.track.addCoordinates(null, index, function(err) {
                   if (err) throw err;
                 });
-                log.error(e);
               }
             });
 
@@ -206,7 +203,7 @@ exports.getAlbums = function(req, res, next) {
     try {
       parsedBody = JSON.parse(body);
     } catch (e) {
-      console.log(e);
+      log.debug(e);
       return next(new HttpError(500, 'Извините, произошла ошибка. Мы работаем над устранением этой проблемы'));
     }
     parsedBody.entries.forEach(function(album) {

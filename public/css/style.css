@@ -551,8 +551,8 @@ p{
 .footer{
 	width: 100%;
 	height: 30px;
-	background: #656d78;
-	color: #434a54;
+	background: rgba(0, 0, 0, .5);
+	color: #fff;
 	font-family: Verdana;
 	letter-spacing: 2pt;
 	padding-top: 10px;
