@@ -72,9 +72,7 @@ function init() {
   });
 
   myMap.geoObjects.add(myPolyline);
-
 }
-
 
 
 function ballonImageZoom() {

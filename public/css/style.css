@@ -12,8 +12,6 @@ body{
 h1{
 	margin: 10px auto;
 	padding: 4px 25px;
-	/*width: 800px;*/
-	/*display: block;*/
 	color: #4A4A4A;
 	font-size: 19pt;
 	font-weight: 800;
@@ -36,19 +34,6 @@ p{
 	margin: 0 20px 20px;
 	color: #404040;
 }
-
-/*.centerTextForm{
-	text-align: center;
-	margin: 50px 20px 20px;
-}
-
-.table-block{
-	margin: 40px auto;
-	width: 400px;
-	border: 1px solid #79ABE6;
-	border-radius: 8px;
-}*/
-
 
 /*------------SlideShow---------*/
 
@@ -185,7 +170,6 @@ p{
 	opacity: .8;
 }
 
-
 .gallery-cont-for-img{
 	height: 100%;
 	width: 100%;
@@ -224,24 +208,7 @@ p{
 	cursor: pointer;
 }
 /*------------------------------*/
-/*-------------popup------------*/
 
-/*.alert-message{
-	position: absolute;
-	opacity: 0;
-	display: inline-block;
-	margin-left: 5px;
-	border: 1px solid #FBA2AB;
-	background-color: #FEE7E9;
-	border-radius: 5px;
-	font-family: sans-serif;
-	font-size: 9pt;
-	padding: 3px 10px;
-	color: #570007;
-	transition: 1s;
-}*/
-
-/*------------------------------*/
 .balloon-img{
 	cursor: pointer;
 	margin: 0 auto;
@@ -254,33 +221,13 @@ p{
 	opacity: 0;
 	transition: 1s;
 	z-index: 100;
-	/*margin: -30px 0 0 50px;*/
 	box-shadow: 0 0 500px #000;
 	top: 0;
 	left: 0;
 	cursor: pointer;
 }
 
-
-/*.balloon-fullsize{
-	display: block;
-	float: right;
-	font-family: sans-serif;
-	font-size: 10pt;
-	padding-top: 5px;
-	text-decoration: underline;
-	color: #4967E9;
-	cursor: pointer;
-}*/
 /*-------------Form-------------*/
-/*.input-box{
-	float: left;
-	width: 310px;
-}
-
-.message-box{
-	float: left;
-}*/
 
 .infoWindow{
 	margin: 40px auto;
@@ -288,11 +235,6 @@ p{
 	border: 1px solid #79ABE6;
 	border-radius: 8px;
 }
-
-/*.btn-line{
-	margin-left: 50px;
-	padding: 0;
-}*/
 
 .form-label{
 	margin-left: 50px;
@@ -400,71 +342,11 @@ p{
 	margin: 50px 0 10px;
 }
 
-/*.form-input{
-	float: right;
-	//margin-right: 80px;
-	width: 170px;
-	height: 20px;
-}*/
-
 .first-line-group{
 	margin: 30px 0 5px;
 }
 
-/*.btn-form{
-	cursor: pointer;
-	border: none;
-	padding: 4px 25px 2px;
-	background-color: #4D9DFF;
-	border-bottom: 3px solid #2989FF;
-	color: #fff;
-	font-size: 12pt;
-	font-family: sans-serif;
-	letter-spacing: 1pt;
-	text-shadow: 0 1px rgba(0, 0, 0, 0.2);
-	float: left;
-	outline: none;
-}
-
-.btn-form:active{
-	padding: 5px 25px 4px;
-	border: none;
-}
-
-.infoBtn{
-	float: left;
-	margin-top: 9px;
-}
-
-.form-link{
-	font-family: sans-serif;
-	font-size: 12pt;
-	color: #476EFF;
-}
-
-.form-link:hover{
-	text-decoration: none;
-}
-
-.form-link:active{
-	color: #FF0A13;
-	text-decoration: underline;
-}
-
-.clearStyle{
-	clear: both;
-}*/
 /*---------------------------*/
-
-/*.tempBack{
-	text-decoration: underline;
-	position: absolute;
-	display: block;
-	width: 100%;
-	height: 70px;
-	background-color: #37bc9b;
-	z-index: -100;
-}*/
 
 .header{
 	text-decoration: underline;
@@ -602,9 +484,6 @@ p{
 
 .trackMenu {
 	padding-left: 20px;
-/*	display: flex;
-	justify-content: flex-start;*/
-	/*background-color: #46D899;*/
 }
 
 .trackMenu li{
@@ -634,11 +513,7 @@ p{
 	background-color: #da4453;
 	color: #fff;
 }
-/*
-+.trackMenu > a.remove:hover {
-	background-color: #da4453;
-}
-*/
+
 .trackMenu a{
 	padding: 4px 10px;
 	background-color: #f0f6f2;

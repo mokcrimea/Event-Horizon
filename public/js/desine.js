@@ -1,3 +1,5 @@
+// Скрипт перемещает левое меню вместе со скроллом
+
 var heightHeader = 70; //Высота Header
 
 function changePositionMenu() {
