@@ -8,12 +8,13 @@ var mongoose = require('mongoose'),
   HttpError = require('../error').HttpError;
 
 /**
- * Загрузка информации о пользователе
+ * Загружает информацию о пользователе в req.reqUser
  */
 
 exports.load = function(req, res, next, id) {
-  User.findById(id, 'id authToken name username tracks created yandex', function(err, user) {
+  User.findById(id, 'id authToken name username tracks created', function(err, user) {
     if (err) return next(404, err);
+
     if (user) {
       req.reqUser = user;
       next();
@@ -23,8 +24,12 @@ exports.load = function(req, res, next, id) {
   });
 };
 
+/**
+ * Отображает страницу принятия пользовательского соглашения Яндекс.Фото
+ */
+
 exports.signup = function(req, res, next) {
-  if (req.session.become == 'yandex-terms') {
+  if (req.Session.become == 'yandex-terms') {
     delete req.session.become;
     res.render('user/signup', {
       title: 'Необходимо принять пользовательское соглашение'
@@ -35,13 +40,13 @@ exports.signup = function(req, res, next) {
 };
 
 /**
- * Session
+ * Редиретит на страницу которая была перед логином;
  */
 
-exports.session = function(req, res) {
-  var redirectTo = req.session.returnTo || '/';
+exports.redirect = function(req, res) {
+  var redirect = req.session.returnTo || '/';
   delete req.session.returnTo;
-  res.redirect(redirectTo);
+  res.redirect(redirect);
 };
 
 /**

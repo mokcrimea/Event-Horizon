@@ -22,9 +22,8 @@ module.exports = function(app, passport) {
   }));
   app.get('/auth/yandex/callback', passport.authenticate('yandex', {
     failureRedirect: '/login'
-  }), yandex.document, users.session);
+  }), yandex.document, users.redirect);
   app.get('/signup', users.signup);
-  app.get('/confirmed/yandex-terms/', yandex.document, users.session);
   app.get('/track/list', auth.requireLogin, users.list);
 
 

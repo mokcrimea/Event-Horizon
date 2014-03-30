@@ -27,6 +27,7 @@ var Options = require('../lib/utils').Options,
 
 exports.document = function(req, res, next) {
   var reUsername = /^\S[^\s]{3,20}/ig;
+  options.setParams(req);
   request(options.getDocument(), function(err, responce, body) {
     if (err) console.log(err);
     try {
@@ -35,24 +36,27 @@ exports.document = function(req, res, next) {
         if (err) throw err;
       });
     } catch (e) {
-      log.debug('Необходимо принять соглашения яндекс фоток.');
+      log.error(e);
+      log.error('Необходимо принять соглашения яндекс фоток.');
       req.session.become = 'yandex-terms';
       req.logout();
       return res.redirect('/signup');
+
     }
     next();
   });
 };
 
-exports.new = function(req, res) {
+exports.new = function(req, res, next) {
   //Если альбом не существует - создаем
   if (!req.track.album.link) {
-    createAlbum(req);
+    createAlbum(req, function(err) {
+      if (err) return next(new HttpError(500, 'Извините, произошла ошибка. Мы работаем над исправлением неполадок.'));
+    });
   }
   res.render('yandex/upload', {
     title: 'Загрузка фотографий в галерею',
   });
-
 };
 
 
@@ -135,7 +139,7 @@ exports.upload = function(req, res, next) {
           throw err;
         }
         // После завершения загрузки всех фотографий редиректим на страницу
-        // с галерей
+        // с галереей
         if (--count === 0) {
           res.redirect('/track/' + req.track.id + '/galery');
         }
@@ -150,6 +154,7 @@ exports.upload = function(req, res, next) {
         }
         imageParams.title = file[1];
         req.track.addPhoto(imageParams, function(index) {
+          var options = new Options();
           options.setParams(req, {
             url: imageParams.links.self
           });
@@ -182,11 +187,6 @@ exports.upload = function(req, res, next) {
         });
       });
     });
-
-
-    if (typeof(callback) == "function") {
-      callback();
-    }
   }
 };
 
@@ -199,8 +199,17 @@ exports.getAlbums = function(req, res, next) {
   options.setParams(req);
   request(options.getAlbum(), function(err, response, body) {
     if (err) log.error(err);
-    var albums = [];
-    JSON.parse(body).entries.forEach(function(album) {
+    var albums = [],
+      parsedBody;
+    //Обработка ошибки, на случай если ядекс будет ругаться и отвечать
+    //чем-то вроде этого 'You are not authorized to perform this operation'
+    try {
+      parsedBody = JSON.parse(body);
+    } catch (e) {
+      console.log(e);
+      return next(new HttpError(500, 'Извините, произошла ошибка. Мы работаем над устранением этой проблемы'));
+    }
+    parsedBody.entries.forEach(function(album) {
       albums.push({
         alternate: album.links.alternate,
         title: album.title,

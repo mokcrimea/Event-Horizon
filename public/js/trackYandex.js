@@ -5,7 +5,7 @@ ymaps.ready(init);
 function init() {
   myMap = new ymaps.Map('map', {
     center: center,
-    zoom: 8,
+    zoom: 11,
     behaviors: ['default', 'scrollZoom']
   });
 

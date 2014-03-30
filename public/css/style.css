@@ -59,7 +59,7 @@ h2{
 	position: fixed;
 	display: none;
 	z-index: 19;
-	top: 1px;
+	top: 0;
 	left: 0;
 	background: #000;
 	opacity: .8;
@@ -808,15 +808,14 @@ p{
 
 .load-file-indicator span{
 	font-size: 22pt;
-	margin-left: -2px;
 }
 
 .load-file-indicator-indent-1{
-	margin: 78px 0 0 340px;
+	margin: 75px 0 0 340px;
 }
 
 .load-file-indicator-indent-2{
-	margin: 92px 0 0 290px;
+	margin: 39px 0 0 290px;
 }
 
 .load-file-anim-1{
