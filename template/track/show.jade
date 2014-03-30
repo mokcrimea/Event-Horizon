@@ -22,6 +22,6 @@ block content
   script(type="text/javascript" src="/js/trackYandex.js")
   script.
     arrayInputDataCoordImg = !{JSON.stringify(images)};
-    distance = #{track.distance};
-    center = #{coord.substr(1, 50).split(',', 2)};
+    center = !{JSON.stringify(track.inform.center)};
+    distance = #{track.inform.distance};
     coord = #{coord};

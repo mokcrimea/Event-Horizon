@@ -402,7 +402,7 @@ p{
 
 /*.form-input{
 	float: right;
-	//margin-right: 80px; 
+	//margin-right: 80px;
 	width: 170px;
 	height: 20px;
 }*/
@@ -710,7 +710,8 @@ p{
 	display: inline-block;
 	padding: 0 4px;
 	height: 23px;
-	font-size: 11pt;
+	font-size: 14px;
+	box-shadow: 1px 1px 1px rgba(231, 231, 231, 0.5);
 }
 
 .list-information-name:visited{
