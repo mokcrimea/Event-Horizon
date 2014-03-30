@@ -12,8 +12,8 @@ body{
 h1{
 	margin: 10px auto;
 	padding: 4px 25px;
-	width: 800px;
-	display: block;
+	/*width: 800px;*/
+	/*display: block;*/
 	color: #4A4A4A;
 	font-size: 19pt;
 	font-weight: 800;
@@ -29,7 +29,15 @@ h2{
 	float: left;
 }
 
-.centerTextForm{
+p{
+	font-family: Tahoma;
+	text-align: justify;
+	font-size: 12pt;
+	margin: 0 20px 20px;
+	color: #404040;
+}
+
+/*.centerTextForm{
 	text-align: center;
 	margin: 50px 20px 20px;
 }
@@ -39,7 +47,7 @@ h2{
 	width: 400px;
 	border: 1px solid #79ABE6;
 	border-radius: 8px;
-}
+}*/
 
 
 /*------------SlideShow---------*/
@@ -86,21 +94,17 @@ h2{
 }
 
 .slide-next-btn{
-	position: absolute;
 	background: url(../img/next-btn.jpg);
 	margin: 217px 0 0 1012px;
-	opacity: 0;
-	width: 89px;
-	height: 315px;
-	transition: .2s;
-	cursor: pointer;
-	z-index: 10;
 }
 
 .slide-prev-btn{
-	position: absolute;
 	background: url(../img/prev-btn.jpg);
 	margin-top: 217px;
+}
+
+.slide-button-control{
+	position: absolute;
 	opacity: 0;
 	width: 89px;
 	height: 315px;
@@ -159,7 +163,6 @@ h2{
 	opacity: 0;
 }
 /*------------------------------*/
-
 /*-------------Gallery----------*/
 
 .containerGallery{
@@ -221,14 +224,9 @@ h2{
 	cursor: pointer;
 }
 /*------------------------------*/
-
-
-
-
-
 /*-------------popup------------*/
 
-.alert-message{
+/*.alert-message{
 	position: absolute;
 	opacity: 0;
 	display: inline-block;
@@ -241,7 +239,7 @@ h2{
 	padding: 3px 10px;
 	color: #570007;
 	transition: 1s;
-}
+}*/
 
 /*------------------------------*/
 .balloon-img{
@@ -264,7 +262,7 @@ h2{
 }
 
 
-.balloon-fullsize{
+/*.balloon-fullsize{
 	display: block;
 	float: right;
 	font-family: sans-serif;
@@ -273,16 +271,16 @@ h2{
 	text-decoration: underline;
 	color: #4967E9;
 	cursor: pointer;
-}
+}*/
 /*-------------Form-------------*/
-.input-box{
+/*.input-box{
 	float: left;
 	width: 310px;
 }
 
 .message-box{
 	float: left;
-}
+}*/
 
 .infoWindow{
 	margin: 40px auto;
@@ -291,10 +289,10 @@ h2{
 	border-radius: 8px;
 }
 
-.btn-line{
+/*.btn-line{
 	margin-left: 50px;
 	padding: 0;
-}
+}*/
 
 .form-label{
 	margin-left: 50px;
@@ -399,22 +397,21 @@ h2{
 }
 
 .form-group:nth-child(2){
-	margin-top: 50px;
-	margin-bottom: 10px;
+	margin: 50px 0 10px;
 }
 
-.form-input{
+/*.form-input{
 	float: right;
-	/*margin-right: 80px; */
+	//margin-right: 80px; 
 	width: 170px;
 	height: 20px;
-}
+}*/
 
 .first-line-group{
-	margin: 30px 0 5px 0;
+	margin: 30px 0 5px;
 }
 
-.btn-form{
+/*.btn-form{
 	cursor: pointer;
 	border: none;
 	padding: 4px 25px 2px;
@@ -456,10 +453,10 @@ h2{
 
 .clearStyle{
 	clear: both;
-}
+}*/
 /*---------------------------*/
 
-.tempBack{
+/*.tempBack{
 	text-decoration: underline;
 	position: absolute;
 	display: block;
@@ -467,7 +464,7 @@ h2{
 	height: 70px;
 	background-color: #37bc9b;
 	z-index: -100;
-}
+}*/
 
 .header{
 	text-decoration: underline;
@@ -551,14 +548,6 @@ h2{
 	height:600px
 }
 
-p{
-	font-family: Tahoma;
-	text-align: justify;
-	font-size: 12pt;
-	margin: 0 20px 20px;
-	color: #404040;
-}
-
 .footer{
 	width: 100%;
 	height: 30px;
@@ -638,19 +627,18 @@ p{
 	opacity: 0;
 	cursor: pointer;
 	position: fixed;
-	margin-top: -24px;
-	margin-left: -4px;
+	margin: -24px 0 0 -4px;
 	border: 0;
 }
 .trackMenu > a.remove:hover {
 	background-color: #da4453;
 	color: #fff;
 }
-
-.trackMenu > a.remove:hover {
+/*
++.trackMenu > a.remove:hover {
 	background-color: #da4453;
 }
-
+*/
 .trackMenu a{
 	padding: 4px 10px;
 	background-color: #f0f6f2;
@@ -725,7 +713,7 @@ p{
 	font-size: 11pt;
 }
 
- .list-information-name:visited{
+.list-information-name:visited{
 	color: #141CE0;
 }
 
@@ -786,7 +774,7 @@ p{
 }
 
 .signup_info{
-	padding: 30px 30px;
+	padding: 30px;
 	font-size: 13pt;
 	text-indent: 30px;
 }
