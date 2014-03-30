@@ -5,7 +5,7 @@ ymaps.ready(init);
 function init() {
   myMap = new ymaps.Map('map', {
     center: center,
-    zoom: 8,
+    zoom: 11,
     behaviors: ['default', 'scrollZoom']
   });
 
@@ -17,10 +17,9 @@ function init() {
   myMap.controls.add('miniMap');
 
   var originalImg = new Image(),
-    pictureWidth, pictureHeight;
-
-  var myGeoObjects = [];
-  var myClusterer = new ymaps.Clusterer();
+    pictureWidth, pictureHeight,
+    myGeoObjects = [],
+    myClusterer = new ymaps.Clusterer();
 
 
   function setPhoto(i, coord, urlPicture, pictureWidth) {
@@ -36,8 +35,6 @@ function init() {
     });
     myClusterer.add(myGeoObjects[i]);
   }
-
-
 
 
   function determineImgBalloonSize(i) {
@@ -66,8 +63,6 @@ function init() {
     balloonContent: 'Протяженность маршрута: ' + distance + ' км.'
   }, {
     // Задаем опции геообъекта.
-    // Отключаем кнопку закрытия балуна.
-    //- balloonHasCloseButton: false,
     // Цвет линии.
     strokeColor: "#f4a",
     // Ширина линии.
@@ -77,8 +72,6 @@ function init() {
   });
 
   myMap.geoObjects.add(myPolyline);
-
-
 
 }
 
@@ -104,11 +97,12 @@ function ballonImageZoom() {
   imgSrc.removeAttribute('height');
   originalImg.src = imgSrc.src;
 
+  // Функция открывания увеличенного экземляра фотографии
   originalImg.onload = function() {
     var originalHeight = currentHeight = originalImg.height,
       originalWidth = currentWidth = originalImg.width;
 
-    if ((originalHeight > 750) || (originalWidth > 1100)) {
+    if ((originalHeight > 750) || (originalWidth > 1000)) {
 
       if (originalHeight > originalWidth) {
         currentWidth = 750 * originalWidth / originalHeight;
@@ -117,16 +111,16 @@ function ballonImageZoom() {
       }
 
       if (originalWidth > originalHeight) {
-        differentSize = 1100 * originalHeight / originalWidth;
+        differentSize = 1000 * originalHeight / originalWidth;
 
         if (differentSize > 750) {
           currentWidth = 750 * originalWidth / originalHeight;
           currentHeight = 750;
           imgSrc.setAttribute('height', '750px');
         } else {
-          currentHeight = 1100 * originalHeight / originalWidth;
-          currentWidth = 1100;
-          imgSrc.setAttribute('width', '1100px');
+          currentHeight = 1000 * originalHeight / originalWidth;
+          currentWidth = 1000;
+          imgSrc.setAttribute('width', '1000px');
         }
       }
     }
@@ -141,6 +135,7 @@ function ballonImageZoom() {
   };
 }
 
+// Закрывает увеличенное изображение фотографии
 function turnBallonImage() {
   var imgSrc = document.getElementById('zoom-balloon-image');
   imgSrc.style.opacity = "0";
