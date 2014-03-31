@@ -735,3 +735,18 @@ p{
     50% {opacity: 0}
     100% {opacity: 1}
 }
+
+.alert-message{
+	position: absolute;
+	opacity: 0;
+	display: inline-block;
+	margin-left: 5px;
+	border: 1px solid #FBA2AB;
+	background-color: #FEE7E9;
+	border-radius: 5px;
+	font-family: sans-serif;
+	font-size: 9pt;
+	padding: 3px 10px;
+	color: #570007;
+	transition: 1s;
+}
