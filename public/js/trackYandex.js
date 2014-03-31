@@ -101,12 +101,12 @@ function ballonImageZoom() {
   originalImg.onload = function() {
     var originalHeight = currentHeight = originalImg.height,
       originalWidth = currentWidth = originalImg.width,
-      positionScroll  = window.pageYOffset || document.documentElement.scrollTop;
+      positionScroll = window.pageYOffset || document.documentElement.scrollTop;
 
     balloonLoadImgIndacator.style.display = "none";
-    if (getClientHeight() < 730){
+    if (getClientHeight() < 730) {
       imgSrc.style.position = "absolute";
-      imgSrc.style.top = positionScroll + (getClientHeight() - 730) / 2 + 'px';
+      imgSrc.style.top = positionScroll + 'px';
     } else {
       imgSrc.style.position = "fixed";
       imgSrc.style.top = (getClientHeight() - 730) / 2 + 'px';

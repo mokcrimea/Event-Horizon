@@ -5,6 +5,7 @@
   "scripts": {
     "start": "NODE_PATH='.' node server.js"
   },
+  "url": "https://github.com/mokcrimea/Event-Horizon",
   "dependencies": {
     "express": "3.5",
     "jade": "1.3.*",
@@ -20,5 +21,8 @@
     "passport": "0.2.*",
     "passport-yandex": "latest",
     "request": "2.34.*"
+  },
+  "engines": {
+    "node": ">=0.10"
   }
 }

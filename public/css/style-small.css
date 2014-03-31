@@ -1,64 +1,54 @@
-.main{
-	width: 1000px;
-	margin: auto;
-	font-family: GardensC, Tahoma, Helvetica;
+.main {
+  width: 1000px;
+  margin: auto;
+  font-family: GardensC, Tahoma, Helvetica;
 }
-
-.content{
-	width: 960px;
-	margin-left: 30px;
+.content {
+  width: 960px;
+  margin-left: 30px;
 }
-
-.leftMenu{
-	position: relative;
-	width: 40px;
-	overflow: hidden;
-	background: #E6E6E6;
-	float: left;
-	min-height: 700px;
-	transition: .3s .1s;
-	z-index: 18;
+.leftMenu {
+  position: relative;
+  width: 40px;
+  overflow: hidden;
+  background: #E6E6E6;
+  float: left;
+  min-height: 700px;
+  transition: .3s .1s;
+  z-index: 18;
 }
-
-.leftMenuHead{
-	width: 20px;
-	word-spacing:0pt;
-	margin: 45px auto 10px;
-	font-size: 17pt;
-	text-align: center;
-	transition-delay: .3s;
-	color: #3D3D3D;
+.leftMenuHead {
+  width: 20px;
+  word-spacing:0pt;
+  margin: 45px auto 10px;
+  font-size: 17pt;
+  text-align: center;
+  transition-delay: .3s;
+  color: #3D3D3D;
 }
-
-
-.leftMenu:hover{
-	width: 250px;
+.leftMenu:hover {
+  width: 250px;
 }
-
-.leftMenu:hover .leftMenuHead{
-	width: 90px;
+.leftMenu:hover .leftMenuHead {
+  width: 90px;
 }
-
-.leftMenu:hover .ulMenuColumn{
-	opacity: 1;
+.leftMenu:hover .ulMenuColumn {
+  opacity: 1;
 }
-
-.ulMenuColumn{
-	position: relative;
-	left: 0px;
-	display: block;
-	opacity: 0;
-	transition-delay: .3s;
-	width: 200px;
-	margin-top: 10px;
+.ulMenuColumn {
+  position: relative;
+  left: 0px;
+  display: block;
+  opacity: 0;
+  transition-delay: .3s;
+  width: 200px;
+  margin-top: 10px;
 }
-
-.imgContainerGallery{
-	margin: 20px 0 0 20px;
+.imgContainerGallery {
+  margin: 20px 0 0 20px;
 }
-
-#map{
-	margin: 10px auto;
-	width:890px;
-	height:570px;
+#map {
+  margin: 10px auto;
+  width:890px;
+  height:570px;
 }
