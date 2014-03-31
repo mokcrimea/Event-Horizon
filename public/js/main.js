@@ -29,7 +29,7 @@ window.onload = function(){
       for (var i = 0; i < validExtensions.length; i++) {
         var re = new RegExp(validExtensions[i] + '$', 'i');
         if (!re.test(arrayOfFiles.value)) {
-          alertWindow.innerHTML = 'Оповещение о неправильном формате файла';
+          alertWindow.innerHTML = ' На данный момент поддерживается только формат .gpx';
           alertWindow.style.opacity = '1';
           return e.preventDefault();
         }
