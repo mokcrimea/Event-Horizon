@@ -20,7 +20,7 @@
 
 .leftMenuHead{
 	position: relative;
-	width: 90px;	
+	width: 90px;
 	margin: 15px auto 10px;
 	font-size: 17pt;
 	color: #3D3D3D;
@@ -37,4 +37,10 @@
 
 .imgContainerGallery{
 	margin: 20px 0 0 40px;
+}
+
+#map{
+	margin: 20px auto;
+	width:950px;
+	height:600px
 }

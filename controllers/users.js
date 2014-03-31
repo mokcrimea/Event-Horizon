@@ -40,7 +40,7 @@ exports.signup = function(req, res, next) {
 };
 
 /**
- * Редиретит на страницу которая была перед логином;
+ * Редиретит на страницу которая была перед логином
  */
 
 exports.redirect = function(req, res) {
@@ -73,12 +73,11 @@ exports.list = function(req, res) {
  * Профиль пользователя
  */
 
-exports.show = function(req, res, next) {
+exports.show = function(req, res) {
   res.render('user/profile', {
     title: 'Профиль пользователя ' + req.reqUser.name,
     user: req.reqUser
   });
-
 };
 
 /**

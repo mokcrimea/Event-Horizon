@@ -65,18 +65,17 @@ exports.new = function(req, res, next) {
  */
 
 exports.upload = function(req, res, next) {
-  var formidable = require('formidable');
-  var form = new formidable.IncomingForm();
-  // var options = new Options();
+  var formidable = require('formidable'),
+    form = new formidable.IncomingForm(),
+    files = [],
+    file,
+    album_url,
+    maxSize = 20971520, // 20 мб.
+    count = 0;
   form.multiples = true;
-  var files = [];
-  var file;
-  var album_url;
-  var maxSize = 20971520; // 20 мб.
-  var count = 0;
   form.on('file', function(name, file) {
-    log.debug('Загрузил фотографию ' + file.name + ' на сервер.');
     var type = file.type;
+    log.debug('Загрузил фотографию ' + file.name + ' на сервер.');
 
     /**
      * Валидация загружаемых файлов на стороне сервера.
@@ -102,13 +101,7 @@ exports.upload = function(req, res, next) {
     log.debug(message);
     return next(400, message);
   });
-
-  /*  form.on('end', function() {
-    // res.redirect('/track/' + req.track.id + '/galery');
-  });*/
   form.parse(req);
-
-
 
   /**
    * Загружает фотографии используя модуль node-formidable.
@@ -171,10 +164,9 @@ exports.upload = function(req, res, next) {
           }, 4200);
         });
 
-
-        // После загрузки фото удаляет его.
-        // Можно и не делать, так как удаление файлов в папке /tmp/ происходит
-        // автоматически. Периодичность зависит от настроек системы.
+        /* После загрузки фото удаляет его.
+          Можно и не делать, так как удаление файлов в папке /tmp/ происходит
+          автоматически. Периодичность зависит от настроек системы.*/
         fs.unlink(file[0], function(err) {
           if (err) log.debug(err);
         });
@@ -188,7 +180,6 @@ exports.upload = function(req, res, next) {
  */
 
 exports.getAlbums = function(req, res, next) {
-  // var options = new Options();
   options.setParams(req);
   request(options.getAlbum(), function(err, response, body) {
     if (err) log.error(err);
@@ -247,7 +238,6 @@ exports.gallery = function(req, res, next) {
       });
       res.render('yandex/gallery', {
         title: 'Галерея',
-        // images: track.images,
         id: req.track.id,
         images: images_links
       });
@@ -281,11 +271,6 @@ exports.removePhoto = function(req, res) {
       } catch (e) {
         log.debug('Фотография уже удалена, ' + e);
       }
-      // res.render('yandex/gallery', {
-      //   title: 'Галерея',
-      //   images: track.images,
-      //   id: req.track.id,
-      // });
     }
   });
 

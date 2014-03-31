@@ -11,10 +11,10 @@ var trackOwner = [auth.requireLogin, auth.track];
 
 module.exports = function(app, passport) {
 
-  // root route
+  // главная
   app.get('/', tracks.index);
 
-  //user routes
+  // пользователь
   app.param('uId', users.load);
   app.get('/logout', users.logout);
   app.get('/user/:uId', auth.requireLogin, auth.user, ya_photo.getAlbums, users.show);
@@ -27,22 +27,20 @@ module.exports = function(app, passport) {
   app.get('/signup', users.signup);
   app.get('/track/list', auth.requireLogin, users.list);
 
-
-
-  //track routes
+  // треки
   app.param('tId', tracks.load);
   app.get('/upload', auth.requireLogin, tracks.new);
   app.post('/upload', auth.requireLogin, tracks.create);
   app.get('/track/:tId', tracks.show);
   app.delete('/track/:tId', trackOwner, tracks.delete, ya_photo.removeAlbum);
 
-  // gallery routes
+  // галерея
   app.get('/track/:tId/gallery', ya_photo.gallery);
   app.delete('/track/:tId/:iId/remove', trackOwner, ya_photo.removePhoto);
   app.get('/track/:tId/yandex', auth.requireLogin, ya_photo.new);
   app.post('/track/:tId/yandex', trackOwner, ya_photo.upload);
 
-  //все не существующие маршруты отправляем на 404
+  // все не существующие маршруты отправляем на 404
   app.get(/.*/, function(req, res, next) {
     return next(404);
   });

@@ -47,7 +47,7 @@ exports.new = function(req, res) {
 };
 
 /**
- * Отображение трека
+ * Показывает трек
  */
 
 exports.show = function(req, res, next) {
@@ -87,7 +87,7 @@ exports.show = function(req, res, next) {
 };
 
 /**
- * Создание нового трека
+ * Создает новый трека
  */
 
 exports.create = function(req, res, next) {
@@ -142,7 +142,7 @@ exports.create = function(req, res, next) {
 };
 
 /**
- * Удалить трек
+ * Удаляет трек
  */
 
 exports.delete = function(req, res, next) {
