@@ -75,7 +75,7 @@ exports.list = function(req, res) {
 
 exports.show = function(req, res) {
   res.render('user/profile', {
-    title: 'Профиль пользователя ' + req.reqUser.name,
+    title: 'Ваш профиль',
     user: req.reqUser
   });
 };
