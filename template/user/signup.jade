@@ -6,14 +6,17 @@ block main
 block content
   p.signup_info
     |Для загрузки и хранения фотографий мы используем сервис 
-    span.yandex-first-letter Я
+    span.yandex-first-letter &nbsp;Я
     |ндекс.Фото.
     |Для того, чтобы воспользоваться  его услугами необходимо принять
     |пользовательское соглашение.
     |После принятия соглашения вы сможете загружать фотографии.
   a(class="list-information-gallery signup_info_accept" href="http://fotki.yandex.ru/oferta.xml?" target="_blank" title="Соглашение") Принять соглашение
   - script.
+    var urlRerouting = 'http://fotki.yandex.ru/oferta.xml?';
     document.getElementsByClassName('signup_info_accept')[0].addEventListener('click', function(e){
+      if (urlRerouting == "/login") e.target.removeAttribute('target');
+      e.target.href = urlRerouting;
       e.target.innerHTML = "Войти";
-      e.target.href = "/login";
+      urlRerouting = "/login";
     });

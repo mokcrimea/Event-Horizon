@@ -39,7 +39,7 @@ p{
 
 #slideShow{
 	display: none;
-	position: fixed;
+	position: absolute;
 	top: 0;
 	height: 730px;
 	width: 990px;
