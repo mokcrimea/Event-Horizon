@@ -39,12 +39,13 @@ passport.use(new YandexStrategy({
 
         /**
          * Перезаписывает токен. В документации написанно, что он выдается на
-         * неограниченный срок
+         * неограниченный срок. При изменении прав приложения - текущий токен
+         * становится недействительным.
          */
 
-/*      user.setToken(accessToken, function(err){
+      user.setToken(accessToken, function(err){
         if (err) console.log(err);
-      });*/
+      });
       return done(err, user);
       }
     });

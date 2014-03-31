@@ -59,7 +59,7 @@ exports.list = function(req, res) {
     if (tracks.length === 0) {
       return res.render('track/upload', {
         title: 'Загрузка нового трека',
-        success: 'У вас нет загруженых треков. Можете загрузить новый с помощью формы ниже'
+        success: 'У вас нет загруженных треков. Можете загрузить новый с помощью формы ниже'
       });
     }
     res.render('track/list', {

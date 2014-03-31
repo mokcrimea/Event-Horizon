@@ -292,7 +292,7 @@ exports.removeAlbum = function(req, res, next) {
     req.flash('success', 'Альбом успешно удален');
     res.redirect('/track/list');
   } else {
-    req.flash('error', 'Альбом связанный с Я.Фотками не существовал.');
+    req.flash('success', 'Альбом связанный с Яндекс.Фото не существовал.');
     res.redirect('/track/list');
   }
 };

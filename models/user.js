@@ -3,7 +3,6 @@
  */
 
 var mongoose = require('mongoose'),
-  crypto = require('crypto'),
   Schema = mongoose.Schema;
 
 /**
@@ -14,7 +13,6 @@ var UserSchema = new Schema({
   name: { type: String},
   email: { type: String},
   username: { type: String},
-  hashedPassword: { type: String},
   provider: {type: String},
   authToken: { type: String},
   created: { type: Date, default: Date.now},
@@ -23,44 +21,10 @@ var UserSchema = new Schema({
 });
 
 /**
- * Virtuals
- */
-
-UserSchema.virtual('password')
-  .set(function(password) {
-    this._plainPassword = password;
-    this.salt = Math.random() + '';
-    this.hashedPassword = this.encryptPassword(password);
-  })
-  .get(function() {
-    return this._plainPassword;
-  });
-
-/**
  * Mетоды
  */
 
 UserSchema.methods = {
-
-  /**
-   * Зашифровывает пароль
-   * @param  {String} password
-   * @return {String}
-   */
-
-  encryptPassword: function(password) {
-    return crypto.createHmac('sha1', this.salt).update(password).digest('hex');
-  },
-
-  /**
-   * Проверяет правильный ли пароль
-   * @param  {String} password
-   * @return {Boolean}
-   */
-
-  checkPassword: function(password) {
-    return this.encryptPassword(password) === this.hashedPassword;
-  },
 
   /**
    * Записывает AuthToken пользователя

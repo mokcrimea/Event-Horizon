@@ -209,6 +209,53 @@ p{
 }
 /*------------------------------*/
 
+.balloon-load-text{
+	display: none;
+	position: absolute;
+	width: 81px;
+	height: 22px;
+	opacity: .9;
+	background: #F0F0F0;
+	padding: 2px;
+	font-family: sans-serif;
+	font-size: 15pt;
+	-webkit-animation: load-balloon-photo 2s infinite linear;
+	-moz-animation: load-balloon-photo 2s infinite linear;
+	-ms-animation: load-balloon-photo 2s infinite linear;
+    -o-animation: load-balloon-photo 2s infinite linear;
+    animation: load-balloon-photo 2s infinite linear;
+}
+
+@-webkit-keyframes load-balloon-photo {
+    0% {color: #141414}
+    50% {color: #D1D1D1}
+    100% {color: #141414}
+}
+
+@-moz-keyframes load-balloon-photo {
+    0% {color: #141414}
+    50% {color: #D1D1D1}
+    100% {color: #141414}
+}
+
+@-ms-keyframes load-balloon-photo {
+    0% {color: #141414}
+    50% {color: #D1D1D1}
+    100% {color: #141414}
+}
+
+@-o-keyframes load-balloon-photo {
+    0% {color: #141414}
+    50% {color: #D1D1D1}
+    100% {color: #141414}
+}
+
+@keyframes load-balloon-photo {
+    0% {color: #141414}
+    50% {color: #D1D1D1}
+    100% {color: #141414}
+}
+
 .balloon-img{
 	cursor: pointer;
 	margin: 0 auto;
@@ -468,7 +515,6 @@ p{
 .errorMessage{
 	background: #EBB7B7;
 	color: #580404;
-	border: 1px solid red;
 }
 
 .profitMessage{
