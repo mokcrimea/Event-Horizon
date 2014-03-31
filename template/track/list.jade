@@ -10,7 +10,7 @@ block content
         a.list-information-name(href="/track/"+track.id)= track.name
         .list-information-inf #{track.inform.distance} км
         - if (track.inform.time)
-          .list-information-inf(title='Продолжительность') #{track.inform.time} ч.
+          .list-information-inf(title='Продолжительность') #{track.inform.time}
         a.list-information-gallery.list-information-gallery-track-left(href="/track/#{track.id}/gallery") Галерея
         form(method="POST" id='remove_track' action="/track/#{track.id}")
           input(type="hidden" name="_method" value="DELETE")
