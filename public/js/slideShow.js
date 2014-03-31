@@ -37,6 +37,7 @@ window.onload = function(){
 
     var thisImgSrc = imgContainerGallery.getElementsByTagName('img')[0].src, //Адрес фото, открытой из галереи
         mainBlockWidthSize = document.getElementsByClassName('main')[0].offsetWidth, // Получает ширину страницы
+        positionScroll  = window.pageYOffset || document.documentElement.scrollTop,
         positionPhoto;
 
     for (var i = 0; i < inputDataObject.length; i++){ // Записываем адреса фото на странице в массив
@@ -46,7 +47,14 @@ window.onload = function(){
     mainWindowSlide.style.display = 'block'; // Отображаем окно обозревателя фото
     slideLoadImg.style.display = 'block';
     //Центрируем обозреватель фото по высоте и ширине
-    if (getClientHeight() > 730) mainWindowSlide.style.top = (getClientHeight() - 730) / 2 + 'px';
+    if (getClientHeight() < 730){
+      mainWindowSlide.style.position = "absolute";
+      mainWindowSlide.style.top = positionScroll + (getClientHeight() - 730) / 2 + 'px';
+    } else {
+      mainWindowSlide.style.position = "fixed";
+      mainWindowSlide.style.top = (getClientHeight() - 730) / 2 + 'px';
+    }
+
     if (mainBlockWidthSize >= 1200){
         slideWidthSize = 1100;
         mainWindowSlide.style.marginLeft = '-150px';
