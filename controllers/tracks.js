@@ -97,12 +97,18 @@ exports.create = function(req, res, next) {
 
   var track = new Track({}),
     form = new formidable.IncomingForm(),
-    trackId = track.id;
+    trackId = track.id,
+    reTitle = /(^[A-zА-я0-9\s.,_-еЁ]{3,55}$)/;
 
-  createFolders(trackId, function(err) {
-    if (err) throw err;
 
-    form.parse(req, function(error, fields, files) {
+  form.parse(req, function(error, fields, files) {
+    if (!reTitle.test(fields.title)) {
+      return next(new HttpError(400, 'Недопустимые символы в названии'));
+    }
+
+    createFolders(trackId, function(err) {
+      if (err) throw err;
+
       try {
         fs.readFile(files.upload.path, function(err, Data) {
           if (err) throw err;

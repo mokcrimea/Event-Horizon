@@ -38,12 +38,13 @@ passport.use(new YandexStrategy({
       } else {
 
         /**
-         * Перезаписывает токен. Хотя он выдается на неограниченный срок.
+         * Перезаписывает токен. В документации написанно, что он выдается на
+         * неограниченный срок
          */
 
-      user.setToken(accessToken, function(err){
+/*      user.setToken(accessToken, function(err){
         if (err) console.log(err);
-      });
+      });*/
       return done(err, user);
       }
     });

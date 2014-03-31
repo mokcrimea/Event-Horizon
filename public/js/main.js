@@ -1,9 +1,9 @@
 window.onload = function(){
-  var reTitle = /(^[A-zА-я0-9\s.,_-еЁ]{3,50}$)/,
+  var reTitle = /(^[A-zА-я0-9\s.,_-еЁ]{3,55}$)/,
       inputForm = document.getElementsByClassName('form-input-load-text')[0],
       loadIndicator = document.getElementsByClassName('load-file-indicator')[0],
       alertWindow = document.getElementsByClassName('alert-message')[0],
-      re = new RegExp(), 
+      re = new RegExp(),
       form = document.upload_track,
       validExtensions = [".gpx"],
       arrayOfFiles = form.upload;

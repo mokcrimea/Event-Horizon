@@ -1,5 +1,5 @@
 /**
- * Controllers
+ * Маршруты
  */
 
 var users = require('../controllers/users'),

@@ -24,12 +24,12 @@ var Options = require('../lib/utils').Options,
  */
 
 exports.document = function(req, res, next) {
-  var reUsername = /^\S[^\s]{3,20}/ig;
+  var reUsername = /users\/([\w\d-_]*)\/$/ig;
   options.setParams(req);
   request(options.getDocument(), function(err, responce, body) {
     if (err) console.log(err);
     try {
-      var username = reUsername.exec(JSON.parse(body).title)[0];
+      var username = reUsername.exec(responce.req.path)[1];
       req.user.updateUsername(username, function(err) {
         if (err) throw err;
       });

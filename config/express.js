@@ -46,7 +46,7 @@ module.exports = function(app, config, passport, mongoose) {
     app.use(express.json());
     app.use(express.methodOverride());
 
-    //mongo-session setting
+    // настройки mongo-session
     app.use(express.session({
       secret: config.get('session:secret'),
       key: config.get('session:key'),
@@ -64,22 +64,12 @@ module.exports = function(app, config, passport, mongoose) {
 
     app.use(require('../middleware/helpers').transport);
 
-
-    app.use(express.csrf({
-      value: function(req) {
-        var token = (req.headers['x-csrf-token']) || (req.headers['x-xsrf-token']) || (req.cookies['X-CSRF-Token']);
-        return token;
-      }
-    }));
-
+    // подключаем CSRF в куки
+    app.use(express.csrf(require('../middleware/helpers').value));
     app.use(require('../middleware/helpers').csrf_cookie);
 
 
     app.use(app.router);
-
-    process.on('uncaughtException', function(err) {
-      console.log('Caught exception: ' + err);
-    });
 
     // обрабокта ошибок
     app.use(function(err, req, res, next) {
