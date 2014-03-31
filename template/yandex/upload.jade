@@ -1,0 +1,47 @@
+extends ../layout/page
+
+block main
+  h1= title
+
+block content
+  .load-file-indicator.load-file-indicator-indent-2
+    |Загрузка
+    span.load-file-anim.load-file-anim-1 .
+    span.load-file-anim.load-file-anim-2 .
+    span.load-file-anim.load-file-anim-3 .
+  form(class="form-input-load form-input-load-img" action="/track/#{req.track.id}/yandex" enctype="multipart/form-data" method="post" name="upload_images")
+    .form-group
+      input(class="list-information-load-img" type="file" name="images" required multiple)
+      button(class="list-information-gallery btn-load-img-indent" name="submit" type="submit") Загрузить
+  script.
+    var form = document.upload_images;
+
+    form.submit.addEventListener('click', function(e) {
+      var validFileType = ["image/jpeg", "image/png", "image/gif", "image/bmp"];
+      var maxSize = 20971520;
+      var objOfFiles = form.images.files;
+        for (var i = 0; i < objOfFiles.length; i++) {
+          var valid = false;
+          for (var j = 0; j < validFileType.length; j++) {
+
+            var re = new RegExp(validFileType[j] + '$', 'i');
+            if (re.test(objOfFiles[i].type) && objOfFiles[i].size < maxSize) {
+              valid = true;
+              break;
+            }
+          }
+          if (!valid) {
+            console.log(objOfFiles);
+            alert('Ошибка загрузки файла "' + objOfFiles[i].name + '".\n К загрузке допускаются изображения следующих типов:\n JPEG \n GIF\n PNG\n BMP\n Размер одного изображения не должен превышать 20 мегабайт');
+            e.preventDefault();
+          }
+
+        document.getElementsByClassName('load-file-indicator')[0].style.display = "block";
+        }
+    });
+
+    document.addEventListener('keyup', function(e) {
+      if (e.keyCode == 27) {
+        document.getElementsByClassName('load-file-indicator')[0].style.display = "none";
+      }
+    });

@@ -1,0 +1,10 @@
+.leftMenu
+  .leftMenuContainer
+    .leftMenuHead М е н ю
+    .ulMenuColumn
+      - if (req.isAuthenticated())
+        a(href="/user/"+req.user._id title="Мой профиль") Мой профиль
+        a(href="/track/list" title="Мои треки") Мои треки
+        a(href="/upload" title="Загрузить") Загрузить маршрут
+      - else
+        a(href="/login" title="Войти") Войти

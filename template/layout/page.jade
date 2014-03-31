@@ -1,0 +1,13 @@
+doctype html
+html(lang='ru')
+  include ../partials/head
+  body
+    .main
+      include ../partials/topMenu
+      .container
+        include ../partials/leftMenu
+        .content
+          include ../partials/message
+          block main
+          block content
+      include ../partials/footer

@@ -1,0 +1,27 @@
+extends ../layout/page
+
+block main
+  include ../partials/slideShow
+  h1= title
+  .galleryMenu
+    a.backLink(href="/track/#{id}/") Трек
+    - if (req.track._creator == req.session.passport.user)
+      a.backLink(href="/track/#{id}/yandex") Загрузить фотографии
+
+block content
+  - if (images.length)
+    .containerGallery
+      - each image in images
+        .imgContainerGallery
+          - if (req.track._creator == req.session.passport.user)
+            form(method="POST" action="/track/#{id}/#{image._id}/remove")
+              input(type="hidden" name="_method" value="DELETE")
+              button.gallery-close-btn(type="submit" onclick="return confirm('Вы уверены, что хотите удалить фотографию?')")
+          .gallery-zoom-btn(title='Увеличить фотографию')
+          .gallery-cont-for-img
+            if image.links.orig.height > image.links.orig.width
+              img(src="#{image.links.M.href}" height="250px")
+            else
+              img(src="#{image.links.M.href}" width="280px")
+  script(type="text/javascript" src="/js/slideShow.js")
+  script inputDataObject = !{JSON.stringify(images)}

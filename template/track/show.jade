@@ -1,0 +1,27 @@
+extends ../layout/page
+
+block main
+  h1= title
+  ul.trackMenu
+    - if (req.track.images.length > 0)
+      a(href='/track/#{track.id}/gallery')
+        li Галерея
+    - if (req.track._creator == req.session.passport.user)
+      a(href='/track/#{track.id}/yandex')
+        li Загрузить фотографии
+    - if (req.track._creator == req.session.passport.user)
+      a.remove(href='#')
+        li Удалить
+          form(method="POST" action="/track/#{track.id}")
+            input(type="hidden" name="_method" value="DELETE")
+            button(type="submit" onclick="return confirm('Вы уверены, что хотите удалить трек?')")
+block content
+  img#zoom-balloon-image
+  #map
+  script(src="http://api-maps.yandex.ru/2.0/?load=package.full&lang=ru-RU")
+  script(type="text/javascript" src="/js/trackYandex.js")
+  script.
+    arrayInputDataCoordImg = !{JSON.stringify(images)};
+    center = !{JSON.stringify(track.inform.center)};
+    distance = #{track.inform.distance};
+    coord = #{coord};
