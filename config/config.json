@@ -1,7 +1,7 @@
 {
   "port": 3000,
   "mongoose": {
-    "uri": "mongodb://localhost/tracker",
+    "uri": "mongodb://localhost/event_horizon",
     "options": {
       "server": {
         "socketOptions": {
@@ -22,6 +22,6 @@
   "yandex": {
     "clientID": "02c1d91275eb4268aef24aa2288b08d7",
     "clientSecret": "80685bc97ced409ca2673c61be4001a9",
-    "callbackURL": "http://node.mokcrimea.ru/auth/yandex/callback"
+    "callbackURL": "http://127.0.0.1:3000/auth/yandex/callback"
   }
 }
