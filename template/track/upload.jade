@@ -15,32 +15,4 @@ block content
       input(class="form-input-load-text" type="text" name="title" placeholder="Введите название трека")
       input(type="file" name="upload")
       button(class="list-information-gallery list-information-load-track-left" name="submit" type="submit") Загрузить
-  script.
-    var form = document.upload_track;
-    form.submit.addEventListener('click', function(e){
-      var validExtensions = [".gpx"];
-      var reTitle = /(^[A-zА-я0-9\s.,_-]{3,50}$)/;
-
-      if (!reTitle.test(form.title.value)) {
-        setAlertMessage('Оповещение о недопустимых символах');
-        return e.preventDefault();
-      }
-
-      var arrayOfFiles = form.upload;
-
-      if (form.upload.type == 'file') {
-        for (var i = 0; i < validExtensions.length; i++) {
-          var re = new RegExp(validExtensions[i] + '$', 'i');
-          if (!re.test(arrayOfFiles.value)) {
-            setAlertMessage('Оповещение о неправильном формате файла');
-            return e.preventDefault();
-          }
-        }
-      }
-      document.getElementsByClassName('load-file-indicator')[0].style.display = "block";
-    });
-    document.addEventListener('keyup', function(e) {
-      if (e.keyCode == 27) {
-        document.getElementsByClassName('load-file-indicator')[0].style.display = "none";
-      }
-    });
+  script(type="text/javascript" src="script/main.js")
