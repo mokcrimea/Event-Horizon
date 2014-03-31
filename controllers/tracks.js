@@ -98,7 +98,7 @@ exports.create = function(req, res, next) {
   var track = new Track({}),
     form = new formidable.IncomingForm(),
     trackId = track.id,
-    reTitle = /(^[A-zА-я0-9\s.,_-еЁ]{3,55}$)/;
+    reTitle = /(^[A-zА-я0-9\s-.,_еЁ]{3,55}$)/;
 
 
   form.parse(req, function(error, fields, files) {
