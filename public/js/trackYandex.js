@@ -30,7 +30,7 @@ function init() {
       },
       properties: {
         clusterCaption: arrayInputDataCoordImg[i][2],
-        balloonContentBody: "<img class='balloon-img' onclick='ballonImageZoom()' src='" + urlPicture + "' width='" + pictureWidth + "'/>"
+        balloonContentBody: "<div class='balloon-load-text'>Загрузка</div><img class='balloon-img' onclick='ballonImageZoom()' src='" + urlPicture + "' width='" + pictureWidth + "'/>"
       }
     });
     myClusterer.add(myGeoObjects[i]);
@@ -86,9 +86,11 @@ function ballonImageZoom() {
 
   var imgBalloon = document.getElementsByClassName('balloon-img')[0],
     imgSrc = document.getElementById('zoom-balloon-image'),
+    balloonLoadImgIndacator = document.getElementsByClassName('balloon-load-text')[0],
     originalImg = new Image(),
     differentSize;
 
+  balloonLoadImgIndacator.style.display = "block";
   imgSrc.src = imgBalloon.src.substring(0, imgBalloon.src.length - 1) + 'orig';
   imgSrc.style.display = "block";
   imgSrc.removeAttribute('width');
@@ -98,23 +100,33 @@ function ballonImageZoom() {
   // Функция открывания увеличенного экземляра фотографии
   originalImg.onload = function() {
     var originalHeight = currentHeight = originalImg.height,
-      originalWidth = currentWidth = originalImg.width;
+      originalWidth = currentWidth = originalImg.width,
+      positionScroll  = window.pageYOffset || document.documentElement.scrollTop;
 
-    if ((originalHeight > 750) || (originalWidth > 1000)) {
+    balloonLoadImgIndacator.style.display = "none";
+    if (getClientHeight() < 730){
+      imgSrc.style.position = "absolute";
+      imgSrc.style.top = positionScroll + (getClientHeight() - 730) / 2 + 'px';
+    } else {
+      imgSrc.style.position = "fixed";
+      imgSrc.style.top = (getClientHeight() - 730) / 2 + 'px';
+    }
+
+    if ((originalHeight > 730) || (originalWidth > 1000)) {
 
       if (originalHeight > originalWidth) {
-        currentWidth = 750 * originalWidth / originalHeight;
-        currentHeight = 750;
-        imgSrc.setAttribute('height', '750px');
+        currentWidth = 730 * originalWidth / originalHeight;
+        currentHeight = 730;
+        imgSrc.setAttribute('height', '730px');
       }
 
       if (originalWidth > originalHeight) {
         differentSize = 1000 * originalHeight / originalWidth;
 
-        if (differentSize > 750) {
-          currentWidth = 750 * originalWidth / originalHeight;
-          currentHeight = 750;
-          imgSrc.setAttribute('height', '750px');
+        if (differentSize > 730) {
+          currentWidth = 730 * originalWidth / originalHeight;
+          currentHeight = 730;
+          imgSrc.setAttribute('height', '730px');
         } else {
           currentHeight = 1000 * originalHeight / originalWidth;
           currentWidth = 1000;
