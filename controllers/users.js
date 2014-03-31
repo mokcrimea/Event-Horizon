@@ -29,18 +29,18 @@ exports.load = function(req, res, next, id) {
  */
 
 exports.signup = function(req, res, next) {
-/*  if (req.session.become == 'yandex-terms') {
-    delete req.session.become;*/
+  if (req.session.become == 'yandex-terms') {
+    delete req.session.become;
     res.render('user/signup', {
       title: 'Необходимо принять пользовательское соглашение'
     });
-  // } else {
-  //   next(new HttpError(403, 'Ошибка доступа'));
-  // }
+  } else {
+    next(new HttpError(403, 'Ошибка доступа'));
+  }
 };
 
 /**
- * Редиретит на страницу которая была перед логином;
+ * Редиретит на страницу которая была перед логином
  */
 
 exports.redirect = function(req, res) {
@@ -73,12 +73,11 @@ exports.list = function(req, res) {
  * Профиль пользователя
  */
 
-exports.show = function(req, res, next) {
+exports.show = function(req, res) {
   res.render('user/profile', {
     title: 'Профиль пользователя ' + req.reqUser.name,
     user: req.reqUser
   });
-
 };
 
 /**

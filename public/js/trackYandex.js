@@ -129,11 +129,12 @@ function ballonImageZoom() {
     setTimeout(function() {
       imgSrc.style.opacity = "1";
     }, 10);
-    imgSrc.addEventListener('click', turnBallonImage);
+    document.addEventListener('click', turnBallonImage);
   };
 }
 
 // Закрывает увеличенное изображение фотографии
+
 function turnBallonImage() {
   var imgSrc = document.getElementById('zoom-balloon-image');
   imgSrc.style.opacity = "0";
@@ -143,5 +144,5 @@ function turnBallonImage() {
     imgSrc.style.display = "none";
   }, 700);
 
-  document.body.removeEventListener('click', turnBallonImage);
+  document.removeEventListener('click', turnBallonImage);
 }
