@@ -4,7 +4,7 @@ block main
   h1= title
   ul.trackMenu
     - if (req.track.images.length > 0)
-      a(href='/track/#{track.id}/galery')
+      a(href='/track/#{track.id}/gallery')
         li Галерея
     - if (req.track._creator == req.session.passport.user)
       a(href='/track/#{track.id}/yandex')

@@ -106,9 +106,9 @@ TrackSchema.methods = {
       self: obj.links.self,
       param: obj.id
     });
-    this.save(function(err, index) {
+    this.save(function(err, track) {
       if (err) console.log(err);
-      callback(that.images.length - 1);
+      callback(track.images[track.images.length - 1]._id);
     });
   },
 
@@ -116,18 +116,26 @@ TrackSchema.methods = {
    * Добавляет координаты изображения если они есть, в
    * противном случае записыват null.
    * @param {Array || null}   coord
-   * @param {Number}   index    Номер фотографии
-   * @param {Function} callback
+   * @param {Number}   id
    */
-  addCoordinates: function(coord, index, callback) {
-    if (coord !== null) {
-      var x = parseFloat(coord[0]);
-      var y = parseFloat(coord[1]);
-      this.images[index].coordinates.push([x, y]);
-    } else {
-      this.images[index].coordinates.push(null);
-    }
-    this.save(callback);
+  addCoordinates: function(coord, id) {
+    mongoose.model('Track').findById(this.id, 'images', function(err, track) {
+      if (err) console.log(err);
+      image = track.images.id(id);
+
+      if (image) {
+        if (coord !== null) {
+          var x = parseFloat(coord[0]);
+          var y = parseFloat(coord[1]);
+          image.coordinates.push([x, y]);
+        } else {
+          image.coordinates.push(null);
+        }
+        track.save(function(err){
+          if (err) console.log(err);
+        });
+      }
+    });
   }
 
 

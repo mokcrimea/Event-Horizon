@@ -139,7 +139,7 @@ exports.upload = function(req, res, next) {
         // После завершения загрузки всех фотографий редиректим на страницу
         // с галереей
         if (--count === 0) {
-          res.redirect('/track/' + req.track.id + '/galery');
+          res.redirect('/track/' + req.track.id + '/gallery');
         }
 
         log.debug('Завершил загрузку фотографии: ' + file[1]);
@@ -151,7 +151,7 @@ exports.upload = function(req, res, next) {
           log.error(body);
         }
         imageParams.title = file[1];
-        req.track.addPhoto(imageParams, function(index) {
+        req.track.addPhoto(imageParams, function(id) {
           var options = new Options();
           options.setParams(req, {
             url: imageParams.links.self
@@ -162,13 +162,9 @@ exports.upload = function(req, res, next) {
               var geo;
               try {
                 geo = (JSON.parse(body)).geo.coordinates;
-                req.track.addCoordinates(geo.split(' '), index, function(err) {
-                  if (err) throw err;
-                });
+                req.track.addCoordinates(geo.split(' '), id);
               } catch (e) {
-                req.track.addCoordinates(null, index, function(err) {
-                  if (err) throw err;
-                });
+                req.track.addCoordinates(null, id);
               }
             });
 
@@ -226,7 +222,8 @@ exports.getAlbums = function(req, res, next) {
 exports.gallery = function(req, res, next) {
   Track.findById(req.track.id, 'images', function(err, track) {
     if (err) return next(404, err);
-    var images_links = [];
+    var images_links = [],
+      toRemove = [];
     if (track) {
       if (track.images.length === 0) {
         return res.render('yandex/upload', {
@@ -278,20 +275,21 @@ exports.removePhoto = function(req, res) {
           url: removeLink
         });
         request(options.getRemove(), function(err, response, body) {
+          req.flash('success', 'Фотография успешно удалена');
           log.debug('Фотография успешно удалена');
         });
       } catch (e) {
         log.debug('Фотография уже удалена, ' + e);
       }
-      /*      res.render('yandex/gallery', {
-        title: 'Галерея',
-        images: track.images,
-        id: req.track.id,
-      });*/
+      // res.render('yandex/gallery', {
+      //   title: 'Галерея',
+      //   images: track.images,
+      //   id: req.track.id,
+      // });
     }
   });
-  req.flash('success', 'Фотография успешно удалена');
-  res.redirect('/track/' + req.track.id + '/galery');
+
+  res.redirect('/track/' + req.track.id + '/gallery');
 };
 
 /**

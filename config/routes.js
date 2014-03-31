@@ -37,7 +37,7 @@ module.exports = function(app, passport) {
   app.delete('/track/:tId', trackOwner, tracks.delete, ya_photo.removeAlbum);
 
   // gallery routes
-  app.get('/track/:tId/galery', ya_photo.gallery);
+  app.get('/track/:tId/gallery', ya_photo.gallery);
   app.delete('/track/:tId/:iId/remove', trackOwner, ya_photo.removePhoto);
   app.get('/track/:tId/yandex', auth.requireLogin, ya_photo.new);
   app.post('/track/:tId/yandex', trackOwner, ya_photo.upload);

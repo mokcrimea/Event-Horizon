@@ -29,14 +29,14 @@ exports.load = function(req, res, next, id) {
  */
 
 exports.signup = function(req, res, next) {
-  if (req.session.become == 'yandex-terms') {
-    delete req.session.become;
+/*  if (req.session.become == 'yandex-terms') {
+    delete req.session.become;*/
     res.render('user/signup', {
       title: 'Необходимо принять пользовательское соглашение'
     });
-  } else {
-    next(new HttpError(403, 'Ошибка доступа'));
-  }
+  // } else {
+  //   next(new HttpError(403, 'Ошибка доступа'));
+  // }
 };
 
 /**

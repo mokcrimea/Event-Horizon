@@ -95,7 +95,7 @@ module.exports = function(app, config, passport, mongoose) {
         } else {
           log.error(err);
           err = new HttpError(500);
-          sendHttpError(err);
+          res.sendHttpError(err);
         }
       }
     });

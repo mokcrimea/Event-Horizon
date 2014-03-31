@@ -1,5 +1,5 @@
 /**
- * GPS Fixer
+ * Event Horizon
  * (c) M-Team
  */
 
