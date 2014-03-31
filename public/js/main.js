@@ -8,6 +8,7 @@ window.onload = function(){
       validExtensions = [".gpx"],
       arrayOfFiles = form.upload;
 
+  // Отслеживает некорректно введённое название файла в момент ввода
   document.addEventListener("keyup", function(){
     if (!reTitle.test(inputForm.value)) {
       alertWindow.innerHTML = 'Недопустимое имя';
@@ -17,6 +18,7 @@ window.onload = function(){
     }
   });
 
+  // Выводит окно ошибки, если при нажатии кнопки "загрузить" - в поле некорректное имя файла или расширение
   document.getElementsByClassName('list-information-gallery')[0].addEventListener("click", function(e){
     if (!reTitle.test(form.title.value)) {
       alertWindow.innerHTML = 'Недопустимое имя файла!';
@@ -36,6 +38,7 @@ window.onload = function(){
     loadIndicator.style.display = "block";
   });
 
+  // При отмене загрузки файла - прячет индикатор загрузки
   document.addEventListener('keyup', function(e) {
     if (e.keyCode == 27) {
       loadIndicator.style.display = "none";

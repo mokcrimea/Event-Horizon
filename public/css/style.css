@@ -733,13 +733,13 @@ p{
 	position: absolute;
 	opacity: 0;
 	display: inline-block;
-	margin-left: 5px;
+	margin: 25px 0 0 274px;
 	border: 1px solid #FBA2AB;
 	background-color: #FEE7E9;
 	border-radius: 5px;
 	font-family: sans-serif;
 	font-size: 9pt;
 	padding: 3px 10px;
-	color: #570007;
+	color: #8A1B24;
 	transition: 1s;
 }
